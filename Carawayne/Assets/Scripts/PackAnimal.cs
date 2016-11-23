@@ -10,7 +10,7 @@ public class PackAnimal : Meeple
 
     public int butcherAnimal()
     {
-        gameObject.transform.parent = GameObject.Find("Graveyard").transform;
+        
         return butcherFoodAmount;
     }
 

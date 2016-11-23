@@ -20,6 +20,8 @@ public class PackAnimalCI : Editor
             GameObject caravanObj = GameObject.Find("Caravan");
             Caravan caravan = caravanObj.GetComponent<Caravan>();
 
+            packAnimal.gameObject.transform.parent = GameObject.Find("Graveyard").transform;
+            caravan.removePackAnimal(packAnimal);
             caravan.gainProviant(packAnimal.butcherAnimal());
         }
 

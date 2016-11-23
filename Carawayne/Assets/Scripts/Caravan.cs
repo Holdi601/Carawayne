@@ -83,11 +83,10 @@ public class Caravan : MonoBehaviour
     //Gain a given amount of proviant
     public void gainProviant(int _amount)
     {
-        int rest = 0;
         foreach (PackAnimal packAnimal in packAnimals)
         {
-            rest = packAnimal.load(_amount);
-            if (rest <= 0)
+            _amount = packAnimal.load(_amount);
+            if (_amount <= 0)
             {
                 break;
             }
@@ -142,4 +141,17 @@ public class Caravan : MonoBehaviour
         EventManager.TriggerEvent("FoodUptakeChanged");
     }
 
+    //add a companion to caravan
+    public void addPckAnimal(PackAnimal _packAnimal)
+    {
+        packAnimals.Add(_packAnimal);
+        EventManager.TriggerEvent("FoodStockChanged");
+    }
+
+    //remove a companion from caravan
+    public void removePackAnimal(PackAnimal _packAnimal)
+    {
+        packAnimals.Remove(_packAnimal);
+        EventManager.TriggerEvent("FoodStockChanged");
+    }
 }

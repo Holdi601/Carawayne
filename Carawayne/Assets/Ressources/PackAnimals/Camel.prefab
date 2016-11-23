@@ -53,4 +53,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLoad: 30
   actualLoad: 30
-  butcherFoodAmount: 0
+  butcherFoodAmount: 10
