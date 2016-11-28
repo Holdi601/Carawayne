@@ -4,6 +4,7 @@ using System.Collections;
 public class Companion : Meeple
 {
     public string CharName;
+    public CompanionClasses charClass;
     public int maxCondition;
     public int actualCondition;
     public int originalFoodDemand;
@@ -27,6 +28,22 @@ public class Companion : Meeple
 
     }
 
+    public void kill()
+    {
+        ActualCondition = 0;
+        ConditionState = MeepleConditionState.DEAD;
+    }
+
+    public void gainStrength()
+    {
+        ActualCondition++;
+    }
+
+    public void LoseStrength()
+    {
+        ActualCondition--;
+    }
+
     // GETTER & SETTER
     //----------------
     public int ActualCondition
@@ -36,15 +53,20 @@ public class Companion : Meeple
         {
             actualCondition = value;
 
-            //if (ConditionState == MeepleConditionState.UNCONSCIOUS && actualCondition <= 0)
-            //    ConditionState = MeepleConditionState.DEAD;
-            if(ConditionState != MeepleConditionState.DEAD && actualCondition <= 0)
+            if (ConditionState == MeepleConditionState.UNCONSCIOUS && actualCondition <= 0)
+                ConditionState = MeepleConditionState.DEAD;
+            if (ConditionState != MeepleConditionState.DEAD && actualCondition <= 0)
                 ConditionState = MeepleConditionState.UNCONSCIOUS;
             else if (actualCondition > 0)
                 ConditionState = MeepleConditionState.COMMON;
 
             if (actualCondition > maxCondition)
+            {
                 actualCondition = maxCondition;
+            } else if (actualCondition < 0)
+            {
+                actualCondition = 0;
+            }
         }
     }
 
@@ -71,11 +93,13 @@ public class Companion : Meeple
 
                 case MeepleConditionState.COMMON:
 
+                    gameObject.transform.parent = GameObject.Find("Companions").transform;
                     if (actualCondition <= 0)
                         actualCondition = 1;
                     break;
 
                 case MeepleConditionState.UNCONSCIOUS:
+                    gameObject.transform.parent = GameObject.Find("Companions").transform;
                     actualCondition = 0;
                     break;
             }

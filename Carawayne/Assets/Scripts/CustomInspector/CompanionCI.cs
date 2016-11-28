@@ -11,6 +11,7 @@ public class CompanionCI : Editor
         Companion comp = (Companion)target;
 
         comp.CharName = EditorGUILayout.TextField(comp.CharName);
+        comp.charClass = (CompanionClasses)EditorGUILayout.EnumPopup("Class:", comp.charClass);
         comp.ConditionState = (MeepleConditionState)EditorGUILayout.EnumPopup("Condition state:", comp.ConditionState);
         comp.ActualCondition = EditorGUILayout.IntField("Actual condition: ", comp.ActualCondition);
         comp.MaxCondition = EditorGUILayout.IntField("Original condition: ", comp.MaxCondition);

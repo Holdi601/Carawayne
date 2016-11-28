@@ -11,7 +11,7 @@ public class Caravan : MonoBehaviour
 
     //MONOBEHAVIOUR FUNCTIONS
     //-----------------------
-    void Start()
+    void Awake()
     {
         //Start Listening to events
         EventManager.StartListening("FoodUptakeChanged", updateActualFoodUptake);
@@ -132,6 +132,7 @@ public class Caravan : MonoBehaviour
     {
         companions.Add(_comp);
         EventManager.TriggerEvent("FoodUptakeChanged");
+        EventManager.TriggerEvent("ViewChanged");
     }
 
     //remove a companion from caravan
@@ -139,6 +140,7 @@ public class Caravan : MonoBehaviour
     {
         companions.Remove(_comp);
         EventManager.TriggerEvent("FoodUptakeChanged");
+        EventManager.TriggerEvent("ViewChanged");
     }
 
     //add a companion to caravan
@@ -146,6 +148,7 @@ public class Caravan : MonoBehaviour
     {
         packAnimals.Add(_packAnimal);
         EventManager.TriggerEvent("FoodStockChanged");
+        EventManager.TriggerEvent("ViewChanged");
     }
 
     //remove a companion from caravan
@@ -153,5 +156,6 @@ public class Caravan : MonoBehaviour
     {
         packAnimals.Remove(_packAnimal);
         EventManager.TriggerEvent("FoodStockChanged");
+        EventManager.TriggerEvent("ViewChanged");
     }
 }

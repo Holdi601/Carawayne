@@ -1,5 +1,14 @@
 ﻿using UnityEngine;
 
+public enum CompanionClasses
+{
+    HUNTER,
+    WORKER,
+    PRINCE,
+    SOLDIER,
+    HEALER
+}
+
 public enum MeepleConditionState
 {
     COMMON,
