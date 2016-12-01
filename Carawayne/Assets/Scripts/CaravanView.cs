@@ -19,8 +19,8 @@ public class CaravanView : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	    foodCap.text = "Uptake: " + car.foodStorage.ToString();
+	    foodCap.text = "Storage: " + car.foodStorage.ToString();
 	    turn.text = "Turn: " + sceneHandler.turn;
-        foodUptake.text = "Storage: " + car.foodUptakePerRound.ToString();
+        foodUptake.text = "Uptake: " + car.foodUptakePerRound.ToString();
 	}
 }

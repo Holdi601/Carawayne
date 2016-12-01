@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46798cad8afcad44089054f454d95e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharName: Sultan Amada
+  CharName: '#NoName'
   charClass: 2
   maxCondition: 12
   actualCondition: 12

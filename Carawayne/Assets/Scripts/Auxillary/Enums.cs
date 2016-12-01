@@ -6,7 +6,9 @@ public enum CompanionClasses
     WORKER,
     PRINCE,
     SOLDIER,
-    HEALER
+    HEALER,
+    SCOUT,
+    TRADER
 }
 
 public enum MeepleConditionState

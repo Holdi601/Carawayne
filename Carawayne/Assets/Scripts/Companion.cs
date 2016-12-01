@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
+[Serializable]
 public class Companion : Meeple
 {
     public string CharName;
@@ -28,11 +30,12 @@ public class Companion : Meeple
 
     }
 
-    public void kill()
-    {
-        ActualCondition = 0;
-        ConditionState = MeepleConditionState.DEAD;
-    }
+    //public void kill()
+    //{
+    //    ActualCondition = 0;
+    //    ConditionState = MeepleConditionState.DEAD;
+    //    //gameObject.transform.parent = GameObject.Find("Graveyard").transform;
+    //}
 
     public void gainStrength()
     {

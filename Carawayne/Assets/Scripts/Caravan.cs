@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+
 public class Caravan : MonoBehaviour
 {
     public int foodStorage;
@@ -27,7 +28,7 @@ public class Caravan : MonoBehaviour
 
     void Update()
     {
-      
+
         //Following update-routine is for live inspector editing!
         //!!
 
@@ -36,6 +37,7 @@ public class Caravan : MonoBehaviour
         {
             companions = gameObject.transform.FindChild("Companions").GetComponentsInChildren<Companion>().ToList();
             EventManager.TriggerEvent("FoodUptakeChanged");
+            EventManager.TriggerEvent("ViewChanged");
         }
 
         //Identify discepancies between caravaonpackANimals and packAnimalObjectChilds
@@ -43,6 +45,7 @@ public class Caravan : MonoBehaviour
         {
             packAnimals = gameObject.transform.FindChild("PackAnimals").GetComponentsInChildren<PackAnimal>().ToList();
             EventManager.TriggerEvent("FoodStockChanged");
+            EventManager.TriggerEvent("ViewChanged");
         }
     }
 
@@ -127,10 +130,28 @@ public class Caravan : MonoBehaviour
         return amount;
     }
 
+    public void newCompanion()
+    {
+        GameObject go = Instantiate(Resources.Load("Prefabs/Companions/Worker", typeof(GameObject))) as GameObject;
+        go.transform.SetParent(transform.FindChild("Companions"), false);
+
+        Companion comp = go.GetComponent<Companion>();
+
+        go.name = comp.charClass + "_" + comp.CharName;
+
+        companions.Add(comp);
+
+        EventManager.TriggerEvent("FoodUptakeChanged");
+        EventManager.TriggerEvent("ViewChanged");
+    }
+
     //add a companion to caravan
     public void addCompanion(Companion _comp)
     {
         companions.Add(_comp);
+
+        _comp.gameObject.transform.SetParent(transform.FindChild("Companions"));
+
         EventManager.TriggerEvent("FoodUptakeChanged");
         EventManager.TriggerEvent("ViewChanged");
     }
@@ -139,6 +160,9 @@ public class Caravan : MonoBehaviour
     public void removeCompanion(Companion _comp)
     {
         companions.Remove(_comp);
+
+        _comp.gameObject.transform.SetParent(transform.parent.FindChild("Graveyard"));
+
         EventManager.TriggerEvent("FoodUptakeChanged");
         EventManager.TriggerEvent("ViewChanged");
     }

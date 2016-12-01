@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class SceneHandler : MonoBehaviour
 {
@@ -15,7 +14,7 @@ public class SceneHandler : MonoBehaviour
         companionList = GameObject.Find("CompanionsList").transform.FindChild("GridGroupLayout");
         packAnimalList = GameObject.Find("PackAnimalList").transform.FindChild("GridGroupLayout");
         createView();
-        //EventManager.StartListening("ViewChanged", updateView);
+        EventManager.StartListening("ViewChanged", createView);
     }
 
     void Update()
@@ -42,7 +41,7 @@ public class SceneHandler : MonoBehaviour
 
     private void addCompanionToView(Companion comp)
     {
-        GameObject compListItem = Instantiate(Resources.Load("Prefabs/CompanionItem", typeof(GameObject))) as GameObject;
+        GameObject compListItem = Instantiate(Resources.Load("Prefabs/CompanionItem_Interactable", typeof(GameObject))) as GameObject;
         compListItem.transform.SetParent(companionList.transform, false);
 
         CompanionView compView = compListItem.GetComponent<CompanionView>();
@@ -72,5 +71,6 @@ public class SceneHandler : MonoBehaviour
         turn++;
         playerCaravan.consumeProviant(playerCaravan.foodUptakePerRound);
     }
+
 
 }
