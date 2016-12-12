@@ -1,188 +1,73 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
-using System;
 
-[Serializable]
-public class Companion : Meeple
-{
-    public string CharName;
-    public CompanionClasses charClass;
-    public int maxCondition;
-    public int actualCondition;
-    public int originalFoodDemand;
-    public int actualFoodDemand;
-    public MeepleConditionState conditionState;
-    public MeepleFoodRationState foodRationState;
+public class Companion : Meeple {
 
-    //MONOBEHAVIOUR FUNCTIONS
-    //----------------
-    void Start()
+    private int proviantDemand;
+    private int proviantDemandMax;
+    private int strength;
+    private int strengthMax;
+    private float proviantRation;
+    private bool actionDone;
+
+    public Companion(int _proviantDemand, int _strength)
     {
-        ConditionState = MeepleConditionState.COMMON;
-        FoodRationState = MeepleFoodRationState.FULL_RATION;
+        proviantDemand = _proviantDemand;
+        strength = _strength;
+        strengthMax = _strength;
+        proviantDemandMax = _proviantDemand;
+        ProviantRation = 1.0f;
+        actionDone = false;
     }
 
-    //COMPANION FUNCTIONS
-    //----------------
-
-    public void starve()
+    //Consume a proviant ration
+    public int consumeRation()
     {
+        //Loose strength depending on difference between ProviantDemand and ProviantDemandMax
+        Strength -= (proviantDemandMax - proviantDemand);
 
+        //Return consumed proviant
+        return proviantDemand;
     }
 
-    //public void kill()
-    //{
-    //    ActualCondition = 0;
-    //    ConditionState = MeepleConditionState.DEAD;
-    //    //gameObject.transform.parent = GameObject.Find("Graveyard").transform;
-    //}
-
-    public void gainStrength()
+    //GETTER & SETTER
+    //---------------
+    public int Strength
     {
-        ActualCondition++;
-    }
+        get { return strength; }
+        set {
 
-    public void LoseStrength()
-    {
-        ActualCondition--;
-    }
-
-    // GETTER & SETTER
-    //----------------
-    public int ActualCondition
-    {
-        get { return actualCondition; }
-        set
-        {
-            actualCondition = value;
-
-            if (ConditionState == MeepleConditionState.UNCONSCIOUS && actualCondition <= 0)
-                ConditionState = MeepleConditionState.DEAD;
-            if (ConditionState != MeepleConditionState.DEAD && actualCondition <= 0)
-                ConditionState = MeepleConditionState.UNCONSCIOUS;
-            else if (actualCondition > 0)
-                ConditionState = MeepleConditionState.COMMON;
-
-            if (actualCondition > maxCondition)
+            //If companion already on 0 aka "bewusstlos". --> Kill companion.
+            if (strength <= 0 && value > 0)
             {
-                actualCondition = maxCondition;
-            } else if (actualCondition < 0)
-            {
-                actualCondition = 0;
+                //Todo: Trigger Death
+                alive = false;
             }
+
+            strength = Math.Max(value, 0);
+            strength = Math.Min(value, strengthMax);
         }
     }
 
-    public string charName
+    public float ProviantRation
     {
-        get { return CharName; }
-        set { CharName = value; }
-    }
-
-    public MeepleConditionState ConditionState
-    {
-        get { return conditionState; }
-        set
-        {
-            conditionState = value;
-
-            switch (conditionState)
-            {
-                case MeepleConditionState.DEAD:
-                    actualCondition = 0;
-                    gameObject.transform.parent = GameObject.Find("Graveyard").transform;
-                    // Todo: Trigger Dead/remove
-                    break;
-
-                case MeepleConditionState.COMMON:
-
-                    gameObject.transform.parent = GameObject.Find("Companions").transform;
-                    if (actualCondition <= 0)
-                        actualCondition = 1;
-                    break;
-
-                case MeepleConditionState.UNCONSCIOUS:
-                    gameObject.transform.parent = GameObject.Find("Companions").transform;
-                    actualCondition = 0;
-                    break;
-            }
-
-            EventManager.TriggerEvent("ConditionChanged");
+        get { return proviantRation; }
+        set {
+            proviantRation = Math.Max(value, 0);
+            proviantRation = Math.Min(value, 2);
+            //If ProviantRation changes --> change proviantDemand
+            proviantDemand = (int)(proviantDemand * proviantRation);
         }
     }
 
-    public int ActualFoodDemand
+    public int ProviantDemand
     {
-        get { return actualFoodDemand; }
+        get { return proviantDemand; }
         set
         {
-            actualFoodDemand = value;
-
-            if (actualFoodDemand <= 0)
-            {
-                actualFoodDemand = 0;
-                FoodRationState = MeepleFoodRationState.STARVING;
-            }
-            else if (actualFoodDemand >= originalFoodDemand)
-            {
-                actualFoodDemand = originalFoodDemand;
-                FoodRationState = MeepleFoodRationState.FULL_RATION;
-            }
-            else
-            {
-                FoodRationState = MeepleFoodRationState.HALF_RATION;
-            }
-
-            EventManager.TriggerEvent("FoodUptakeChanged");
+            proviantDemand = Math.Max(value, 0);
+            proviantDemand = Math.Min(value, proviantDemandMax);
         }
     }
-
-    public MeepleFoodRationState FoodRationState
-    {
-        get { return foodRationState; }
-        set
-        {
-            foodRationState = value;
-
-            switch (foodRationState)
-            {
-                case MeepleFoodRationState.FULL_RATION:
-                    actualFoodDemand = OriginalFoodDemand;
-                    break;
-
-                case MeepleFoodRationState.HALF_RATION:
-                    actualFoodDemand = (int)(OriginalFoodDemand / 2.0f);
-                    break;
-
-                case MeepleFoodRationState.STARVING:
-                    actualFoodDemand = 0;
-                    break;
-            }
-
-            EventManager.TriggerEvent("FoodUptakeChanged");
-        }
-    }
-
-    public int MaxCondition
-    {
-        get { return maxCondition; }
-        set
-        {
-            maxCondition = value;
-            if (maxCondition < 0)
-                maxCondition = 0;
-        }
-    }
-
-    public int OriginalFoodDemand
-    {
-        get { return originalFoodDemand; }
-        set
-        {
-            originalFoodDemand = value;
-            if (originalFoodDemand < 0)
-                originalFoodDemand = 0;
-        }
-    }
-
 }

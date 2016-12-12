@@ -1,76 +1,22 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
-public class SceneHandler : MonoBehaviour
-{
+public static class SceneHandler {
 
-    public int turn = 0;
-    public Caravan playerCaravan;
+    //Todo: get Tiles from MapGenerator
+    //public static List<MapTile>
+    public static List<Meeple> meeples;
+    public static List<Sandstorm> sandstorms;
+    public static int turn; 
+    //Todo: Deserialized Events from xml. Missing Serializeable class
+    //public static List<Events> 
+    public static Companion activeCompanion;
+    public static GameMode activeMode;
 
-    private Transform companionList;
-    private Transform packAnimalList;
-
-    void Start()
-    {
-        companionList = GameObject.Find("CompanionsList").transform.FindChild("GridGroupLayout");
-        packAnimalList = GameObject.Find("PackAnimalList").transform.FindChild("GridGroupLayout");
-        createView();
-        EventManager.StartListening("ViewChanged", createView);
-    }
-
-    void Update()
+    public static void endTurn()
     {
         
     }
-
-    private void createView()
-    {
-        
-        removeChildrenFrom(companionList);
-        removeChildrenFrom(packAnimalList);
-
-        foreach (Companion comp in playerCaravan.companions)
-        {
-            addCompanionToView(comp);    
-        }
-
-        foreach (PackAnimal packAnimal in playerCaravan.packAnimals)
-        {
-            addPackAnimalToView(packAnimal);
-        }
-    }
-
-    private void addCompanionToView(Companion comp)
-    {
-        GameObject compListItem = Instantiate(Resources.Load("Prefabs/CompanionItem_Interactable", typeof(GameObject))) as GameObject;
-        compListItem.transform.SetParent(companionList.transform, false);
-
-        CompanionView compView = compListItem.GetComponent<CompanionView>();
-        compView.comp = comp;
-    }
-
-    private void addPackAnimalToView(PackAnimal _packAnimal)
-    {
-        GameObject compListItem = Instantiate(Resources.Load("Prefabs/PackAnimalItem", typeof(GameObject))) as GameObject;
-        compListItem.transform.SetParent(packAnimalList.transform, false);
-
-        PackAnimalView packAnimalView = compListItem.GetComponent<PackAnimalView>();
-        packAnimalView.packAnimal = _packAnimal;
-    }
-
-    private void removeChildrenFrom(Transform _rootEl)
-    {
-        foreach (Transform child in _rootEl.GetComponentsInChildren<Transform>())
-        {
-            if (_rootEl != child)
-                Destroy(child.gameObject);
-        }
-    }
-
-    public void endTurn()
-    {
-        turn++;
-        playerCaravan.consumeProviant(playerCaravan.foodUptakePerRound);
-    }
-
 
 }

@@ -1,53 +1,42 @@
 ﻿using System;
-using UnityEngine;
-using System.Collections;
 
 public class PackAnimal : Meeple
 {
-    public int maxLoad;
-    public int actualLoad;
-    public int butcherFoodAmount;
 
-    public int butcherAnimal()
+    private int loadCap;
+    private int loadCapMax;
+
+    public PackAnimal(int _loadCap)
     {
-        
-        return butcherFoodAmount;
+        loadCap = _loadCap;
+        loadCapMax = _loadCap;
     }
 
+    //Loads an amount of proviant and returns overload value
     public int load(int _amount)
     {
-        int rest = Math.Max((ActualLoad + _amount) - maxLoad, 0);
-        ActualLoad += _amount;
+        int rest = Math.Max((loadCap + _amount) - loadCapMax, 0);
+        loadCap += _amount;
         return rest;
     }
 
-    public int unload(int _amount)
-    {
-        int rest = Math.Min((ActualLoad - _amount), 0);
-        ActualLoad -= _amount;
+    //Unloads an amount of proviant and returns overload value
+    public int unload(int _amount) { 
+            
+        int rest = Math.Min((loadCap - _amount), 0);
+        loadCap -= _amount;
         return rest;
     }
 
-    //GETTER SETTER
-    //------------
-    public int ActualLoad
+    //GETTER & SETTER
+    //---------------
+    public int LoadCap
     {
-        get { return actualLoad; }
-        set {
-            actualLoad = value;
-
-            if (actualLoad < 0)
-                actualLoad = 0;
-            else if (actualLoad > maxLoad)
-                actualLoad = maxLoad;
-
-            EventManager.TriggerEvent("FoodStockChanged");
+        get { return loadCap; }
+        set
+        {
+            loadCap = Math.Max(value, 0);
+            loadCap = Math.Min(value, loadCapMax);
         }
-    }
-
-    public int MaxLoad
-    {
-        get { return maxLoad; }
-        set { maxLoad = value; }
     }
 }
