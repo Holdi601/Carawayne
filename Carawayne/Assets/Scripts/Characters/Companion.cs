@@ -9,7 +9,7 @@ public class Companion : Meeple {
     private int strength;
     private int strengthMax;
     private float proviantRation;
-    private bool actionDone;
+    public bool hasActionOutstanding;
 
     public Companion(Vector2 _pos, string _name, int _proviantDemand, int _strength): base(_pos, _name)
     {
@@ -18,7 +18,20 @@ public class Companion : Meeple {
         strengthMax = _strength;
         proviantDemandMax = _proviantDemand;
         ProviantRation = 1.0f;
-        actionDone = false;
+        hasActionOutstanding = true;
+    }
+
+    public void moveTo(Vector2 _pos)
+    {
+        //Todo: Missing implementation movement
+        hasActionOutstanding = false;
+    }
+
+    public void doAction(/*Action _action*/)
+    {
+        //Todo: Implement if decide to generic action instead of individual subClass actions (fight, heal, etc...)
+        //Todo: OnPlayerInteractionEnded trigger for tactical game. Raise Event OnPlayerInteraction
+        hasActionOutstanding = false;
     }
 
     //Consume a proviant ration

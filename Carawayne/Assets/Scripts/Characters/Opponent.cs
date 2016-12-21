@@ -28,6 +28,9 @@ public class Opponent : Meeple
             Debug.Log(meepleName + " strikes " + _target.meepleName);
             _target.Alive = false;
         }
+
+        //Todo: Implememnt actionOutstanding if neccessary. As example when queded intelligent interaction is needed from opponent side.
+        //hasActionOutstanding = false;
     }
 
 }

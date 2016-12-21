@@ -19,6 +19,8 @@ public class Hunter: Companion
         int dist = (int)(Math.Abs(distVec.x) + Math.Abs(distVec.y));
         int rolledValue = SceneHandler.rollDice(diceValue);
 
+        hasActionOutstanding = false;
+
         //Todo: MapTiles distance problem. get Distance
         if (rolledValue >= dist)
         {

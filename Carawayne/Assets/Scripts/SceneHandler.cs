@@ -14,6 +14,7 @@ public static class SceneHandler {
     //public static List<Events> 
     public static Companion activeCompanion;
     public static GameMode activeMode;
+    public static TacticalGame activeTacticalGame;
     public static Random rand;
 
     public static void init()
@@ -25,39 +26,25 @@ public static class SceneHandler {
         activeMode = GameMode.EXPLORATION;
         rand = new Random();
 
+        Debug.Log("START SCENE");
         meeples.Add(new Hunter(new Vector2(0, 1), "Hunter", 1, 10));
-        meeples.Add(new Opponent(new Vector2(2, 2), "Opponent"));
-        meeples.Add(new Opponent(new Vector2(4, 2), "Opponent 2"));
         meeples.Add(new Healer(new Vector2(1, 3), "Healer", 1, 10));
         meeples.Add(new PackAnimal(new Vector2(1, 1), "PackAnimal 1", 10, 5));
         meeples.Add(new PackAnimal(new Vector2(1, 2), "PackAnimal 2", 20, 15));
-        meeples.Add(new HuntedAnimal(new Vector2(2, 3), "Hunted Animal 1", 4));
-        meeples.Add(new HuntedAnimal(new Vector2(2, 3), "Hunted Animal 1", 4));
         meeples.Add(new Mercenary(new Vector2(3, 1), "Mercenery", 1, 10));
+        meeples.Add(new Scout(new Vector2(2, 1), "Scout", 1, 10));
 
-        Debug.Log("START SCENE");
+        TacticalGame game = new BattleGround();
+        game.run();
 
-        //Konsumiere Proviant
-        consumeProviant(22);
+        while (activeMode == GameMode.TACTICAL)
+        {
+            getAllMeeplesFromType<Mercenary>()[0].fight(getAllMeeplesFromType<Opponent>()[0]);
+            game.onPlayerInteractionEnded();
 
-        //Jagen
-        gainProviant(getAllMeeplesFromType<Hunter>()[0].hunt(getAllMeeplesFromType<HuntedAnimal>()[0]));
+        }
         
-        //Opponent strikes
-        getAllMeeplesFromType<Opponent>()[0].fight(getAllMeeplesFromType<Companion>()[0]);
-        getAllMeeplesFromType<Opponent>()[0].fight(getAllMeeplesFromType<Companion>()[0]);
-        getAllMeeplesFromType<Opponent>()[1].fight(getAllMeeplesFromType<Companion>()[0]);
-        getAllMeeplesFromType<Opponent>()[1].fight(getAllMeeplesFromType<Companion>()[0]);
-        getAllMeeplesFromType<Opponent>()[1].fight(getAllMeeplesFromType<PackAnimal>()[0]);
 
-        //Heal
-        getAllMeeplesFromType<Healer>()[0].heal(getAllMeeplesFromType<Companion>()[2]);
-
-        //Mercenary fights
-        getAllMeeplesFromType<Mercenary>()[0].fight(getAllMeeplesFromType<Opponent>()[0]);
-
-        //proviant excahnge
-        gainProviant(10);
     }
 
     public static void endTurn()

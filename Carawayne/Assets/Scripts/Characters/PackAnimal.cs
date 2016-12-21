@@ -8,6 +8,7 @@ public class PackAnimal : Meeple
     private int loadCapacity;
     private int butcherAmount;
 
+    //Todo: change Pos to struct
     public PackAnimal(Vector2 _pos, string _meepleName, int _loadCap, int _butcherAmount) : base(_pos, _meepleName)
     {
         actualLoad = _loadCap;

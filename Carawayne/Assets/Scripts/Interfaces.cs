@@ -6,6 +6,7 @@ public interface TacticalAgent
     void doAction();
 }
 
+
 public class Interfaces {
-    
+
 }

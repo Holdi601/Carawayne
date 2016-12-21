@@ -20,6 +20,8 @@ public class Mercenary : Companion
         int dist = (int)(Math.Abs(distVec.x) + Math.Abs(distVec.y));
         int rolledValue = SceneHandler.rollDice(diceValue);
 
+        hasActionOutstanding = false;
+
         //Todo: MapTiles distance problem. get Distance. Kampfsystem Konzept?!?!
         if (rolledValue >= dist)
         {

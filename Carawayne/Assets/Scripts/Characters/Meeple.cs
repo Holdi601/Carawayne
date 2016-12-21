@@ -4,8 +4,9 @@ using System.Collections.Generic;
 //Todo: Rethink design of meeple. MonoBeahiour or not?!?!
 public class Meeple
 {
-
+    //Todo: change Pos to struct
     private Vector2 pos;
+    //Todo: change Pos to struct
     private List<Vector2> walkableTiles;
     public int walkRange;
     private bool alive;
@@ -17,8 +18,11 @@ public class Meeple
         pos = _pos;
         walkRange = 4;
         meepleName = _meepleName;
+
+        Debug.Log(GetType() + " created: " + _meepleName);
     }
 
+    //Todo: change Pos to struct
     public void moveTo(Vector2 _pos)
     {
         pos = _pos;

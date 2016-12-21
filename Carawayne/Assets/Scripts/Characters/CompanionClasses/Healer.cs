@@ -14,6 +14,7 @@ public class Healer: Companion
     {
         Debug.Log(meepleName + " healed " + _target.meepleName + " with 2");
         _target.Strength += 2;
+        hasActionOutstanding = false;
     }
 
 }
