@@ -63,26 +63,92 @@ public class SceneHandler :MonoBehaviour{
         activeMode = GameMode.EXPLORATION;
         rand = new System.Random();
 
-        List<HexaPos> opponentsPos = new List<HexaPos>();
-        opponentsPos.Add(new HexaPos(12,12));
-        opponentsPos.Add(new HexaPos(12,13));
-        opponentsPos.Add(new HexaPos(12,14));
-        opponentsPos.Add(new HexaPos(12,15));
-        TacticalGame game = new BattleGround(opponentsPos);
+        //List<HexaPos> opponentsPos = new List<HexaPos>();
+        //opponentsPos.Add(new HexaPos(12,12));
+        //opponentsPos.Add(new HexaPos(12,13));
+        //opponentsPos.Add(new HexaPos(12,14));
+        //opponentsPos.Add(new HexaPos(12,15));
+        //TacticalGame game = new BattleGround(opponentsPos);
+        //game.init();
+        //game.run();
+
+        //while (activeMode == GameMode.TACTICAL)
+        //{
+        //    Mercenary activeMeeple = getAllMeeplesFromType<Mercenary>()[0];
+        //    Opponent targetMeeple = getAllMeeplesFromType<Opponent>()[0];
+        //    int dist = Map.distance(activeMeeple.Pos, targetMeeple.Pos);
+
+        //    if (dist <= 1)
+        //    {
+        //        activeMeeple.fight(targetMeeple);
+        //    }
+        //    else
+        //    {
+        //        activeMeeple.moveTowardsTarget(targetMeeple.Pos);
+        //    }
+        //    game.onPlayerInteractionEnded();
+        //}
+
+        //HUNTINGGAME
+        TacticalGame game = new HuntingGround(5,2);
         game.init();
         game.run();
 
         while (activeMode == GameMode.TACTICAL)
         {
-            getAllMeeplesFromType<Mercenary>()[0].fight(getAllMeeplesFromType<Opponent>()[0]);
+            List<Hunter> hunters = getAllMeeplesFromType<Hunter>();
+            foreach (Hunter hunter in hunters)
+            {
+                HuntedAnimal targetMeeple = getAllMeeplesFromType<HuntedAnimal>()[0];
+                int dist = Map.distance(hunter.Pos, targetMeeple.Pos);
+
+                if (dist <= 6)
+                {
+                    hunter.hunt(targetMeeple);
+                }
+                else
+                {
+                    hunter.moveTowardsTarget(targetMeeple.Pos);
+                }
+            }
+
             game.onPlayerInteractionEnded();
         }
-
     }
 
     public static T createMeeple<T>(string _name, HexaPos _hexPos) where T:Meeple
     {
-        GameObject meepleObj = (GameObject)Instantiate(Initialisation.soldier);
+        GameObject meepleObj=new GameObject();
+
+        switch (typeof(T).ToString())
+        {
+            case "Mercenary":
+                meepleObj = (GameObject)Instantiate(Initialisation.soldier);
+                break;
+            case "Hunter":
+                meepleObj = (GameObject)Instantiate(Initialisation.worker);
+                break;
+            case "Prince":
+                meepleObj = (GameObject)Instantiate(Initialisation.king);
+                break;
+            case "HuntedAnimal":
+                meepleObj = (GameObject)Instantiate(Initialisation.defensiveAnimal);
+                break;
+            case "Opponent":
+                meepleObj = (GameObject)Instantiate(Initialisation.raider);
+                break;
+            case "Scout":
+                meepleObj = (GameObject)Instantiate(Initialisation.scout);
+                break;
+            case "PackAnimal":
+                meepleObj = (GameObject)Instantiate(Initialisation.camel);
+                break;
+            case "Merchant":
+                meepleObj = (GameObject)Instantiate(Initialisation.defensiveAnimal);
+                break;
+            default:
+                break;
+        }
         
         Meeple meeple = meepleObj.AddComponent<T>();
         meeple.Pos = _hexPos;
@@ -192,10 +258,18 @@ public class SceneHandler :MonoBehaviour{
 
     }
 
-    public static void setMeeplePos(GameObject Meeple, HexaPos position)
+    public static void setMeeplePos(GameObject meepleObj, HexaPos position)
     {
-        Meeple.transform.localPosition = Map.MapTileToPosition(position);
-        Meeple.GetComponent<Meeple>().Pos = position;
+        Meeple meeple = meepleObj.GetComponent<Meeple>();
+        smallMap[meeple.Pos.x, meeple.Pos.y].GetComponent<innerTile>().meep = null;
+
+        meepleObj.transform.localPosition = Map.MapTileToPosition(position);
+        meeple.Pos = position;
+
+        if (!(position.x<0||position.x>14||position.y<0||position.y>14))
+        {
+            smallMap[position.x, position.y].GetComponent<innerTile>().meep = meeple;
+        }
     }
 
     public static void rotateCaravan(int rot) //Mins GUZS; plus UZS

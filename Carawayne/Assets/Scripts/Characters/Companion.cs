@@ -25,7 +25,7 @@ public class Companion : Meeple {
     {
         ProviantRation = 1.0f;
         hasActionOutstanding = true;
-        walkRange = 3;
+        walkRange = 1;
     }
 
     public void moveTo(HexaPos _pos)

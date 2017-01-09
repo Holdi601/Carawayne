@@ -16,24 +16,29 @@ public class Meeple : MonoBehaviour
     {
         alive = true;
         pos = new HexaPos(0,0);
-        walkRange = 4;
+        walkRange = 1;
         meepleName = "StandardName";
-        walkRange = 3;
     }
 
     public void moveTo(HexaPos _pos)
     {
-        pos = _pos;
+        
     }
 
-    public virtual void init(HexaPos _pos, string _meepleName)
+    public void moveTowardsTarget(HexaPos _targetPos)
     {
-        alive = true;
-        pos = _pos;
-        walkRange = 4;
-        meepleName = _meepleName;
-        Debug.Log(GetType() + " created on Position " + pos.x + "|" + pos.y);
+        for (int i = 0; i < walkRange; i++)
+        {
+            int dist = Map.distance(pos, _targetPos);
 
+            if (dist <= 0)
+                break;
+
+            int dir = Map.getDirection(pos, _targetPos);
+            HexaPos moveTarget = Map.tilesInRange(pos, 1)[dir];
+            SceneHandler.setMeeplePos(this.gameObject, moveTarget);
+            Debug.Log(meepleName + "moved!!!to" + moveTarget + "DIRECTION:");
+        }
     }
 
     //GETTER & SETTER

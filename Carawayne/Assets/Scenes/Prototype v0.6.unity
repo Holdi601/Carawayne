@@ -518,22 +518,26 @@ MonoBehaviour:
   finishTile_prefab: {fileID: 0}
   innerTile_prefab: {fileID: 1000010743324192, guid: 80f34667a9785a946a103db46f72a866,
     type: 2}
-  soldier_prefab: {fileID: 1000011581095394, guid: 2b4c9cd179c86be49bccc649d464da32,
+  soldier_prefab: {fileID: 1000011581095394, guid: 700906b23a533d747bf0bb947ac7026f,
     type: 2}
-  worker_prefab: {fileID: 1000011581095394, guid: 2b4c9cd179c86be49bccc649d464da32,
+  worker_prefab: {fileID: 1000011581095394, guid: a6002dc4702667d4abcdabf0049b40cd,
     type: 2}
   king_prefab: {fileID: 1000011581095394, guid: 2b4c9cd179c86be49bccc649d464da32,
     type: 2}
-  healer_prefab: {fileID: 1000011581095394, guid: 2b4c9cd179c86be49bccc649d464da32,
+  healer_prefab: {fileID: 1000011581095394, guid: 94a849472c315f34484a752dfa58d21d,
     type: 2}
-  scout_prefab: {fileID: 1000011581095394, guid: 2b4c9cd179c86be49bccc649d464da32,
+  scout_prefab: {fileID: 1000011581095394, guid: 457b3f22dc533724d938a7f17e86036b,
     type: 2}
   lookOutTower_prefab: {fileID: 1000013517729732, guid: 429b9c1ba659f624db575538aaf3f7a1,
     type: 2}
-  defensiveAnimal_prefab: {fileID: 0}
-  aggressiveAnimal_prefab: {fileID: 0}
-  raider_prefab: {fileID: 0}
-  camel_prefab: {fileID: 0}
+  defensiveAnimal_prefab: {fileID: 1000011581095394, guid: eaaf0926115f16d418c47fb761751d24,
+    type: 2}
+  aggressiveAnimal_prefab: {fileID: 1000011581095394, guid: ed8d13aef5ac44d4ca9b938e3b61e4f9,
+    type: 2}
+  raider_prefab: {fileID: 1000011581095394, guid: ed8d13aef5ac44d4ca9b938e3b61e4f9,
+    type: 2}
+  camel_prefab: {fileID: 1000011581095394, guid: adbd3319dd640c142a220e7e69440c5e,
+    type: 2}
   food_prefab: {fileID: 0}
   staticHostile_prefab: {fileID: 0}
   planeSample_prefab: {fileID: 1000011371619824, guid: d50f3422c3e9cec44be1ba8e7881510a,

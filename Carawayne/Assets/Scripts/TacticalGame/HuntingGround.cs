@@ -6,10 +6,59 @@ public class HuntingGround : TacticalGame
 {
 
     private List<HexaPos> animalsPos;
+    private int initialDirection;
+    private int chasingRounds;
 
-    public HuntingGround(List<HexaPos> _posList)
+    public HuntingGround(int _initialDirection, int _chasingRounds)
     {
-        animalsPos = _posList;
+        initialDirection = _initialDirection;
+        chasingRounds = _chasingRounds;
+        animalsPos=new List<HexaPos>();
+        Debug.Log("AnimalsSpawningFromDirection:"+initialDirection);
+        switch (initialDirection)
+        {
+            case 3:
+                animalsPos.Add(new HexaPos(4,4));
+                animalsPos.Add(new HexaPos(4,6));
+                animalsPos.Add(new HexaPos(4,8));
+                animalsPos.Add(new HexaPos(4,10));
+                break;
+            case 2:
+                animalsPos.Add(new HexaPos(8, 13));
+                animalsPos.Add(new HexaPos(7, 12));
+                animalsPos.Add(new HexaPos(5, 11));
+                animalsPos.Add(new HexaPos(4, 10));
+                break;
+            case 1:
+                animalsPos.Add(new HexaPos(8, 13));
+                animalsPos.Add(new HexaPos(10, 12));
+                animalsPos.Add(new HexaPos(11, 11));
+                animalsPos.Add(new HexaPos(13, 10));
+                break;
+            case 0:
+                animalsPos.Add(new HexaPos(13, 10));
+                animalsPos.Add(new HexaPos(13, 8));
+                animalsPos.Add(new HexaPos(13, 6));
+                animalsPos.Add(new HexaPos(13, 4));
+                break;
+            case 5:
+                animalsPos.Add(new HexaPos(13, 4));
+                animalsPos.Add(new HexaPos(11, 3));
+                animalsPos.Add(new HexaPos(10, 2));
+                animalsPos.Add(new HexaPos(8, 1));
+                break;
+            case 4:
+                animalsPos.Add(new HexaPos(8, 1));
+                animalsPos.Add(new HexaPos(7, 2));
+                animalsPos.Add(new HexaPos(5, 3));
+                animalsPos.Add(new HexaPos(4, 4));
+                break;
+        }
+
+        foreach (HexaPos pos in animalsPos)
+        {
+            SceneHandler.createMeeple<HuntedAnimal>("animal", pos);
+        }
     }
 
     public void init()
@@ -34,8 +83,12 @@ public class HuntingGround : TacticalGame
             //huntedAnimal.moveTo();
 
             //placeholder
-            huntedAnimal.hasEscaped = true;
+            int chasingDir = (initialDirection+3)%6;
+            HexaPos escapingPos = Map.tilesInRange(huntedAnimal.Pos, 1)[chasingDir];
+
+            huntedAnimal.moveTowardsTarget(escapingPos);
         }
+        chasingRounds--;
     }
 
     //Player wins this tactical game if there are no more huntedAnimals on the tactical grid.
@@ -54,17 +107,21 @@ public class HuntingGround : TacticalGame
     //Player loses this tactical game if all hunted Animals escaped
     public override bool isTacticalGameLost()
     {
-        List<HuntedAnimal> huntedAnimals = SceneHandler.getAllMeeplesFromType<HuntedAnimal>();
-
-        foreach (HuntedAnimal huntedAnimal in huntedAnimals)
+        if (chasingRounds<=0)
         {
-            if (!huntedAnimal.hasEscaped)
-            {
-                return false;
-            }
+            return true;
         }
+        //List<HuntedAnimal> huntedAnimals = SceneHandler.getAllMeeplesFromType<HuntedAnimal>();
 
-        return true;
+        //foreach (HuntedAnimal huntedAnimal in huntedAnimals)
+        //{
+        //    if (!huntedAnimal.hasEscaped)
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        return false;
     }
 
     public override bool hasPlayerAvailableMoves()

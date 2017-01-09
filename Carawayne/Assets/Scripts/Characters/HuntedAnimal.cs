@@ -9,6 +9,7 @@ public class HuntedAnimal : Meeple
     void Awake()
     {
         food = 4;
+        walkRange = 1;
     }
 
     //public HuntedAnimal(HexaPos _pos, string _meepleName, int _food) : base(_pos, _meepleName)

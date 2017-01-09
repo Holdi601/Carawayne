@@ -46,8 +46,7 @@ public class BattleGround : TacticalGame
             }
             else
             {
-                int dir = Map.getDirection(opponent.Pos, opponent.targetMeeple.Pos);
-                SceneHandler.setMeeplePos(opponent.gameObject, Map.tilesInRange(opponent.Pos, 1)[dir]);
+                opponent.moveTowardsTarget(opponent.targetMeeple.Pos);
             }
         }
     }

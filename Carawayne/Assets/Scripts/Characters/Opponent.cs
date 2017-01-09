@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Opponent : Meeple
 {
@@ -6,11 +7,16 @@ public class Opponent : Meeple
     public Meeple targetMeeple;
     public int dice;
     public int diceValue;
+    public int strength;
+    public int strengthMax;
 
     void Awake()
     {
         dice = 1;
         diceValue = 6;
+        strength = 1;
+        strengthMax = strength;
+        walkRange = 1;
     }
 
     public void fight(Meeple _target)
@@ -35,10 +41,24 @@ public class Opponent : Meeple
         //hasActionOutstanding = false;
     }
 
-    public override void init(HexaPos _pos, string _meepleName)
+        public void damaged(int _amount){
+        //If companion already on 0 aka "bewusstlos". --> Kill companion.
+
+            Strength -= _amount;
+
+            if (strength <= 0 && _amount > 0)
+            {
+                Alive = false;
+            }
+        }
+
+    public int Strength
     {
-        base.init(_pos, _meepleName);
-        dice = 1;
-        diceValue = 6;
+        get { return strength; }
+        set
+        {
+            strength = Math.Max(value, 0);
+            strength = Math.Min(value, strengthMax);
+        }
     }
 }

@@ -38,14 +38,6 @@ public class PackAnimal : Meeple
         return Math.Abs(rest);
     }
 
-    public override void init(HexaPos _pos, string _meepleName)
-    {
-        base.init(_pos, _meepleName);
-        actualLoad = 30;
-        loadCapacity = 30;
-        butcherAmount = 10;
-    }
-
     //GETTER & SETTER
     //---------------
     public int ActualLoad

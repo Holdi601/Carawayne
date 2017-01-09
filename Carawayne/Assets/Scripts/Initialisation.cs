@@ -112,6 +112,7 @@ public class Initialisation : MonoBehaviour {
         soldier = soldier_prefab;
         worker = worker_prefab;
         healer = healer_prefab;
+        scout = scout_prefab;
         defensiveAnimal = defensiveAnimal_prefab;
         aggressiveAnimal = aggressiveAnimal_prefab;
         raider = raider_prefab;

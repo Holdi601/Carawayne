@@ -21,6 +21,7 @@ public class Hunter: Companion
         strengthMax = 10;
         dice = 1;
         diceValue = 6;
+        walkRange = 3;
     }
 
     public int hunt(HuntedAnimal _target)
@@ -42,10 +43,4 @@ public class Hunter: Companion
         return 0;
     }
 
-    public override void init(HexaPos _pos, string _meepleName)
-    {
-        base.init(_pos, _meepleName);
-        dice = 1;
-        diceValue = 6;
-    }
 }
