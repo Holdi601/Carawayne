@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Parser -->
+<rootnode>
+  <version>Version 2.0.203</version>
+	<task nr="1" title="Räubercamp im Wald">
+		<eventText>Sie haben dich noch nicht entdeckt. Du kannst eine weitere Runde hier warten, damit sie abziehen – oder du kämpfst sofort gegen 3 Räuber.</eventText>
+		<code>Choice: combat with 3 enemies or wait. Mark event decision.</code>
+		<consequenceText>Konsequenz: Wenn die Räuber im Wald dich noch nicht entdeckt haben, dann finden sie dich jetzt. Kämpfe gegen 4 Räuber.</consequenceText> 
+		<consequenceCode>If no combat was chosen, fight 4 enemies from front.</consequenceCode>
+	</task>
+	<task nr="2" title="Seltene Früchte"> 
+		<eventText>Von diesem seltsamen Pflanzen hat noch nie jemand erzählt. Du kannst 6 Proviant erhalten.</eventText>
+		<code>Choice: get 6 res. Mark event decision.</code>
+		<consequenceText>Konsequenz: Falls du noch Vorräte besitzt, so kämpfst du jetzt gegen die Schlingpflanze, welche aus der Tragetasche des Kamels wächst. Es braucht zwei erfolgreiche Würfel um besiegt zu werden.</consequenceText>
+		<consequenceCode>If res was taken, start combat with enemy (two health) on camel.</consequenceCode>
+	</task>
+	<task nr="3" title="Das Dickicht"> 
+		<eventText>Der Wald scheint in einen Dschungel überzugehen. Du verbrauchst zusätzliche Ressourcen (5) um in ein weiteres Waldstück vorzudringen.</eventText>
+		<code>Mark current field. If player is not on this field AND on forest field, player loses 5 res.</code>
+		<consequenceText>Konsequenz: Raubtiere leben im Dickicht. Falls du gerade auf einem Wald befindest, greifen dich 3 Raubtiere an.</consequenceText>
+		<consequenceCode>If current field is forrest, start combat with 3 animals from all sides.</consequenceCode>
+	</task>
+	<task nr="4" title="Unruhiger Schlaf"> 
+		<eventText>Kleine Tiere huschen umher und tote Äste knacken. Schlaf ist in dieser Rast schwer zu finden, jeder Charakter verliert einen Kraftspunkt falls keine Kamele um ihn herum sind.</eventText>
+		<code>For every char, check if on surrounding field is at least one camel. If not, that character loses 1 power.</code>
+		<consequenceText>Konsequenz: Erneut werden Äste zerbrochen, allerdings sind es Tiger! Du wirst von Vorne von zwei Raubtieren angegriffen.</consequenceText>
+		<consequenceCode>Combat with 2 animals from random sides."</consequenceCode>
+	</task>
+	<task nr="5" title="Dichtes Blätterdach"> 
+		<eventText>Die Sonne kann deine Gruppe heute nicht erreichen. Ihr verbraucht weniger Wasser (3 Proviant) an diesem Tag.</eventText>
+		<code>Reduce movement cost by 3 for the next turn.</code>
+		<consequenceText>Konsequenz: Die seltenen heimischen Affen sind auf euch Aufmerksam geworden und bewerfen euch mit… allem. Manche würden sich darüber aufregen, aber manche sehen das als Glücksbringer - jeder Charakter erhält einen Kraftpunkt.</consequenceText>
+		<consequenceCode>every character gets +1 power."</consequenceCode>
+		consequence="">
+	</task>
+	<task nr="6" title="Rinnsal"> 
+		<eventText>ein kleiner Bach durchschneidet den Wald. Jeder Charakter kann hier zwei Kraft auffüllen.</eventText>
+		<code>Choice: every character recieves 2 power. Mark even decision.</code>
+		<consequenceText>Konsequenz: Ihr entdeckt die Tiere, welche Flussaufwärts baden. Leider stinken sie abartig. Jeder Charakter, welcher aus dem Bach getrunken hat verliert drei Kraft.</consequenceText>
+		<consequenceCode>If power was taken, every character loses 3 power."</consequenceCode>
+	</task>
+	<task nr="7" title="Ausgedörrter Wald"> 
+		<eventText>Der Wald scheint durch die Wüste zu wandern, und hier stirbt gerade das Ende. Du kannst dich entscheiden ob du ein Wüsten- oder Wald-Ereignis ziehst.</eventText>
+		<code>Choice: trigger random Desert or Forest event. Mark the chosen event</code>
+		<consequenceText>Konsequenz: Führe ebenfalls die Konsequenz des ausgesuchten Events aus, falls möglich.</consequenceText>
+		<consequenceCode>trigger consequences of chosen event" </consequenceCode>
+	</task>
+	<task nr="8" title="Es ist an der Zeit"> 
+		<eventText>Deine Gruppe ist vorbereitet und fokussiert. Du kannst entweder sofort ein Feld weiterziehen oder die letzte Konsequenz auslösen.</eventText>
+		<code>Choice: move one field in disered direction or trigger consequence of last event.</code>
+		<consequenceText>Konsequenz: Deine Gruppe ist mehr bereit denn je! Jeder Charakter erhält einen Kraftschub von 2.</consequenceText>
+		<consequenceCode>every character gets +2power." </consequenceCode>
+	</task>
+	<task nr="9" title="Verloren im Wald"> 
+		<eventText>ein einzelner Arbeiter steht vor euch im Dickicht. Er ist verwundet (halbe Startwerte). Du kannst ihn mitnehmen.</eventText>
+		<code>Choice: get additional worker in group. Set hp of that worker to half it's value. Mark event decision</code>
+		<consequenceText>Konsequenz: Irgendetwas scheint deiner Karawane zu folgen. Der Arbeiter mit der höchsten Kraft wird von etwas in den Wald gezerrt und ein Schrei ist das letzte was ihr von ihm hört.</consequenceText>
+		<consequenceCode>If worker was taken, kill worker with highest health." </consequenceCode>
+	</task>
+	<task nr="10" title="Feuerholz"> 
+		<eventText>der Abend wird kühl, aber man kann etwas dagegen machen – ein würdiges Lagerfeuer. Du kannst dich dazu entscheiden das Waldfeld in ein Wüstenfeld umzuwandeln und eine Kraft für jedes Gruppenmitglied zu erhalten.</eventText>
+		<code>Choice: transform current field into desert and every character recieves +1 power or nothing. Mark event decision</code>
+		<consequenceText>Konsequenz – Das Lagerfeuer scheint nach der Abreise außer Kontrolle zu geraten. Alle umstehenden Waldfelder werden in Wüstenfelder umgewandelt. Falls du dich auf einem betroffenem Feld befindest, verlieren alle Charaktere einen Kraftpunkt.</consequenceText>
+		<consequenceCode>If transform field was chosen, get current surrounding fields. transform these fields into desert." </consequenceCode>
+	</task>
+	<task nr="11" title="Schützender Schatten"> 
+		<eventText>Die Gruppe ist müde. Die Bäume wirken verlockend. Alle Charaktere unter 3 Kraft werden auf 5 Kraft gesetzt.</eventText>
+		<code>Every character with power lower 3 sets his power to 5. Mark these characters</code>
+		<consequenceText>Konsequenz: Alle vorher betroffenen Charaktere erhalten zusätzlich 2 Kraft.</consequenceText>
+		<consequenceCode>All marked characters get +2 power." </consequenceCode>
+	</task>
+	<task nr="12" title="Der Söldner"> 
+		<eventText>Ein Söldner steht vor dir. Er scheint auf jemand zu warten – er lässt dich nicht vorbei. Entweder bekämpfst du ihn, oder du nimmst ihn mit und darfst ihn für die nächsten drei Runden nicht wegschicken.</eventText>
+		<code>Choice: get character of type mercenary and mark that character or fight one enemy from front.</code>
+		<consequenceText>Konsequenz: Er wird von Gesetzvollstreckern gesucht, und du stehst diesen gegenüber. Du kannst ihn für 2 Proviant aushändigen oder gegen das Gesetz kämpfen.</consequenceText>
+		<consequenceCode>If you have the marked character, you get a choice: kill marked character and get 2 res or fight 2 enemies from the front." </consequenceCode>
+	</task>
+	<task nr="13" title="Amateur-Kartograph"> 
+		<eventText>Ob es gut ist seinen Leuten zu vertrauen? Würfle. Das nächste Feld in Laufrichtung bleibt bei einer 1 unverändert. Bei einer 2 oder 3 wird es eine Wüste, bei einer 4 ein Wald, bei einer 5 ein Gebirge und bei einer 6 eine Oase.</eventText>
+		<code>Mark the field in front of your group. RNG: on a 1 of 6, nothing happens. On a 2 or 3 transform it into a desert, on a 4 into a forest, 5 into mountain and 6 into an oasis.</code>
+		<consequenceText>Konsequenz: Würfle erneut. Bei einer 1 bleiben alle Felder um dich herum unverändert. Bei einer 2/3 werden alle zu Wüste, 4/5 zu Wald und bei einer 6 zu Gebirge. Wie konnte das nur passieren?</consequenceText>
+		<consequenceCode>The same procedure for all fields around you at once." </consequenceCode>
+	</task>
+	<task nr="14" title="Seltenes Holz"> 
+		<eventText>Du kannst einen Arbeiter losschicken um die seltenen Hölzer und Früchte zu sammeln. Du erhältst dann 5 Kraft, welche du verteilen kannst.</eventText>
+		<code>If player has at least one worker, he gets the choice: get 5 ressources or nothing. Mark event decision.</code>
+		<consequenceText>Konsequenz: Wilde Tiere greifen dich an! Vielleicht waren die Bäume heilig? Du wirst von 4 Raubtieren aus gewürfelten Richtungen angegriffen.</consequenceText>
+		<consequenceCode>If res was taken, player will be attacked by 4 enemies from all sides</consequenceCode>
+	</task>
+	<task nr="15" title="Aussichtspunkt in den Wipfeln"> 
+		<eventText>dein Späher hat auf diesen Feld besonders gute Sicht. Spähen kostet diese Runde weniger.</eventText>
+		<code>get all characters of type scout. reduce ability cost by 1 for these characters for this/the next round</code>
+		<consequenceText>Konsequenz: Falls er gespäht hat sieht den Sandsturm. Bewege den nächsten Sandsturm bis zu 4 Felder von dir entfernt hin.</consequenceText>
+		<consequenceCode>Get sandstorm, move in direction of player until 4 fields close.</consequenceCode>
+	</task>
+	<task nr="16" title="Ein Sturm zieht auf"> 
+		<eventText>Regenlose Wolken ziehen auf. Es wird einfach dunkel. Dein Späher kann die nächsten zwei Runden nur mit zusätzlichen Kraftkosten von 1 spähen.</eventText>
+		<code>get all characters of type scout. increas ability cost by 1 for these characters for this/the next round</code>
+		<consequenceText>Konsequenz: der Sturm löst sich auf. Die nächste Runde kostet das Spähen keinen Kraftpunkt.</consequenceText>
+		<consequenceCode>get all characters of type scout. reduce ability cost by 1 for these characters for the next round</consequenceCode>
+	</task>
+	<task nr="17" title="Der Wald vor lauter Bäumen"> 
+		<eventText>Wo ist der Ausweg? Falls du um das aktuelle Feld keinen nicht-Wald entdeckt hast, so musst du nächte Runde rasten.</eventText>
+		<code>get surrounding fields, get all revealed fields. If none of these fields is a forrest, disallowPlayerMove(1)</code>
+		<consequenceText>Konsequenz: Falls du erneut in einem Waldstück bist, so musst du wieder rasten. Um nicht erneut festzustecken brandrodest du ihn –er wird in eine Wüste umgewandelt.</consequenceText>
+		<consequenceCode>If current field is a forrest, disallowPlayerMove(1). transform current field into desert.</consequenceCode>
+	</task>
+	<task nr="18" title="Holz der Helden"> 
+		<eventText>Es ist ein Fehler aufgetreten. Dieses Event fehlt aus irgendwelchen Gründen. Der Spielleiter darf stattdessen zufällig intervenieren.</eventText>
+		<code>add or remove a random amount of ressource from the group</code>
+		<consequenceText>Konsequenz: Erneute Intervention.</consequenceText>
+		<consequenceCode>add or remove a random amount of ressource from the group</consequenceCode>
+	</task>
+	<task nr="19" title="Stille"> 
+		<eventText>Nichts passiert. In den nächsten zwei Runden kann keine Konsequenz ausgelöst werden.</eventText>
+		<code>TriggerNoConsequenceOnNextEvents(3)</code>
+		<consequenceText>Konsequenz: Es passiert nichts.</consequenceText>
+		<consequenceCode></consequenceCode>
+	</task>
+	<task nr="20" title="Konsequenz!"> 
+		<eventText>Die Konsequenz des letzten Ereignis wird aktiviert. Die betroffene Ereignis-Karte wird dann aus dem Ablagestapel entfernt und wieder eingemischt. Was passieren wird steht in den Ästen.</eventText>
+		<code>TriggerLastEventConsequence()</code>
+		<consequenceText>Konsequenz: Es passiert nichts.</consequenceText>
+		<consequenceCode></consequenceCode>
+	</task>
+</rootnode>

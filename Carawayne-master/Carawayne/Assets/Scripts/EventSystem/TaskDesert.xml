@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Parser -->
+<rootnode>
+  <version>Version 2.0.203</version>
+	<task nr="1" title="Treibsand!">
+		<eventText>Der Boden ist heute eigenartig… der vorderste Charakter verliert den Halt im Treibsand. Du kannst einen nahen Charakter nutzen um ihn zu retten – würfel dabei. Wenn du eine 4 oder höher würfelst wird der Charakter gerettet. Falls nicht versinken beide im Treibsand, verlieren einen Kraftpunkt und können von anderen Charakteren gerettet werden. Falls du nicht mehr würfelst sterben alle versinkenden Charaktere.</eventText>
+		<code>Get the first character of the caravan. Player can choose to use the next (nearest) character to save the first. If he tries, use RNG. If above 50% the characters are saved. If lower, this character is now also in danger. Player can then choose the next character to try to save both.</code>
+		<consequenceText>Konsequenz: Das Chaos des Treibsands scheint eine schlecht gesicherte Vorratskiste beansprucht zu haben. Du verlierst zwei Proviant.</consequenceText>
+		<consequenceCode>Group loses 2 res</consequenceCode>
+	</task>
+	<task nr="2" title="Ungetüm im Sande">
+		<eventText>Sind das Rückenflossen in den Dünen? Du wirst von drei Raubtieren von vorne angegriffen.</eventText>
+		<code>combat with three enemies from front (sandshark)</code>
+		<consequenceText>Konsequenz: Was auch immer es war, es scheint nicht alleine gewesen zu sein! Du wirst von zwei Raubtieren von hinten angegriffen.</consequenceText>
+		<consequenceCode>combat with two enemies from behind (sandshark)</consequenceCode>
+	</task>
+	<task nr="3" title="Hitzewelle">
+		<eventText>Die Sonne scheint die Erde zu verkohlen. Falls du am Ende der nächsten Runde immer noch auf einem Wüstenfeld bist musst du zusätzlich drei weitere Proviant abgeben.</eventText>
+		<code>On next turn, check the current field. If type = desert, the group loses 3 res</code>
+		<consequenceText>Konsequenz: Die Natur scheint verrückt zu spielen. Die nächtlichen Temperaturen sind kälter als je zuvor - jeder Charakter, der nicht zwei andere um sich herum hat, verliert 2 Kraft.</consequenceText>
+		<consequenceCode>For all characters, if there is lower than one character around, he loses 2 power.</consequenceCode>
+	</task>
+	<task nr="4" title="Räubercamp in der Wüste">
+		<eventText>Die Legenden von Alis Barbaren stellen sich als echt heraus! Glücklicherweise sind es weit weniger als erzählt. Du wirst von drei Räubern, verteilt aus jeder Richtung, angegriffen.</eventText>
+		<code>combat with three enemies from every direction (bandits)</code>
+		<consequenceText>Konsequenz: Die Karte bei den Räubern scheint auf ein Versteck hinzuweisen – und du hast es gerade gefunden. Du findest neben den Vorräten auch ein zutrauliches Kamel. </consequenceText>
+		<consequenceCode>player gets 2 res and one camel.</consequenceCode>
+	</task>
+	<task nr="5" title="Der Sand nimmt und gibt">
+		<eventText>Aber heute bist du auf der richtigen Seite. Du findest eine Holzkiste mit haltbarer Nahrung. Du erhältst 8 Nahrung für einen Träger.</eventText>
+		<code>Group gets 8 res</code>
+		<consequenceText>Konsequenz: Du hattest lange genug Glück. Eine schlecht befestigte Kiste fällt ohne Geräusch in den Sand. Du verlierst 8 Nahrung.</consequenceText>
+		<consequenceCode>player loses 8 res</consequenceCode>
+	</task>
+	<task nr="6" title="Die andere Karawane">
+		<eventText>Vor dir siehst du eine Anreihung von Skeletten: manche mit Rüstungen, ein anderes mit Fernrohr. Sie haben ihr Ziel nicht erreicht – aber ihre Reichtümer könnten es noch schaffen. Du nimmst dir den verbleibenden Proviant (5).</eventText>
+		<code>player gets 5 res.</code>
+		<consequenceText>Konsequenz: Du denkst darüber nach, warum die vorherige Karawane es nicht geschafft hat. Dein Hauptcharakter verliert 3 Kraft.</consequenceText>
+		<consequenceCode>every character of type mainchar loses 3 power.</consequenceCode>
+	</task>
+	<task nr="7" title="Petroleum">
+		<eventText>Manche meinen, das schwarze Gold hätte keine Funktion. Du jedoch weißt, dass es mehr wert ist als Gold. Leider müsstest du dafür Trinkschläuche opfern. Du kannst 5 Proviant gegen zwei Spielsteine tauschen.</eventText>
+		<code>Choice: sacrifice 5 res to recieve two tokens. Mark event decision.</code>
+		<consequenceText>Konsequenz: Vielleicht lockt es ja auch den Wahnsinn an? Wenn du das Öl mitgenommen hast, dann wirst du von drei Banditen aus verschiedenen Richtungen angegriffen.</consequenceText>
+		<consequenceCode>If tokens were taken, combat with 3 enemies from every direction (bandits).</consequenceCode>
+	</task>
+	<task nr="8" title="Zweifel an der Sache">
+		<eventText>In der Gruppe gibt es Gemurmel. Die Reise hat angefangen, aber wie wird sie enden? Jedes Gruppenmitglied verliert 1 Kraft.</eventText>
+		<code>Every character loses 1 power.</code>
+		<consequenceText>Konsequenz: Die Leute wollen nicht aufhören zu reden. Dein Hauptcharakter verliert einen Kraftpunkt für jedes zweite (andere) Gruppenmitglied.</consequenceText>
+		<consequenceCode>Every character of type mainchar loses 1 power for (all living characters/2)</consequenceCode>
+	</task>
+	<task nr="9" title="Flimmernde Luft">
+		<eventText>Irgendetwas stimmt nicht. Was, wenn ihr nicht hier seid, sondern woanders? Gebe jedes der Hexagone um dich herum im Uhrzeigersinn die Zahlen von 1-6 und würfele. Bewege dich dann zu dem gewürfelten Feld, falls möglich.</eventText>
+		<code>Throw a dice/RNG with 1-6. Move caravan without cost into the chosen direction.</code>
+		<consequenceText>Konsequenz: War das eine Fata Morgana oder Schicksal? Du findest verlassene Vorräte (3) vor dir.</consequenceText> 
+		<consequenceCode>Group gets 3 res</consequenceCode>
+	</task>
+	<task nr="10" title="Klare Sicht">
+		<eventText>Die Luft scheint heute anders zu sein. Decke alle Felder um dich herum auf.</eventText>
+		<code>Get surrounding fields. Reveal these.</code>
+		<consequenceText>Konsequenz: Alles scheint so klar zu sein. Sind das Halluzinationen? Du zweifelst an deinem Geist und verlierst 2 Kraft.</consequenceText>
+		<consequenceCode>Every character of type mainchar loses 2 power.</consequenceCode>
+	</task>
+	<task nr="11" title="Durstiger Irrer">
+		<eventText>Eine seltsame Figur kommt auf die Karawane zu. Er redet etwas von alten Städten und schlafenden Göttern – er ist eindeutig nicht bei Trost. Du kannst ihm zwei Proviant geben oder ihn direkt zurücklassen.</eventText>
+		<code>Choice: pay 2 res or nothing. Mark event decision.</code>
+		<consequenceText>Konsequenz: Es ist unwahrscheinlich, so jemand erneut in der Wüste anzutreffen. Falls du ihm kein Wasser gegeben hast greift er dich als an. Der Irre braucht drei erfolgreiche Würfe um besiegt zu werden.</consequenceText>
+		<consequenceCode>If player paid no res, he will attack from the front. Enemy hp=3, will be reset on miss.</consequenceCode>
+	</task>
+	<task nr="12" title="Die Karawane zieht weiter">
+		<eventText>Der Weg durch die Wüste ist heute besonders leicht. Du kannst ein anliegendes Sand-Feld überspringen.</eventText>
+		<code>Choice: if you see a surrounding revealed desert field, you can pick it. You will move one additional field in that direction.</code>
+		<consequenceText>Konsequenz: Alle Anstrengungen des letzten Tages überfallen dich. Zahle die Kosten der letzten Runde erneut.</consequenceText>
+		<consequenceCode>Pay one additional res-upkeep.</consequenceCode>
+	</task>
+	<task nr="13" title="Stiller Marsch durch die Wüste">
+		<eventText>Es ist ein langweiliger, ereignisloser Tag.</eventText>
+		<code>---</code>
+		<consequenceText>Konsequenz: Oder doch nicht? Zwei Ereigniskarten deines aktuellen Feld-Types werden in Folge ausgelöst.</consequenceText>
+		<consequenceCode>trigger one event for the current field, then trigger another event for the current field.</consequenceCode>
+	</task>
+	<task nr="14" title="Reicher Reisender">
+		<eventText>Du begegnest einem Reichen in der Wüste. Du kannst ihn Grüßen und weiterziehen oder ihn und seine vier Söldner für die 8 Ressourcen bekämpfen.</eventText>
+		<code>Choice: combat 5 enemies (bandits?) from the front and get 8 res or nothing. Mark event decision.</code>
+		<consequenceText>Konsequenz: Drei Nachzügler seiner Karawane kommen an dir vorbei. Falls du den Reichen angegriffen hast, musst du auch sie bekämpfen. Niemand wird etwas bemerken, wenn es niemand zum bemerken gibt.</consequenceText>
+		<consequenceCode>If combat was chosen, combat 3 enemies from the side. (bandits?)</consequenceCode>
+	</task>
+	<task nr="15" title="Wegzoll">
+		<eventText>Angeblich hast du ein Kalifat von einem noch-nie-gehörten Herrscher betreten – aber diese Leute könnten auch Wegelagerer sein. Du kannst ein aufgerundetes Zehntel deines Proviants abgeben oder gegen die zwei „Beamten“ kämpfen.</eventText>
+		<code>Choice: pay 10% of your current res or fight 2 enemies from the front(bandits). Mark event decision.</code>
+		<consequenceText>Konsequenz: Falls du sie nicht bekämpft hast, so kannst du das jetzt tun. Sie lachen dich beim weggehen aus. Beim Kampf erhältst du das Proviant zurück.</consequenceText>
+		<consequenceCode>If no combat was chosen, player gets a choice: fight 2 and recieve 2 res or nothing happens.</consequenceCode>
+	</task>
+	<task nr="16" title="Skarabäen">
+		<eventText>Diese königlichen Käfer sollen den Weg zu großen Schätzen weisen. Du kannst einen dieser Käfer mitnehmen.</eventText>
+		<code>Choice: player can get a token or nothing. Mark event decision.</code>
+		<consequenceText>Konsequenz: Falls du den Käfer mitgenommen hast und innerhalb der letzten Runde weniger als 5 Proviant verbraucht hast, erhältst du 5 Proviant. Ansonsten verlierst du den Käfer… und 5 Proviant verschwindet spurlos.</consequenceText>
+		<consequenceCode>If token was taken, check current res-upkeep. If it is under 5, player gets 5 res. Else, player loses the token and 5 res.</consequenceCode>
+	</task>
+	<task nr="17" title="Blick in die Ferne">
+		<eventText>Würfle. Entsprechend der gewürfelten Richtung wird das dritte Feld aufgedeckt.</eventText>
+		<code>GetFieldInDirection(RNG(1-6), 4) and reveal it, if possible.</code>
+		<consequenceText>Konsequenz: Würfle erneut. Entsprechend der gewürfelten Richtung wird das fünfte Feld aufgedeckt.</consequenceText>
+		<consequenceCode>GetFieldInDirection(RNG(1-6), 6) and reveal it, if possible.</consequenceCode>
+	</task>
+	<task nr="18" title="Der Wurm">
+		<eventText>Der Söldner erzählt Legenden aus dem Sand. Angeblich gab es riesige Würmer, welche ganze Städte verschlungen hatten – jeder lacht. Alle Gruppenmitglieder erhalten einen Kraftpunkt.</eventText>
+		<code>Every character gets 1 Power</code>
+		<consequenceText>Konsequenz: Ein wandernder Hügel schleicht durch die Dünen… und auf deine Gruppe zu! Immerhin: Das Monster ist nicht so groß wie in den Erzählungen. Es greift von vorne an und muss mit zwei erfolgreichen Würfeln in Folge besiegt werden.</consequenceText>
+		<consequenceCode>Combat with a single enemy from a random direction (worm). Worm HP=2, will be rest on miss.</consequenceCode>
+	</task>
+	<task nr="19" title="Stille">
+		<eventText>Nichts passiert. In den nächsten zwei Runden kann keine Konsequenz ausgelöst werden.</eventText>
+		<code>TriggerNoConsequenceOnNextEvents(2)</code>
+		<consequenceText>Konsequenz: passiert nicht.</consequenceText>
+		<consequenceCode></consequenceCode>
+	</task>
+	<task nr="20" title="Konsequenz!">
+		<eventText>Die Konsequenz des letzten Ereignis wird aktiviert. Die betroffene Ereignis-Karte wird dann aus dem Ablagestapel entfernt und wieder eingemischt. Was passieren wird steht in den Sternen.</eventText>
+		<code>TriggerLastEventConsequence()</code>
+		<consequenceText>Konsequenz: passiert nicht.</consequenceText>
+		<consequenceCode></consequenceCode>
+	</task>
+</rootnode>
