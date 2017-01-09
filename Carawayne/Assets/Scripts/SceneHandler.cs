@@ -83,11 +83,12 @@ public class SceneHandler :MonoBehaviour{
     public static T createMeeple<T>(string _name, HexaPos _hexPos) where T:Meeple
     {
         GameObject meepleObj = (GameObject)Instantiate(Initialisation.soldier);
-        positionAndParent_Meeple(meepleObj, _hexPos);
-
+        
         Meeple meeple = meepleObj.AddComponent<T>();
         meeple.Pos = _hexPos;
         meeple.meepleName = _name;
+
+        positionAndParent_Meeple(meepleObj, _hexPos);
 
         meeples.Add(meeple);
         return (T)meeple;
@@ -194,6 +195,7 @@ public class SceneHandler :MonoBehaviour{
     public static void setMeeplePos(GameObject Meeple, HexaPos position)
     {
         Meeple.transform.localPosition = Map.MapTileToPosition(position);
+        Meeple.GetComponent<Meeple>().Pos = position;
     }
 
     public static void rotateCaravan(int rot) //Mins GUZS; plus UZS
