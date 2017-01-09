@@ -4,24 +4,31 @@ using System.Collections;
 
 public class Companion : Meeple {
 
-    private int proviantDemand;
-    private int proviantDemandMax;
-    private int strength;
-    private int strengthMax;
+    public int proviantDemand;
+    public int proviantDemandMax;
+    public int strength;
+    public int strengthMax;
     private float proviantRation;
     public bool hasActionOutstanding;
 
-    public Companion(Vector2 _pos, string _name, int _proviantDemand, int _strength): base(_pos, _name)
+    //public Companion(HexaPos _pos, string _name, int _proviantDemand, int _strength): base(_pos, _name)
+    //{
+    //    proviantDemand = _proviantDemand;
+    //    strength = _strength;
+    //    strengthMax = _strength;
+    //    proviantDemandMax = _proviantDemand;
+    //    ProviantRation = 1.0f;
+    //    hasActionOutstanding = true;
+    //}
+
+    void Awake()
     {
-        proviantDemand = _proviantDemand;
-        strength = _strength;
-        strengthMax = _strength;
-        proviantDemandMax = _proviantDemand;
         ProviantRation = 1.0f;
         hasActionOutstanding = true;
+        walkRange = 3;
     }
 
-    public void moveTo(Vector2 _pos)
+    public void moveTo(HexaPos _pos)
     {
         //Todo: Missing implementation movement
         hasActionOutstanding = false;

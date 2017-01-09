@@ -7,16 +7,25 @@ public class Hunter: Companion
     public int dice;
     public int diceValue;
 
-    public Hunter(Vector2 _pos, string _name, int _proviantDemand, int _strength) : base(_pos, _name, _proviantDemand, _strength)
+    //public Hunter(HexaPos _pos, string _name, int _proviantDemand, int _strength) : base(_pos, _name, _proviantDemand, _strength)
+    //{
+    //    dice = 1;
+    //    diceValue = 6;
+    //}
+
+    void Awake()
     {
+        proviantDemand = 1;
+        proviantDemandMax = 1;
+        strength = 4;
+        strengthMax = 10;
         dice = 1;
         diceValue = 6;
     }
 
     public int hunt(HuntedAnimal _target)
     {
-        Vector2 distVec = (_target.Pos - Pos);
-        int dist = (int)(Math.Abs(distVec.x) + Math.Abs(distVec.y));
+        int dist = Map.distance(_target.Pos, Pos);
         int rolledValue = SceneHandler.rollDice(diceValue);
 
         hasActionOutstanding = false;
@@ -24,13 +33,19 @@ public class Hunter: Companion
         //Todo: MapTiles distance problem. get Distance
         if (rolledValue >= dist)
         {
-            Debug.Log("Hunter hits " + _target.meepleName + " with a " + rolledValue);
+            Debug.Log(meepleName + " hits " + _target.meepleName + " (distance: " + dist + " tiles) with a " + rolledValue);
             _target.Alive = false;
             return _target.food;
         }
 
-        Debug.Log("Hunter misses " + _target.meepleName + " with a " + rolledValue);
+        Debug.Log(meepleName + "misses " + _target.meepleName + " (distance: " + dist + " tiles) with a " + rolledValue);
         return 0;
     }
 
+    public override void init(HexaPos _pos, string _meepleName)
+    {
+        base.init(_pos, _meepleName);
+        dice = 1;
+        diceValue = 6;
+    }
 }

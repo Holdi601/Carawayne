@@ -2,50 +2,58 @@
 using System.Collections.Generic;
 
 //Todo: Rethink design of meeple. MonoBeahiour or not?!?!
-public class Meeple
+public class Meeple : MonoBehaviour
 {
     //Todo: change Pos to struct
-    private Vector2 pos;
+    private HexaPos pos;
     //Todo: change Pos to struct
-    private List<Vector2> walkableTiles;
+    private List<HexaPos> walkableTiles;
     public int walkRange;
     private bool alive;
     public string meepleName;
 
-    public Meeple(Vector2 _pos, string _meepleName)
+    void Awake()
+    {
+        alive = true;
+        pos = new HexaPos(0,0);
+        walkRange = 4;
+        meepleName = "StandardName";
+        walkRange = 3;
+    }
+
+    public void moveTo(HexaPos _pos)
+    {
+        pos = _pos;
+    }
+
+    public virtual void init(HexaPos _pos, string _meepleName)
     {
         alive = true;
         pos = _pos;
         walkRange = 4;
         meepleName = _meepleName;
+        Debug.Log(GetType() + " created on Position " + pos.x + "|" + pos.y);
 
-        Debug.Log(GetType() + " created: " + _meepleName);
-    }
-
-    //Todo: change Pos to struct
-    public void moveTo(Vector2 _pos)
-    {
-        pos = _pos;
     }
 
     //GETTER & SETTER
     //---------------
-    public List<Vector2> WalkableTiles
+    public List<HexaPos> WalkableTiles
     {
         get {
-            walkableTiles = new List<Vector2>();
+            walkableTiles = new List<HexaPos>();
             for (int x = -walkRange; x < walkRange; x++)
             {
                 for (int y = -walkRange; y < walkRange; y++)
                 {
-                    walkableTiles.Add(new Vector2(pos.x + x, pos.y + y));
+                    walkableTiles.Add(new HexaPos(pos.x + x, pos.y + y));
                 }
             }
             return walkableTiles;
         }
     }
 
-    public Vector2 Pos
+    public HexaPos Pos
     {
         get { return pos; }
         set { pos = value; }
@@ -58,6 +66,7 @@ public class Meeple
             alive = value;
             Debug.Log(meepleName + " died!");
             SceneHandler.meeples.Remove(this);
+            Destroy(gameObject);
             //Todo: Do kill implementation stuff
         }
     }

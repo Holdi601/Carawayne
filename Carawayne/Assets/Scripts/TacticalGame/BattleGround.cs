@@ -2,21 +2,33 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BattleGround : TacticalGame {
+public class BattleGround : TacticalGame
+{
 
-    public override void init()
+    private List<HexaPos> opponentsPos; 
+
+    public BattleGround(List<HexaPos> _posList)
     {
+        opponentsPos = _posList;
+    }
+
+    override public void init()
+    {
+        base.init();
+        
         //Todo: Disable all Copmanion Gameobjects which are note required
-        //Todo: Place enemies on tactical Grid border/or whatever
-        SceneHandler.meeples.Add(new Opponent(new Vector2(2, 1), "Opponent 1"));
-        SceneHandler.meeples.Add(new Opponent(new Vector2(4, 0), "Opponent 2"));
-        SceneHandler.meeples.Add(new Opponent(new Vector2(1, 2), "Opponent 3"));
-        SceneHandler.meeples.Add(new Opponent(new Vector2(3, 2), "Opponent 4"));
+
+        foreach (HexaPos pos in opponentsPos)
+        {
+            SceneHandler.createMeeple<Opponent>("Opponent", pos);
+        }
     }
 
     public override void opponentsTurn()
     {
         List<Opponent> opponents = SceneHandler.getAllMeeplesFromType<Opponent>();
+
+        Debug.Log("OPPONENTS TURN: " + opponents.Count + " opponents attacking.");
 
         //Todo: Instant execution. Should be successively according to animation
         foreach (Opponent opponent in opponents)
@@ -24,16 +36,25 @@ public class BattleGround : TacticalGame {
             //Todo: Find target closest to opponent
             //Todo: Check if target is in fighting Range
             //Todo: If not in fighting range. Walk towards target
-            //opponent.moveTo();   
+
+            opponent.targetMeeple = SceneHandler.getAllMeeplesFromType<Companion>()[0];
 
             //Placeholder
-            opponent.fight(SceneHandler.getAllMeeplesFromType<Companion>()[0]);
+            if (Map.distance(opponent.Pos, opponent.targetMeeple.Pos) <= 1)
+            {
+                opponent.fight(opponent.targetMeeple);
+            }
+            else
+            {
+                int dir = Map.getDirection(opponent.Pos, opponent.targetMeeple.Pos);
+                SceneHandler.setMeeplePos(opponent.gameObject, Map.tilesInRange(opponent.Pos, 1)[dir]);
+            }
         }
     }
 
     public override bool isTacticalGameWon()
     {
-        List<Opponent> opponents = new List<Opponent>();
+        List<Opponent> opponents = SceneHandler.getAllMeeplesFromType<Opponent>();
 
         //Player wins this tactical game if there are no more opponents on the tactical grid.
         if(opponents == null || opponents.Count == 0)
@@ -46,7 +67,7 @@ public class BattleGround : TacticalGame {
 
     public override bool isTacticalGameLost()
     {
-        List<Mercenary> mercenaries = new List<Mercenary>();
+        List<Mercenary> mercenaries = SceneHandler.getAllMeeplesFromType<Mercenary>();
 
         //Player loses this tactical game if he has no more mercenaries on the tactical grid.
         if (mercenaries == null || mercenaries.Count == 0)

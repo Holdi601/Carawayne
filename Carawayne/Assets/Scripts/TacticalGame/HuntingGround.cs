@@ -5,15 +5,21 @@ using System.Collections.Generic;
 public class HuntingGround : TacticalGame
 {
 
-    public override void init()
+    private List<HexaPos> animalsPos;
+
+    public HuntingGround(List<HexaPos> _posList)
+    {
+        animalsPos = _posList;
+    }
+
+    public void init()
     {
         //Todo: Disable all Copmanion Gameobjects which are note required
-        //Todo: Place deers/animals on tactical Grid border
 
-        //Some random initialization
-        SceneHandler.meeples.Add(new HuntedAnimal(new Vector2(2, 3), "Hunted Animal 1", 4));
-        SceneHandler.meeples.Add(new HuntedAnimal(new Vector2(1, 4), "Hunted Animal 1", 4));
-        SceneHandler.meeples.Add(new HuntedAnimal(new Vector2(0, 5), "Hunted Animal 1", 4));
+        foreach (HexaPos pos in animalsPos)
+        {
+            SceneHandler.createMeeple<Opponent>("Opponent", pos);
+        }
     }
 
     public override void opponentsTurn()

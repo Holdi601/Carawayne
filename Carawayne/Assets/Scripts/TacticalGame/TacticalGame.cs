@@ -14,11 +14,10 @@ public abstract class TacticalGame
 
     public void run()
     {
-        Debug.Log("START TACTICAL GAME FROM TYPE: " + GetType());
+        Debug.Log("TACTICAL GAME:" + GetType() + " STARTS");
         //Todo: Do run Game stuff. Sound. Animation. etc...
         SceneHandler.activeMode = GameMode.TACTICAL;
         //Do initialization stuff from specific tactical game
-        init();
     }
 
     public void endTurn()
@@ -26,7 +25,7 @@ public abstract class TacticalGame
         //Todo: Do endTurn stuf. Sound. Animation. etc...
         //Todo: disable companion gameobjects if neccessary
 
-        Debug.Log("Player turn ended.");
+        Debug.Log("PLAYER TURN ENDED.");
 
         //Run artificial intelligence from specific tactical game
         opponentsTurn();
@@ -52,14 +51,14 @@ public abstract class TacticalGame
         if (isTacticalGameWon())
         {
             //Todo: trigger Win implications. Sound. Animation. Etc...
-            Debug.Log("Player wins");
+            Debug.Log("PLAYER WINS TACTICAL GAME");
             stop();
             return false;
         }
         else if (isTacticalGameLost())
         {
             //Todo: Trigger lose implications. Sound. Animation. Etc...
-            Debug.Log("Player lost");
+            Debug.Log("PLAYER LOSES TACTICAL GAME");
             stop();
             return false;
         }
@@ -69,12 +68,12 @@ public abstract class TacticalGame
 
     public void newTurn()
     {
-        Debug.Log("New turn begins: " + turn);
-
         turn++;
 
         //Reset all movement Points from all opponent agents
         List<Companion> companions = SceneHandler.getAllMeeplesFromType<Companion>();
+
+        Debug.Log("NEW TURN: " + turn);
 
         foreach (Companion companion in companions)
         {
@@ -86,13 +85,16 @@ public abstract class TacticalGame
 
     public void stop()
     {
-        Debug.Log("TACTICAL GAME FROM TYPE: " + GetType() + " ENDED!");
+        Debug.Log("TACTICAL GAME: " + GetType() + " ENDED!");
 
         //Todo: trigger stop status. Sound Animation etc...
         SceneHandler.activeMode = GameMode.EXPLORATION;
     }
 
-    public abstract void init();
+    virtual public void init()
+    {
+        Debug.Log("TACTICAL GAME: " + GetType() + " INITIALIZE");
+    }
 
     public abstract void opponentsTurn();
 

@@ -2,15 +2,41 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 public enum TileSpace { Small, Large};
 
-public struct hexaPos
+public struct HexaPos
 {
     public int x;
     public int y;
+    public bool init;
 
-    public static bool operator ==(hexaPos p1, hexaPos p2)
+    public HexaPos(int xp, int yp)
+    {
+        x = xp;
+        y = yp;
+        init = true;
+    }
+
+    public override bool Equals(object obj)
+    {
+        return base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        string result = x.ToString() + " "+ y.ToString();
+        return result;
+    }
+
+    public static bool operator ==(HexaPos p1, HexaPos p2)
     {
         if(p1.x==p2.x && p1.y == p2.y)
         {
@@ -21,7 +47,7 @@ public struct hexaPos
         }
     }
 
-    public static bool operator !=(hexaPos p1, hexaPos p2)
+    public static bool operator !=(HexaPos p1, HexaPos p2)
     {
         if (p1.x == p2.x && p1.y == p2.y)
         {
@@ -44,7 +70,11 @@ public class Map : MonoBehaviour {
         //15x15 Feld gebraucht
         GameObject[,] result = new GameObject[15, 15];
         GameObject godfather = GameObject.Find("innerTileHolder");
-        GameObject father = new GameObject("Father");
+        GameObject father = new GameObject("Playfield");
+        GameObject tiles = new GameObject("inTiles");
+        GameObject meepleCollections = new GameObject("MeepleCollection");
+        tiles.transform.parent = father.transform;
+        meepleCollections.transform.parent = father.transform;
         bool scndRow = false;
 
         for(int y=0; y<15; y++)
@@ -53,8 +83,9 @@ public class Map : MonoBehaviour {
             for(int x=0; x<15; x++)
             {
                 result[x, y] = (GameObject)Instantiate(Initialisation.innerTile);
+                result[x, y].AddComponent<MeshCollider>();
                 result[x, y].transform.name = "innerTile: " + x.ToString() + " " + y.ToString();
-                result[x, y].transform.parent = father.transform;
+                result[x, y].transform.parent = tiles.transform;
                 Vector3 position = new Vector3();
                 if (scndRow)
                 {
@@ -340,6 +371,8 @@ public class Map : MonoBehaviour {
                 GameObject undiscovered = (GameObject)Instantiate(Initialisation.undiscoveredTile);
                 undiscovered.transform.name = "undiscovered";
                 undiscovered.transform.parent = result[x, y].transform;
+                undiscoveredTile ut = undiscovered.AddComponent<undiscoveredTile>();
+                ut.position = new HexaPos(x, y);
                 GameObject discovered;
                 randNum = nRand.NextDouble();
                 //Erstellung der jeweiligen Gameobjekte
@@ -347,42 +380,51 @@ public class Map : MonoBehaviour {
                 {
                     if (randNum < 0.33)
                     {
+                        tempTile.genField = 1;
                         discovered = (GameObject)Instantiate(Initialisation.sandTile_1);
                     }
                     else if (randNum < 0.66)
                     {
+                        tempTile.genField = 2;
                         discovered = (GameObject)Instantiate(Initialisation.sandTile_2);
                     }
                     else
                     {
+                        tempTile.genField = 3;
                         discovered = (GameObject)Instantiate(Initialisation.sandTile_3);
                     }
                 } else if (tempTile.tile_type == tileType.Forrest)
                 {
                     if (randNum < 0.33)
                     {
+                        tempTile.genField = 1;
                         discovered = (GameObject)Instantiate(Initialisation.forrestTile_1);
                     }
                     else if (randNum < 0.66)
                     {
+                        tempTile.genField = 2;
                         discovered = (GameObject)Instantiate(Initialisation.forrestTile_2);
                     }
                     else
                     {
+                        tempTile.genField = 3;
                         discovered = (GameObject)Instantiate(Initialisation.forrestTile_3);
                     }
                 } else if(tempTile.tile_type == tileType.Mountain)
                 {
                     if (randNum < 0.33)
                     {
+                        tempTile.genField = 1;
                         discovered = (GameObject)Instantiate(Initialisation.mountainTile_1);
                     }
                     else if (randNum < 0.66)
                     {
+                        tempTile.genField = 2;
                         discovered = (GameObject)Instantiate(Initialisation.mountainTile_2);
                     }
                     else
                     {
+                        tempTile.genField = 3;
                         discovered = (GameObject)Instantiate(Initialisation.mountainTile_3);
                     }
                 }
@@ -390,17 +432,24 @@ public class Map : MonoBehaviour {
                 {
                     if (randNum < 0.33)
                     {
+                        tempTile.genField = 1;
                         discovered = (GameObject)Instantiate(Initialisation.oasisTile_1);
                     }
                     else if (randNum < 0.66)
                     {
+                        tempTile.genField = 2;
                         discovered = (GameObject)Instantiate(Initialisation.oasisTile_2);
                     }
                     else
                     {
+                        tempTile.genField = 3;
                         discovered = (GameObject)Instantiate(Initialisation.oasisTile_3);
                     }
                 }
+                discoveredTile dT= discovered.AddComponent<discoveredTile>();
+                dT.position = new HexaPos(x, y);
+                undiscovered.AddComponent<MeshCollider>();
+                discovered.AddComponent<MeshCollider>();
                 discovered.transform.name = "actualTile";
                 discovered.transform.parent = result[x, y].transform;
                 discovered.SetActive(false);
@@ -421,21 +470,21 @@ public class Map : MonoBehaviour {
         return result;
     }
 	
-    public static List<hexaPos> tilesInRange(hexaPos hP, int range)
+    public static List<HexaPos> tilesInRange(HexaPos hP, int range)
     {
-        List<hexaPos> results = new List<hexaPos>();
-        int seitenl = range + 1;
+        List<HexaPos> results = new List<HexaPos>();
+       // int seitenl = range + 1;
 
         for (int i = 1; i <= range; i++)
         {
 
 
-            hexaPos ecke1 = new hexaPos();
-            hexaPos ecke2 = new hexaPos();
-            hexaPos ecke3 = new hexaPos();
-            hexaPos ecke4 = new hexaPos();
-            hexaPos ecke5 = new hexaPos();
-            hexaPos ecke6 = new hexaPos();
+            HexaPos ecke1 = new HexaPos();
+            HexaPos ecke2 = new HexaPos();
+            HexaPos ecke3 = new HexaPos();
+            HexaPos ecke4 = new HexaPos();
+            HexaPos ecke5 = new HexaPos();
+            HexaPos ecke6 = new HexaPos();
             ecke1.x = hP.x - i;
             ecke1.y = hP.y;
             ecke4.x = hP.x + i;
@@ -473,12 +522,12 @@ public class Map : MonoBehaviour {
             if (i > 1)
             {
                 int placesToFill = i - 1;
-                hexaPos tempEck1 = ecke1;
-                hexaPos tempEck2 = ecke2;
-                hexaPos tempEck3 = ecke3;
-                hexaPos tempEck4 = ecke4;
-                hexaPos tempEck5 = ecke5;
-                hexaPos tempEck6 = ecke6;
+                HexaPos tempEck1 = ecke1;
+                HexaPos tempEck2 = ecke2;
+                HexaPos tempEck3 = ecke3;
+                HexaPos tempEck4 = ecke4;
+                HexaPos tempEck5 = ecke5;
+                HexaPos tempEck6 = ecke6;
 
                 for (int z = 1; z <= placesToFill; z++)
                 {
@@ -532,11 +581,11 @@ public class Map : MonoBehaviour {
         return results;
     }
 
-    private static void killTheNegative(List<hexaPos> li)
+    private static void killTheNegative(List<HexaPos> li)
     {
         for(int i=0; i<li.Count; i++)
         {
-            hexaPos l = li[i];
+            HexaPos l = li[i];
             if(l.x<0 || l.y < 0)
             {
                 li.RemoveAt(i);
@@ -562,34 +611,37 @@ public class Map : MonoBehaviour {
         }
     }
 
-    public static Vector3 MapTileToPosition(int x, int y, TileSpace space)
+    public static void discover(HexaPos tile)
+    {
+        GameObject undiscov = landscape[tile.x, tile.y].transform.FindChild("undiscovered").gameObject;
+        undiscov.SetActive(false);
+        GameObject actmap = landscape[tile.x, tile.y].transform.FindChild("actualTile").gameObject;
+        actmap.SetActive(true);
+    }
+
+    public static Vector3 MapTileToPosition(HexaPos h)
     {
         Vector3 result;
-        if(space== TileSpace.Large)
-        {
-            float newY = y * 1.5f;
+       
+            float newY = h.y * 1.5f;
             float newX = 0;
 
-            if (y % 2 == 0)
+            if (h.y % 2 == 0)
             {
-                newX = x * (0.866f * 2);
+                newX = h.x * (0.866f * 2);
             }
             else
             {
-                newX = x * (0.866f * 2) + 0.866f;
+                newX = h.x * (0.866f * 2) + 0.866f;
             }
             result = new Vector3(newX, 0, newY);
-        }
-        else
-        {
-            result = new Vector3();
-        }
+        
         
 
         return result;
     }
 
-    public static int distance(hexaPos pos_1, hexaPos pos_2)
+    public static int distance(HexaPos pos_1, HexaPos pos_2)
     {
         bool notYethit = true;
         if(pos_1.x == pos_2.x && pos_1.y == pos_2.y)
@@ -599,15 +651,15 @@ public class Map : MonoBehaviour {
 
         
         int distCounter = 0;
-        hexaPos temp = pos_1;
+        HexaPos temp = pos_1;
         while (notYethit)
         {
             int xdist = Mathf.Abs(pos_2.x - temp.x);
             int ydist = Mathf.Abs(pos_2.y - temp.y);
             distCounter++;
-            List<hexaPos> tilesAround = tilesInRange(temp, 1);
+            List<HexaPos> tilesAround = tilesInRange(temp, 1);
             //Check if Tile is around
-            foreach(hexaPos h in tilesAround)
+            foreach(HexaPos h in tilesAround)
             {
                 if (h == pos_2)
                 {
@@ -615,16 +667,667 @@ public class Map : MonoBehaviour {
                 }
             }
             //Check the best Tile Direction
-            foreach(hexaPos h in tilesAround)
+            foreach(HexaPos h in tilesAround)
             {
                 int distCurX = Mathf.Abs(pos_2.x - h.x);
                 int distCurY = Mathf.Abs(pos_2.y - h.y);
-               // if(distCurX<xdist || distCurY<)
+                if(distCurX<xdist && distCurY < ydist)
+                {
+                    temp = h;
+                    xdist = distCurX;
+                    ydist = distCurY;
+                    break;
+                }
+                else if(distCurX<xdist || distCurY < ydist)
+                {
+                    temp = h;
+                    xdist = distCurX;
+                    ydist = distCurY;
+                }
             }
         }
         
 
         return  0;
+    }
+
+    public static void save(string filePath)
+    {
+        StringBuilder sb = new StringBuilder();
+        for(int y=0; y<landscape.GetLength(1); y++)
+        {
+            string curLine = "";
+            for(int x=0; x<landscape.GetLength(0); x++)
+            {
+                Tile t = landscape[x, y].GetComponent<Tile>();
+                if (t.tile_type == tileType.Desert)
+                {
+                    curLine = curLine + "0;";
+                }else if (t.tile_type == tileType.Forrest)
+                {
+                    curLine = curLine + "1;";
+                } else if(t.tile_type == tileType.Mountain)
+                {
+                    curLine = curLine + "2;";
+                } else if (t.tile_type == tileType.Oasis)
+                {
+                    curLine = curLine + "3;";
+                }
+
+            }
+            sb.AppendLine(curLine);
+
+        }
+        File.WriteAllText(filePath, sb.ToString());
+    }
+
+    public static GameObject[,] load(string filePath)
+    {
+        var sizeY = 0;
+        using (var reader = File.OpenText(filePath))
+        {
+            while (reader.ReadLine() != null)
+            {
+                sizeY++;
+            }
+        }
+        var contentreader = new StreamReader(File.OpenRead(filePath));
+        string line = contentreader.ReadLine();
+        string[] values = line.Split(';');
+        GameObject[,] result = new GameObject[values.Length, sizeY];
+        GameObject father = GameObject.Find("tileHolder");
+
+        bool scndRow = false;
+        System.Random nRand = new System.Random();
+        double randNum = nRand.NextDouble();
+        
+            
+
+            for (int y=0; y<sizeY; y++)
+            {
+
+                for(int x=0; x<values.Length; x++)
+                {
+                    result[x, y] = new GameObject("Tile: " + x.ToString() + " " + y.ToString());
+                    result[x, y].transform.parent = father.transform;
+                    Vector3 position = new Vector3();
+                    if (scndRow)
+                    {
+                        position = new Vector3(0.866f + x * 1.732f, 0, y * 1.5f);
+                    }
+                    else
+                    {
+                        position = new Vector3(x * 1.732f, 0, y * 1.5f);
+                    }
+
+
+                    Tile tempTile = result[x, y].AddComponent<Tile>();
+                    int typeInt = Convert.ToInt32(values[x]);
+                    switch (typeInt)
+                    {
+                        case 0: tempTile.tile_type = tileType.Desert;break;
+                        case 1: tempTile.tile_type = tileType.Forrest;break;
+                        case 2: tempTile.tile_type = tileType.Mountain;break;
+                        case 3: tempTile.tile_type = tileType.Oasis;break;
+                        default:break;
+                    }
+
+                    GameObject undiscovered = (GameObject)Instantiate(Initialisation.undiscoveredTile);
+                    undiscovered.transform.name = "undiscovered";
+                    undiscovered.transform.parent = result[x, y].transform;
+                undiscoveredTile ut = undiscovered.AddComponent<undiscoveredTile>();
+                ut.position = new HexaPos(x, y);
+                    GameObject discovered;
+                
+                    randNum = nRand.NextDouble();
+                    if (tempTile.tile_type == tileType.Desert)
+                    {
+                        if (randNum < 0.33)
+                        {
+                            tempTile.genField = 1;
+                            discovered = (GameObject)Instantiate(Initialisation.sandTile_1);
+                        }
+                        else if (randNum < 0.66)
+                        {
+                            tempTile.genField = 2;
+                            discovered = (GameObject)Instantiate(Initialisation.sandTile_2);
+                        }
+                        else
+                        {
+                            tempTile.genField = 3;
+                            discovered = (GameObject)Instantiate(Initialisation.sandTile_3);
+                        }
+                    }
+                    else if (tempTile.tile_type == tileType.Forrest)
+                    {
+                        if (randNum < 0.33)
+                        {
+                            tempTile.genField = 1;
+                            discovered = (GameObject)Instantiate(Initialisation.forrestTile_1);
+                        }
+                        else if (randNum < 0.66)
+                        {
+                            tempTile.genField = 2;
+                            discovered = (GameObject)Instantiate(Initialisation.forrestTile_2);
+                        }
+                        else
+                        {
+                            tempTile.genField = 3;
+                            discovered = (GameObject)Instantiate(Initialisation.forrestTile_3);
+                        }
+                    }
+                    else if (tempTile.tile_type == tileType.Mountain)
+                    {
+                        if (randNum < 0.33)
+                        {
+                            tempTile.genField = 1;
+                            discovered = (GameObject)Instantiate(Initialisation.mountainTile_1);
+                        }
+                        else if (randNum < 0.66)
+                        {
+                            tempTile.genField = 2;
+                            discovered = (GameObject)Instantiate(Initialisation.mountainTile_2);
+                        }
+                        else
+                        {
+                            tempTile.genField = 3;
+                            discovered = (GameObject)Instantiate(Initialisation.mountainTile_3);
+                        }
+                    }
+                    else
+                    {
+                        if (randNum < 0.33)
+                        {
+                            tempTile.genField = 1;
+                            discovered = (GameObject)Instantiate(Initialisation.oasisTile_1);
+                        }
+                        else if (randNum < 0.66)
+                        {
+                            tempTile.genField = 2;
+                            discovered = (GameObject)Instantiate(Initialisation.oasisTile_2);
+                        }
+                        else
+                        {
+                            tempTile.genField = 3;
+                            discovered = (GameObject)Instantiate(Initialisation.oasisTile_3);
+                        }
+                    }
+                    discoveredTile dT = discovered.AddComponent<discoveredTile>();
+                    dT.position = new HexaPos(x, y);
+                    discovered.transform.name = "actualTile";
+                    discovered.transform.parent = result[x, y].transform;
+                undiscovered.AddComponent<MeshCollider>();
+                discovered.AddComponent<MeshCollider>();
+                    discovered.SetActive(false);
+                    result[x, y].transform.position = position;
+
+                }
+                line = contentreader.ReadLine();
+                if(line != null)
+            {
+                values = line.Split(';');
+            }
+                if (scndRow)
+                {
+                    scndRow = false;
+                }
+                else
+                {
+                    scndRow = true;
+                }
+
+            }
+        
+
+
+        landscape = result;
+        return result;
+    }
+
+
+    public static void setLookout(int amount)
+    {
+        HexaPos[] rndPos = new HexaPos[amount];
+        System.Random rnd = new System.Random();
+
+        for(int i=0; i<amount; i++)
+        {
+            int newX= rnd.Next(0, (landscape.GetLength(0) - 1));
+            int newY = rnd.Next(0, (landscape.GetLength(1) - 1));
+            rndPos[i] = new HexaPos(newX, newY);
+            GameObject undiscov = landscape[newX, newY].transform.FindChild("undiscovered").gameObject;
+            MeshRenderer mr = undiscov.GetComponent<MeshRenderer>();
+            mr.material = Initialisation.lookOutMate;
+            landscape[newX, newY].GetComponent<Tile>().special= specialTile.Lookout;
+            //SpawnTowerLogic here
+            GameObject actmap = landscape[newX,newY].transform.FindChild("actualTile").gameObject;
+            GameObject seeingTower = (GameObject)Instantiate(Initialisation.lookOutTower);
+            seeingTower.transform.position = actmap.transform.position;
+            seeingTower.transform.Translate(new Vector3(0, 0.5f, 0));
+            seeingTower.transform.parent = actmap.transform;
+        }
+        
+
+    }
+
+    public static void setLookout(HexaPos[] positions)
+    {
+
+        for(int i=0; i<positions.Length; i++)
+        {
+
+            GameObject undiscov = landscape[positions[i].x, positions[i].y].transform.FindChild("undiscovered").gameObject;
+            MeshRenderer mr = undiscov.GetComponent<MeshRenderer>();
+            mr.material = Initialisation.lookOutMate;
+
+            //SpawnTowerLogic here
+            GameObject actmap = landscape[positions[i].x, positions[i].y].transform.FindChild("actualTile").gameObject;
+            GameObject seeingTower = (GameObject)Instantiate(Initialisation.lookOutTower);
+            seeingTower.transform.position = actmap.transform.position;
+            seeingTower.transform.Translate(new Vector3(0, 0.5f, 0));
+            seeingTower.transform.parent = actmap.transform;
+            landscape[positions[i].x, positions[i].y].GetComponent<Tile>().special = specialTile.Lookout;
+
+        }
+    }
+
+    public static void setFinish(HexaPos position)
+    {
+        GameObject actmap = landscape[position.x, position.y].transform.FindChild("actualTile").gameObject;
+        GameObject finishTile = (GameObject)Instantiate(Initialisation.finishTile);
+        finishTile.transform.position = actmap.transform.position;
+        finishTile.transform.localScale = actmap.transform.lossyScale;
+        finishTile.transform.name = "actualTile";
+        finishTile.transform.parent = actmap.transform.parent;
+        discoveredTile dt = finishTile.AddComponent<discoveredTile>();
+        dt.position = position;
+        Destroy(actmap);
+        finishTile.SetActive(false);
+        landscape[position.x, position.y].GetComponent<Tile>().special = specialTile.Finish;
+    }
+
+    public static void setStaticHostiles(int amount)
+    {
+
+        System.Random rnd = new System.Random();
+
+        for(int i=0; i<amount; i++)
+        {
+            int newX = rnd.Next(0, landscape.GetLength(0));
+            int newY = rnd.Next(0, landscape.GetLength(1));
+            GameObject actmap = landscape[newX, newY].transform.FindChild("actualTile").gameObject;
+            GameObject seeingTower = (GameObject)Instantiate(Initialisation.staticHostile);
+            seeingTower.transform.position = actmap.transform.position;
+            seeingTower.transform.Translate(new Vector3(0, 0.5f, 0));
+            seeingTower.transform.parent = actmap.transform;
+            seeingTower.transform.name = "Hostile";
+            landscape[newX, newY].GetComponent<Tile>().special = specialTile.Hostiles;
+
+        }
+
+    }
+
+    public static void setStaticHostiles(HexaPos[] positions)
+    {
+        for(int i=0; i<positions.Length; i++)
+        {
+            //SpawnTowerLogic here
+            GameObject actmap = landscape[positions[i].x, positions[i].y].transform.FindChild("actualTile").gameObject;
+            GameObject seeingTower = (GameObject)Instantiate(Initialisation.staticHostile);
+            seeingTower.transform.position = actmap.transform.position;
+            seeingTower.transform.Translate(new Vector3(0, 0.5f, 0));
+            seeingTower.transform.parent = actmap.transform;
+            seeingTower.transform.name = "Hostile";
+            landscape[positions[i].x, positions[i].y].GetComponent<Tile>().special = specialTile.Hostiles;
+        }
+    }
+
+    public static void setActiveTile(HexaPos pos, HexaPos oldPos)
+    {
+        GameObject parent = landscape[oldPos.x, oldPos.y];
+        if (pos != oldPos)
+        {
+            
+            GameObject actmap = parent.transform.FindChild("actualTile").gameObject;
+            Tile oldTile = parent.GetComponent<Tile>();
+            GameObject restore;
+            if (oldTile.tile_type == tileType.Desert)
+            {
+                if (oldTile.genField == 1)
+                {
+                    restore = (GameObject)Instantiate(Initialisation.sandTile_1);
+                }
+                else if (oldTile.genField == 2)
+                {
+                    restore = (GameObject)Instantiate(Initialisation.sandTile_2);
+                }
+                else
+                {
+                    restore = (GameObject)Instantiate(Initialisation.sandTile_3);
+                }
+            }
+            else if (oldTile.tile_type == tileType.Forrest)
+            {
+                if (oldTile.genField == 1)
+                {
+                    restore = (GameObject)Instantiate(Initialisation.forrestTile_1);
+                }
+                else if (oldTile.genField == 2)
+                {
+                    restore = (GameObject)Instantiate(Initialisation.forrestTile_2);
+                }
+                else
+                {
+                    restore = (GameObject)Instantiate(Initialisation.forrestTile_3);
+                }
+            }
+            else if (oldTile.tile_type == tileType.Mountain)
+            {
+                if (oldTile.genField == 1)
+                {
+                    restore = (GameObject)Instantiate(Initialisation.mountainTile_1);
+                }
+                else if (oldTile.genField == 2)
+                {
+                    restore = (GameObject)Instantiate(Initialisation.mountainTile_2);
+                }
+                else
+                {
+                    restore = (GameObject)Instantiate(Initialisation.mountainTile_3);
+                }
+            }
+            else
+            {
+                if (oldTile.genField == 1)
+                {
+                    restore = (GameObject)Instantiate(Initialisation.oasisTile_1);
+                }
+                else if (oldTile.genField == 2)
+                {
+                    restore = (GameObject)Instantiate(Initialisation.oasisTile_2);
+                }
+                else
+                {
+                    restore = (GameObject)Instantiate(Initialisation.oasisTile_3);
+                }
+            }
+            discoveredTile dt = restore.AddComponent<discoveredTile>();
+            dt.position = oldPos;
+            restore.AddComponent<MeshCollider>();
+            restore.transform.position = actmap.transform.position;
+            restore.transform.localScale = actmap.transform.lossyScale;
+            restore.transform.parent = parent.transform;
+            restore.transform.name = "actualTile";
+            Destroy(actmap);
+        }
+        //SET new active Tile here
+        parent = landscape[pos.x, pos.y];
+        GameObject newTile =  parent.transform.FindChild("actualTile").gameObject;
+        Tile oldTileq = parent.GetComponent<Tile>();
+        GameObject activeTile;
+        if(oldTileq.tile_type== tileType.Desert)
+        {
+            activeTile = (GameObject)Instantiate(Initialisation.sandTile_active);
+        }
+        else if (oldTileq.tile_type == tileType.Forrest)
+        {
+            activeTile = (GameObject)Instantiate(Initialisation.forrestTile_active);
+        }
+        else if(oldTileq.tile_type == tileType.Mountain)
+        {
+            activeTile = (GameObject)Instantiate(Initialisation.mountainTile_active);
+        }
+        else
+        {
+            activeTile = (GameObject)Instantiate(Initialisation.oasisTile_active);
+        }
+        activeTile dti = activeTile.AddComponent<activeTile>();
+        dti.position = pos;
+        activeTile.AddComponent<MeshCollider>();
+        activeTile.transform.position = newTile.transform.position;
+        activeTile.transform.localScale = newTile.transform.lossyScale;
+        activeTile.transform.parent = parent.transform;
+        activeTile.transform.name = "actualTile";
+        Destroy(newTile);
+    }
+
+    public static int getDirection(HexaPos pos, HexaPos tgtPos)
+    {
+        List<HexaPos> direction = tilesInRange(pos, 1);
+       
+        int t = 999999;
+        int dir = -1;
+        for(int i=0; i<direction.Count; i++)
+        {
+            if(distance(direction[i], tgtPos)< t)
+            {
+                
+                t = distance(direction[i], tgtPos);
+                dir = i;
+            }
+        }
+
+
+        return dir;
+    }
+
+    public static List<HexaPos> GetFieldsOfType(tileType type)
+    {
+        List<HexaPos> result = new List<HexaPos>();
+
+        for(int y=0; y<landscape.GetLength(1); y++)
+        {
+
+            for(int x=0; x<landscape.GetLength(0); x++)
+            {
+                Tile t = landscape[x, y].GetComponent<Tile>();
+                if (t.tile_type == type)
+                {
+                    HexaPos temp = new HexaPos(x, y);
+                    result.Add(temp);
+                }
+            }
+
+        }
+
+        return result;
+    }
+
+    public static List<Tile> GetFieldsOfType_t(tileType type)
+    {
+        List<Tile> result = new List<Tile>();
+        for (int y = 0; y < landscape.GetLength(1); y++)
+        {
+
+            for (int x = 0; x < landscape.GetLength(0); x++)
+            {
+                Tile t = landscape[x, y].GetComponent<Tile>();
+                if (t.tile_type == type)
+                {
+                    result.Add(t);
+                }
+            }
+
+        }
+
+        return result;
+
+    }
+
+    public static List<GameObject> GetFieldsOfType_g(tileType type)
+    {
+        List<GameObject> result = new List<GameObject>();
+        for (int y = 0; y < landscape.GetLength(1); y++)
+        {
+
+            for (int x = 0; x < landscape.GetLength(0); x++)
+            {
+                Tile t = landscape[x, y].GetComponent<Tile>();
+                if (t.tile_type == type)
+                {
+                    result.Add(landscape[x, y]);
+                }
+            }
+
+        }
+
+        return result;
+    }
+
+    public static List<HexaPos> GetFieldsHidden()
+    {
+        List<HexaPos> result = new List<HexaPos>();
+        for(int y=0; y<landscape.GetLength(1); y++)
+        {
+            for(int x=0; x<landscape.GetLength(0); x++)
+            {
+                GameObject discoveredGO = landscape[x,y].transform.FindChild("actualTile").gameObject;
+                if (!discoveredGO.activeInHierarchy)
+                {
+                    HexaPos n = new HexaPos(x, y);
+                    result.Add(n);
+                }
+            }
+        }
+        return result;
+    }
+
+    public static List<HexaPos> GetFieldsInRadius(int radius)
+    {
+        List<HexaPos> result = tilesInRange(SceneHandler.caravanPosition, radius);
+        return result;
+    }
+
+    public static void FieldChangeType(HexaPos pos, tileType type)
+    {
+        GameObject tileToReplace = landscape[pos.x,pos.y].transform.FindChild("actualTile").gameObject;
+        System.Random rand = new System.Random();
+        double ntile = rand.NextDouble();
+        GameObject newTile;
+        if(type == tileType.Desert)
+        {
+            Tile t = landscape[pos.x, pos.y].GetComponent<Tile>();
+            t.tile_type = tileType.Desert;
+
+            if (ntile < 0.33)
+            {
+                newTile = (GameObject)Instantiate(Initialisation.sandTile_1);
+                t.genField = 1;
+            }
+            else if(ntile < 0.66)
+            {
+                newTile = (GameObject)Instantiate(Initialisation.sandTile_2);
+                t.genField = 2;
+            }
+            else
+            {
+                newTile = (GameObject)Instantiate(Initialisation.sandTile_3);
+                t.genField = 3;
+            }
+            
+
+        }
+        else if(type == tileType.Forrest)
+        {
+            Tile t = landscape[pos.x, pos.y].GetComponent<Tile>();
+            t.tile_type = tileType.Forrest;
+
+            if (ntile < 0.33)
+            {
+                newTile = (GameObject)Instantiate(Initialisation.forrestTile_1);
+                t.genField = 1;
+            }
+            else if (ntile < 0.66)
+            {
+                newTile = (GameObject)Instantiate(Initialisation.forrestTile_2);
+                t.genField = 2;
+            }
+            else
+            {
+                newTile = (GameObject)Instantiate(Initialisation.forrestTile_3);
+                t.genField = 3;
+            }
+        }
+        else if(type == tileType.Mountain)
+        {
+            Tile t = landscape[pos.x, pos.y].GetComponent<Tile>();
+            t.tile_type = tileType.Mountain;
+
+            if (ntile < 0.33)
+            {
+                newTile = (GameObject)Instantiate(Initialisation.mountainTile_1);
+                t.genField = 1;
+            }
+            else if (ntile < 0.66)
+            {
+                newTile = (GameObject)Instantiate(Initialisation.mountainTile_2);
+                t.genField = 2;
+            }
+            else
+            {
+                newTile = (GameObject)Instantiate(Initialisation.mountainTile_3);
+                t.genField = 3;
+            }
+        }
+        else
+        {
+            Tile t = landscape[pos.x, pos.y].GetComponent<Tile>();
+            t.tile_type = tileType.Oasis;
+
+            if (ntile < 0.33)
+            {
+                newTile = (GameObject)Instantiate(Initialisation.oasisTile_1);
+                t.genField = 1;
+            }
+            else if (ntile < 0.66)
+            {
+                newTile = (GameObject)Instantiate(Initialisation.oasisTile_2);
+                t.genField = 2;
+            }
+            else
+            {
+                newTile = (GameObject)Instantiate(Initialisation.oasisTile_3);
+                t.genField = 3;
+            }
+        }
+
+        newTile.transform.position = tileToReplace.transform.position;
+        newTile.transform.localScale = tileToReplace.transform.lossyScale;
+        newTile.transform.parent = tileToReplace.transform.parent;
+        if (!tileToReplace.activeInHierarchy)
+        {
+            newTile.SetActive(false);
+        }
+        Destroy(tileToReplace);
+    }
+
+    public static HexaPos getPositionDirectionalByDistance(HexaPos _originalPos, int _dir, int _dist)
+    {
+        switch (_dir)
+        {
+            case 0:
+                _originalPos.x -= _dist;
+                return _originalPos;
+            case 1:
+                _originalPos.y -= _dist;
+                return _originalPos;
+            case 2:
+                _originalPos.x += _dist;
+                _originalPos.y -= _dist;
+                return _originalPos;
+            case 3:
+                _originalPos.x += _dist;
+                return _originalPos;
+            case 4:
+                _originalPos.y += _dist;
+                return _originalPos;
+            case 5:
+                _originalPos.x -= _dist;
+                _originalPos.y += _dist;
+                return _originalPos;
+        }
+
+        return new HexaPos(0,0);
     }
 
 }

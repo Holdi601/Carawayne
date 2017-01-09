@@ -6,7 +6,7 @@ public class Main : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-	    SceneHandler.init();
+	    //SceneHandler.init();
 	}
 	
 	// Update is called once per frame

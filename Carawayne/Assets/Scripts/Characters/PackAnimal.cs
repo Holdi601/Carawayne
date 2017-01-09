@@ -9,11 +9,11 @@ public class PackAnimal : Meeple
     private int butcherAmount;
 
     //Todo: change Pos to struct
-    public PackAnimal(Vector2 _pos, string _meepleName, int _loadCap, int _butcherAmount) : base(_pos, _meepleName)
+    void Awake()
     {
-        actualLoad = _loadCap;
-        loadCapacity = _loadCap;
-        butcherAmount = _butcherAmount;
+        actualLoad = 30;
+        loadCapacity = 30;
+        butcherAmount = 10;
     }
 
     public int butcher()
@@ -36,6 +36,14 @@ public class PackAnimal : Meeple
         int rest = Math.Min((actualLoad - _amount), 0);
         ActualLoad -= _amount;
         return Math.Abs(rest);
+    }
+
+    public override void init(HexaPos _pos, string _meepleName)
+    {
+        base.init(_pos, _meepleName);
+        actualLoad = 30;
+        loadCapacity = 30;
+        butcherAmount = 10;
     }
 
     //GETTER & SETTER
