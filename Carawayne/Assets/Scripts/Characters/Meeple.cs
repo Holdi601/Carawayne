@@ -75,4 +75,13 @@ public class Meeple : MonoBehaviour
             //Todo: Do kill implementation stuff
         }
     }
+
+    void OnMouseDown()
+    {
+        
+        if (GetType().IsSubclassOf(typeof(Companion)))
+        {
+            Debug.Log("CLICK.Companion");
+        }
+    }
 }
