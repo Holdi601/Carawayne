@@ -7,6 +7,12 @@ public class SoundHelper : MonoBehaviour
     public string _soundSwitcher;
 
     [SerializeField]
+    private AudioClip _audioRest;
+
+    [SerializeField]
+    private AudioClip _audioMoveOn;
+
+    [SerializeField]
     private AudioClip _audioSpawn;
 
     [SerializeField]
@@ -91,6 +97,16 @@ public class SoundHelper : MonoBehaviour
 
         switch (soundSwitcher)
         {
+            case "rest":
+                clip = _audioRest;
+                Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
+                break;
+
+            case "move":
+                clip = _audioMoveOn;
+                Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
+                break;
+
             case "spawn":
                 clip = _audioSpawn;
                 Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
@@ -218,15 +234,29 @@ public class SoundHelper : MonoBehaviour
         if (_audioSourceToChoose == 1)
         {
             _audioSource_1.Stop();
-            _audioSource_1.clip = clip;
-            _audioSource_1.Play();
+            if(clip != null)
+            {
+                _audioSource_1.clip = clip;
+                _audioSource_1.Play();
+            }
+            else
+            {
+                Debug.Log("Angefordertes Soundfile nicht verfügbar! (Serialisierung im Script SoundHelper prüfen)");
+            }
         }
 
         if (_audioSourceToChoose == 2)
         {
             _audioSource_2.Stop();
-            _audioSource_2.clip = clip;
-            _audioSource_2.Play();
+            if (clip != null)
+            {
+                _audioSource_2.clip = clip;
+                _audioSource_2.Play();
+            }
+            else
+            {
+                Debug.Log("Angefordertes Soundfile nicht verfügbar! (Serialisierung im Script SoundHelper prüfen)");
+            }
         }
     }
 

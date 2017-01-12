@@ -4,7 +4,16 @@ using System.Collections;
 public class LoopAudio : MonoBehaviour
 {
     [SerializeField]
-    private string _clipSwitcher;
+    private string _musicClip;
+
+    [SerializeField]
+    private string _terrainType;
+
+    [SerializeField]
+    private int _jingleChecker;
+
+    [SerializeField]
+    private bool _wonLost;
 
     [SerializeField]
     private AudioClip _audioTitle;
@@ -50,16 +59,25 @@ public class LoopAudio : MonoBehaviour
 
     private int _audioSourceToChoose;
     private bool _fadeAudio;
-    private string _clipSwitcherLastFrame;
+
+
+    private string _musicClipLastFrame;
+    private string _terrainTypeLastFrame;
+    private int _jingleCheckerLastFrame;
 
     // Start setup
     void Start()
     {
         _fadeAudio = false;
         _audioSourceToChoose = 1;
-        _clipSwitcher = "";
+        _musicClip = "";
+        _terrainType = "";
+        _wonLost = true;
 
-        _clipSwitcherLastFrame = "";
+        _musicClipLastFrame = "";
+        _terrainTypeLastFrame = "";
+        _jingleChecker = 0;
+
         _playbackTime_1 = 0f;
         _playbackTime_2 = 0f;
     }
@@ -76,11 +94,27 @@ public class LoopAudio : MonoBehaviour
             _playbackTime_2 = _audioSource_2.time;
         }
 
-        if (_clipSwitcherLastFrame != _clipSwitcher)
+
+
+        // Just for testing
+        if (_musicClipLastFrame != _musicClip)
         {
-            StartCoroutine(WaitForBeatToFinish(_clipSwitcher));
+            PlayLoops(_musicClip);
         }
-        _clipSwitcherLastFrame = _clipSwitcher;
+        _musicClipLastFrame = _musicClip;
+
+        if(_terrainTypeLastFrame != _terrainType)
+        {
+            PlayAmbients(_terrainType);
+        }
+        _terrainTypeLastFrame = _terrainType;
+
+        if(_jingleCheckerLastFrame != _jingleChecker)
+        {
+            PlayJingle(_wonLost);
+        }
+        _jingleCheckerLastFrame = _jingleChecker;
+
 
         if(_fadeAudio)
         {
@@ -90,14 +124,14 @@ public class LoopAudio : MonoBehaviour
 
     public void PlayLoops(string musicClip)
     {
-        WaitForBeatToFinish(musicClip);
+        StartCoroutine(WaitForBeatToFinish(musicClip));
     }
     public void PlayAmbients(string terrainType)
     {
         SetAudioSourceAmbient(terrainType);
     }
 
-    private void PlayJingles(bool won)
+    public void PlayJingle(bool won)
     {
         _audioSource_1.Stop();
         _audioSource_2.Stop();
@@ -107,14 +141,14 @@ public class LoopAudio : MonoBehaviour
         {
             _audioSourceAmbient.clip = _jingleWonGame;
         }
-        if (!won)
+        else
         {
             _audioSourceAmbient.clip = _jingleLostGame;
         }
-
+        _audioSourceAmbient.Play();
     }
 
-    // Unity coroutine that holds execution until the current beat has played to end
+    // holds audio switch execution until the current beat has played to end
     IEnumerator WaitForBeatToFinish(string musicClip)
     {
         if (_audioSource_1.isPlaying)
