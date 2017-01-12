@@ -4,9 +4,6 @@ using System.Collections;
 public class SoundHelper : MonoBehaviour
 {
     [SerializeField]
-    public string _soundSwitcher;
-
-    [SerializeField]
     private AudioClip _audioRest;
 
     [SerializeField]
@@ -65,6 +62,8 @@ public class SoundHelper : MonoBehaviour
 
     private int _audioSourceToChoose;
 
+    private bool _dontOverlap;
+
     private int _chosenClip;
 
     // Start setup
@@ -72,17 +71,16 @@ public class SoundHelper : MonoBehaviour
     {
         _audioSourceToChoose = 1;
         _chosenClip = 0;
-        _soundSwitcher = "";
+        _dontOverlap = false;
     }
 
-    // Update once per frame
-    void Update()
+    public void Play(string soundToPlay)
     {
-        
+        SetAudioSources(soundToPlay);
     }
 
     // Loads designated AudioSource with new clip and activates fading
-    public void Play(string soundSwitcher)
+    public void SetAudioSources(string soundToPlay)
     {
         if (_audioSource_1.isPlaying)
         {
@@ -95,15 +93,17 @@ public class SoundHelper : MonoBehaviour
 
             AudioClip clip = null;
 
-        switch (soundSwitcher)
+        switch (soundToPlay)
         {
             case "rest":
                 clip = _audioRest;
+                _dontOverlap = true;
                 Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
                 break;
 
             case "move":
                 clip = _audioMoveOn;
+                _dontOverlap = true;
                 Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
                 break;
 
@@ -237,6 +237,11 @@ public class SoundHelper : MonoBehaviour
             if(clip != null)
             {
                 _audioSource_1.clip = clip;
+                if(_dontOverlap)
+                {
+                    _audioSource_2.Stop();
+                    _dontOverlap = false;
+                }
                 _audioSource_1.Play();
             }
             else
@@ -251,6 +256,11 @@ public class SoundHelper : MonoBehaviour
             if (clip != null)
             {
                 _audioSource_2.clip = clip;
+                if(_dontOverlap)
+                {
+                    _audioSource_1.Stop();
+                    _dontOverlap = false;
+                }
                 _audioSource_2.Play();
             }
             else

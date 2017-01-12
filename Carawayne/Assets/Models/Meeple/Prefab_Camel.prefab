@@ -267,9 +267,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _soundSwitcher: 
+  _audioRest: {fileID: 0}
+  _audioMoveOn: {fileID: 0}
   _audioSpawn: {fileID: 0}
   _audioRun: {fileID: 0}
-  _audioLeftBehind: {fileID: 0}
+  _audioLeftBehind: {fileID: 8300000, guid: 6d45f54482d757c4eb2a4fd37f65f0f3, type: 3}
   _audioSelected: {fileID: 8300000, guid: 790f2ffe8cecab5459f5a96f7dd4c64c, type: 3}
   _audioApplyToCommand: {fileID: 8300000, guid: 6d45f54482d757c4eb2a4fd37f65f0f3,
     type: 3}
