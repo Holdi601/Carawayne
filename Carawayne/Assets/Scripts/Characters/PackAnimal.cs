@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class PackAnimal : Meeple
+public class PackAnimal : Companion
 {
 
     private int actualLoad;
@@ -14,6 +14,7 @@ public class PackAnimal : Meeple
         actualLoad = 30;
         loadCapacity = 30;
         butcherAmount = 10;
+        walkRange = 2;
     }
 
     public int butcher()

@@ -1330,4 +1330,19 @@ public class Map : MonoBehaviour {
         return new HexaPos(0,0);
     }
 
+    public static void highlightAllInnerTiles(bool _isHighlighted)
+    {
+        foreach (GameObject tile in SceneHandler.smallMap)
+        {
+            if (_isHighlighted)
+            {
+                tile.GetComponent<MeshRenderer>().material = Initialisation.innerTileActiveMate;
+            }
+            else
+            {
+                tile.GetComponent<MeshRenderer>().material = Initialisation.innerTileMate;
+            }
+        }
+    }
+
 }

@@ -543,6 +543,8 @@ MonoBehaviour:
   planeSample_prefab: {fileID: 1000011371619824, guid: d50f3422c3e9cec44be1ba8e7881510a,
     type: 2}
   highlightMat: {fileID: 2100000, guid: b0b9f422a2f4d4a4f92285b5fb1b6992, type: 2}
+  innerTileActiveMat: {fileID: 2100000, guid: 6c166156525e6764099b031ffada2f85, type: 2}
+  innerTileMat: {fileID: 2100000, guid: 3a606381b375dcc49a82c1a6bad19931, type: 2}
   lookOutMat: {fileID: 2100000, guid: 4e44e24bf206a9d458bf512a8e1c889b, type: 2}
   transParent_Prefab: {fileID: 2100000, guid: 13e5c84158dda8d44b6c96ab8520af3b, type: 2}
 --- !u!4 &1902393624

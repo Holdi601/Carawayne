@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Companion : Meeple {
 
@@ -96,4 +97,17 @@ public class Companion : Meeple {
         }
     }
 
+    void OnMouseDown()
+    {
+        SceneHandler.activeCompanion = this;
+        List<HexaPos> walkableTilesPos = new List<HexaPos>();
+        walkableTilesPos = Map.tilesInRange(SceneHandler.activeCompanion.Pos, SceneHandler.activeCompanion.walkRange);
+
+        Map.highlightAllInnerTiles(false);
+
+        foreach (HexaPos tilePos in walkableTilesPos)
+        {
+            SceneHandler.smallMap[tilePos.x, tilePos.y].GetComponent<innerTile>().setHighlighted(true);
+        }
+    }
 }

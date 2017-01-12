@@ -41,6 +41,8 @@ public class Initialisation : MonoBehaviour {
     public GameObject planeSample_prefab;
 
     public Material highlightMat;
+    public Material innerTileActiveMat;
+    public Material innerTileMat;
     public Material lookOutMat;
     public Material transParent_Prefab;
 
@@ -71,6 +73,8 @@ public class Initialisation : MonoBehaviour {
     public static GameObject finishTile;
 
     public static Material highlightMate;
+    public static Material innerTileActiveMate;
+    public static Material innerTileMate;
     public static Material lookOutMate;
     public static Material transparentMat;
 
@@ -133,6 +137,8 @@ public class Initialisation : MonoBehaviour {
         staticHostile = staticHostile_prefab;
         planeSample = planeSample_prefab;
         transparentMat = transParent_Prefab;
+        innerTileMate = innerTileMat;
+        innerTileActiveMate = innerTileActiveMat;
 
     }
 	

@@ -76,12 +76,12 @@ public class Meeple : MonoBehaviour
         }
     }
 
-    void OnMouseDown()
-    {
-        
-        if (GetType().IsSubclassOf(typeof(Companion)))
-        {
-            Debug.Log("CLICK.Companion");
-        }
-    }
+    //void OnMouseDown()
+    //{
+
+    //    if (GetType().IsSubclassOf(typeof(Companion)))
+    //    {
+    //        Debug.Log("CLICK.Companion");
+    //    }
+    //}
 }
