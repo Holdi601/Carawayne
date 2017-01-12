@@ -531,8 +531,8 @@ public class Map : MonoBehaviour {
 
                 for (int z = 1; z <= placesToFill; z++)
                 {
-                    tempEck2.x = tempEck2.y + 1;
-                    tempEck5.x = tempEck5.y - 1;
+                    tempEck2.x = tempEck2.x + 1;
+                    tempEck5.x = tempEck5.x - 1;
 
                     if (tempEck1.y % 2 == 0)
                     {
@@ -1334,14 +1334,7 @@ public class Map : MonoBehaviour {
     {
         foreach (GameObject tile in SceneHandler.smallMap)
         {
-            if (_isHighlighted)
-            {
-                tile.GetComponent<MeshRenderer>().material = Initialisation.innerTileActiveMate;
-            }
-            else
-            {
-                tile.GetComponent<MeshRenderer>().material = Initialisation.innerTileMate;
-            }
+            tile.GetComponent<innerTile>().setHighlighted(_isHighlighted);
         }
     }
 
