@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Parser -->
+<rootnode>
+  <version>Version 2.0.203</version>
+	<task nr="1" title="Schmugglerpfad">
+		<eventText>Das Gebirge scheint nicht so unbesucht wie gedacht. Du entdeckst einen Schmugglerpfad - das Gebirge wird in eine Wüste umgewandelt und alle Gebirgs-Regeln zählen für dieses Feld nicht mehr.</eventText>
+		<code>getFieldsInRadius() mutate field into desert</code>
+		<consequenceText>Konsequenz: Bei dem durchlaufen kommst du Schmugglern entgegen. Für einen entgelt von 3 Proviant kannst du 5 Kraft verteilen.</consequenceText>
+		<consequenceCode>choice: pay 3 res to divide 5 power</consequenceCode>
+	</task>
+	<task nr="2" title="Die Höhle">
+		<eventText>Dieser Ort bietet dir Schutz vor der Sonne, allerdings geht der Weg tief hinein. Du kannst dich dazu entscheiden deine verbrauchten Ressourcen dieser Runde zurückzuerhalten, aber dafür die Konsequenzen der nächsten Karte direkt auszuspielen.</eventText>
+		<code>Choice: retake all ressources lost this round. next events also gets consequence</code>
+		<consequenceText>Konsequenz: Aus den Schatten springt ein Berglöwe! Ein Raubtier greift dich an. Dieser wird direkt neben den nächsten Charakter seine Richtung gesetzt.</consequenceText>
+		<consequenceCode>Combat: 1 enemy from front</consequenceCode>
+	</task>
+	<task nr="3" title="Archaische Wandmalerei">
+		<eventText>Die kryptischen Symbole zeigen alte Geschichten… und eine Gruppe von Wanderern in der Wüste. Du bist nicht der erste und wirst nicht der letzte sein. Der Hauptcharakter erhält zwei Kraft.</eventText>
+		<code>Every char of type Mainchar gets 2 power</code>
+		<consequenceText>Konsequenz: Andere ominöse Zeichnungen deuten auf alle Gefahren hin. Der Hauptcharakter verliert zwei Kraft.</consequenceText>
+		<consequenceCode>Every char of type Mainchar loses 2 power</consequenceCode>
+	</task>
+	<task nr="4" title="Speere in der Felswand">
+		<eventText>Sicherlich nicht die modernste Ausrüstung, aber besser als nichts! Bis zu drei Charaktere erhalten +3 Kraft.</eventText>
+		<code>Choice: mark up to three chars. every char gets 2 power</code>
+		<consequenceText>Konsequenz: Die Speere sind nicht so haltbar wie gedacht. Die ausgerüsteten Charaktere verlieren 4 Kraft.</consequenceText>
+		<consequenceCode>every marked char loses 3 power</consequenceCode>
+	</task>
+	<task nr="5" title="Gerölllawine">
+		<eventText>Mit einem Rumpeln macht die Natur auf sich aufmerksam. Etwas hat eine Lawine ausgelöst - alle Charaktere im Feld 2 verlieren 2 Kraft.</eventText>
+		<code>Every char in zone 2 loses 4 power</code>
+		<consequenceText>Konsequenz: Glück im Unglück. Unterhalb des Gerölls ist eine verschüttete Karawane. Wie kommt die dahin? Du erhältst deren drei Vorräte.</consequenceText>
+		<consequenceCode>get 3 res</consequenceCode>
+	</task>
+	<task nr="6" title="Erdbeben">
+		<eventText>Die Natur scheint deinen Weg in die Berge nicht zu unterstützen. Um schlimmeres zu verhindern wandert deine Gruppe in das nächste Nicht-Gebirgs-Feld.</eventText>
+		<code>Mark current field. Get every surrounding field. Move player to first non-mountain field</code>
+		<consequenceText>Konsequenz: Ein Nachbeben zeigt, dass die Gefahr noch nicht vorbei ist. Bewege dich ein weiteres Feld von dem auslösendem Gebirgs-Feld weg.</consequenceText>
+		<consequenceCode>Get direction of last marked field. move player away from marked field.</consequenceCode>
+	</task>
+	<task nr="7" title="Der Boden ist… Lava?">
+		<eventText>Ein nahe liegendes Gebirgsfeld wird mit einem Spielstein markiert. Über die nächsten drei Runden wird bei diesem Feld alles in einem Radius von 0, 1, 2 oder drei Feldern beschädigt. Wenn sich deine Karawane dort aufhält erhalten alle Charaktere 2 Kraftschaden pro Runde.</eventText>
+		<code>Get random mountain of surrounding fields. Mark that field. Every turn, if player is in radius X, every character loses 2 power. Ends when radius is 3.</code>
+		<consequenceText>Konsequenz: Die Erde scheint sich wieder zu beruhigen. Der Spielstein wird sofort entfernt, der Vulkan beendet.</consequenceText>
+		<consequenceCode>End this event</consequenceCode>
+	</task>
+	<task nr="8" title="Rissige Wand">
+		<eventText>Etwas stimmt da nicht. Falls du einen Kämpfer mit Kraft höher als 8 besitzt kannst du sie aufmachen. In dem Versteck findest du weitere zwei Vorräte.</eventText>
+		<code>Choose one mercenary with power above 8. If mercenary is chosen, mark that character and the group gets 2 res.</code>
+		<consequenceText>Konsequenz: Der Kämpfer hat sich beim aufschlagen der Steine doch etwas gezerrt. Er verliert 2 Kraft.</consequenceText>
+		<consequenceCode>marked character loses 2 power</consequenceCode>
+	</task>
+	<task nr="9" title="Berge des Wahnsinns">
+		<eventText>Diese Wesen in der Distanz sehen nicht richtig aus. Die Gruppe will so schnell wie möglich weg. Du kannst ohne Verluste ein Feld zurückreisen oder ein Gruppenmitglied opfern um in ein beliebiges Feld in der Nähe zu ziehen.</eventText>
+		<code>Choose one character in group. Kill that one and player choses direction. Move player in direction.</code>
+		<consequenceText>Konsequenz: Die unklaren Schemen greifen das schwächste Gruppenmitglied. Es ist fort, ohne Spur.</consequenceText>
+		<consequenceCode>Get character with lowest power. Kill that character.</consequenceCode>
+	</task>
+	<task nr="10" title="Wie hat er das gemacht?">
+		<eventText>Eine seltsame Silhouette steht dir gegenüber. Falls du in den letzten drei Runden einen Charakter verloren hast, so erhältst du ihn jetzt wieder (mit Startwerten).</eventText>
+		<code>Choice: You can ressurect a character of your group, if it died less than three rounds</code>
+		<consequenceText>Konsequenz: Etwas stimmt nicht. Wie konnte er das überleben? Dein Hauptcharakter verliert 2 Kraft, falls das Gruppenmitglied noch da ist.</consequenceText>
+		<consequenceCode>get every character of type mainchar. they lose 2 power</consequenceCode>
+	</task>
+	<task nr="11" title="Verlassene Steinbehausung">
+		<eventText>In Stein gemeißelte Häuser bieten Schutz vor der Sonne. Du kannst sogar die Vorräte mitnehmen! Dabei erhältst du 3 Vorräte.</eventText>
+		<code>Choice: take 2 res. Remember decision</code>
+		<consequenceText>Konsequenz: Die Bewohner sind wieder da… und sie sind wütend, falls du die Vorräte genommen hast. In diesem Fall wirst du von drei Personen angegriffen.</consequenceText>
+		<consequenceCode>If 2 res was taken, start combat with 3 enemies from front.</consequenceCode>
+	</task>
+	<task nr="12" title="Vorbote der Erde">
+		<eventText>Der Boden bebt kurz. Was wird dies verheißen? Du kannst dich zwischen einem Kraftverlust von -1 oder dem nächsten Ereignis mit sofortiger Konsequenz entscheiden.</eventText>
+		<code>Choice: every character of type mainchar loses 1 power or trigger consequence on next event</code>
+		<consequenceText>Konsequenz: Das Gebirge-Event 6 wird ausgelöst.</consequenceText>
+		<consequenceCode>trigger event 6</consequenceCode>
+	</task>
+	<task nr="13" title="Felsspalte!">
+		<eventText>Der Berg wird mit einem gewaltigen Knall entzweit. Das Gruppenmitglied, welches der Mitte am nächsten ist, kann sich gerade noch festhalten. Rette es wie bei Treibsand oder lass es zurück.</eventText>
+		<code>Trigger quicksand with character nearest to center.</code>
+		<consequenceText>Konsequenz: Die neue Schacht scheint dir zu folgen… würfle. Bei einer 1 oder 2 wiederholt sich das Event.</consequenceText>
+		<consequenceCode>RNG: 33% to repeat the event.</consequenceCode>
+	</task>
+	<task nr="14" title="Gute Mine zum bösen Spiel">
+		<eventText>Du findest einen verlassenen Schacht. Wurde hier Erz oder Diamanten gefördert? Du kannst einen Arbeiter zum untersuchen hineinschicken. Würfle dann, bei einer 3 oder 4 kommt er ohne Erfolg zurück. Bei einer 5 oder 6 wird er fündig – du kannst bis zu 5 Kraft auf die Gruppe verteilen. Bei einer 1 oder 2 kommt er nicht mehr zurück.</eventText>
+		<code>Choice: Mark a worker. RNG: 33% chance: nothing, 33% chance: kill worker; 33% chance: get 5 res</code>
+		<consequenceText>Konsequenz: Wenn der Arbeiter nicht mehr zurückkam, dann kommen statt dessen zwei Raubtiere – welche deine Gruppe angreifen!</consequenceText>
+		<consequenceCode>if event marked worker is not alive, combat with 2 animals</consequenceCode>
+	</task>
+	<task nr="15" title="Steinplatten">
+		<eventText>Eine riesige Scherbe ist auf dem Gipfel. Mit etwas Glück und noch weniger Verstand könnte die Karawane darauf auf ein beliebiges Feld hinunterrutschen. Du kannst jetzt würfeln. Bei höher 4 gelingt es, ansonsten verlierst du drei Vorräte.</eventText>
+		<code>Choice: group can RNG. If RNG is chosen, mark event decision. If RNG greater 50%, player can move field of desired direction. if RNG smaller 50%, group loses 3 res.</code>
+		<consequenceText>Konsequenz: Falls du das Reisen mit Steinplatten versucht hast, so findest du am Ende des Berges eine verschüttete Karawane. Du kannst deren 3 Vorräte nehmen – sie werden sie nicht mehr brauchen. Wer reist schon entlang eines Berg in der Wüste?</consequenceText>
+		<consequenceCode>If RNG was chosen, group gets 3 res</consequenceCode>
+	</task>
+	<task nr="16" title="Skorpione">
+		<eventText>In den kantigen Felsen leben Insekten, Spinnen und… einer deiner Arbeiter hat Angst vor solchen Tieren. Würfle. Bei einer 1 rennt er panisch weg.</eventText>
+		<code>RNG: 12% chance to kill/remove random character of type worker. Mark that worker.</code>
+		<consequenceText>Konsequenz: Er findet den Weg zurück. Welch ein Glück?</consequenceText>
+		<consequenceCode>ressurect marked worker, if possible</consequenceCode>
+	</task>
+	<task nr="17" title="Phiole des haltbaren Feuers">
+		<eventText>Ein einsamer Eremit bietet dir für 5 Ressourcen eine Kostprobe seiner Geheimnisse an. Du erhältst dann einen Spielstein, welchen du im Kampf einsetzen kannst: Ein Gegner wird sofort vom Spielfeld entfernt.</eventText>
+		<code>Choice: pay 5 res for tokenOfDestruction. Player gets said token.</code>
+		<consequenceText>Konsequenz: Bei der Reise hörst du auf einmal ein komisches Grunzen. Hinter dir ist ein hünenhafter Goliath. Du kannst ihm entweder 5 Proviant geben oder musst ihn bekämpfen. Der Goliath muss mit zwei erfolgreichen Würfeln in Folge Bezwungen werden.</consequenceText>
+		<consequenceCode>Choice: pay 5 res or fight goliath. If an attacker misses, the goliath health will be reset to 2.</consequenceCode>
+	</task>
+	<task nr="18" title="Gollok">
+		<eventText>Ein seltsamer kleiner… Mensch hat sich deiner Gruppe angeschlossen. Du wirst ihn leider nicht einfach los, er findet immer den Weg zu dir. Gollok kann im Kampf fallen oder mit einem Goldring permanent entlassen werden. Bei dem Gebirge-Event 7 verschwindet er ebenfalls.</eventText>
+		<code>Add gollok-character to group. Gollok cannot be removed from group. If player has tokenRing, he can use it to remove gollok. If event 7 is triggered, he is killed.</code>
+		<consequenceText>Konsequenz: Gollok, Gollok, Gollok! Du und deine Gruppe müsst ihn jetzt bekämpfen, falls er noch da ist. Wandle seine Spielfigur in einen Gegner um.</consequenceText>
+		<consequenceCode>Remove gollok-character. Start combat with gollok-enemy on his position.</consequenceCode>
+	</task>
+	<task nr="19" title="Stille">
+		<eventText>Nichts passiert. In den nächsten zwei Runden kann keine Konsequenz ausgelöst werden.</eventText>
+		<code>Event consequences cannot be triggered for 2 rounds</code>
+		<consequenceText>Konsequenz: es passiert nichts.</consequenceText>
+		<consequenceCode>nothing</consequenceCode>
+	</task>
+	<task nr="20" title="Konsequenz!">
+		<eventText>Die Konsequenz des letzten Ereignis wird aktiviert. Die betroffene Ereignis-Karte wird dann aus dem Ablagestapel entfernt und wieder eingemischt. Was passieren wird steht auf den Wänden gemalt.</eventText>
+		<code>Trigger last event consequence if possible</code>
+		<consequenceText>Konsequenz: es passiert nichts.</consequenceText>
+		<consequenceCode>nothing</consequenceCode>
+	</task>
+</rootnode>

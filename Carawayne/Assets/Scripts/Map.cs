@@ -858,8 +858,8 @@ public class Map : MonoBehaviour {
                     discovered.transform.parent = result[x, y].transform;
                 undiscovered.AddComponent<MeshCollider>();
                 discovered.AddComponent<MeshCollider>();
-                    discovered.SetActive(false);
-                    result[x, y].transform.position = position;
+                discovered.SetActive(false);
+                result[x, y].transform.position = position;
 
                 }
                 line = contentreader.ReadLine();

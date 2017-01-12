@@ -118,7 +118,7 @@ public class SceneHandler :MonoBehaviour{
 
     public static T createMeeple<T>(string _name, HexaPos _hexPos) where T:Meeple
     {
-        GameObject meepleObj=new GameObject();
+        GameObject meepleObj = null;
 
         switch (typeof(T).ToString())
         {
@@ -132,7 +132,7 @@ public class SceneHandler :MonoBehaviour{
                 meepleObj = (GameObject)Instantiate(Initialisation.king);
                 break;
             case "HuntedAnimal":
-                meepleObj = (GameObject)Instantiate(Initialisation.defensiveAnimal);
+                meepleObj = (GameObject)Instantiate(Initialisation.antilope);
                 break;
             case "Opponent":
                 meepleObj = (GameObject)Instantiate(Initialisation.raider);
@@ -142,9 +142,6 @@ public class SceneHandler :MonoBehaviour{
                 break;
             case "PackAnimal":
                 meepleObj = (GameObject)Instantiate(Initialisation.camel);
-                break;
-            case "Merchant":
-                meepleObj = (GameObject)Instantiate(Initialisation.defensiveAnimal);
                 break;
             default:
                 break;

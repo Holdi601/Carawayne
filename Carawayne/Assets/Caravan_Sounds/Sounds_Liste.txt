@@ -1,0 +1,118 @@
+Caravan general
+
+-Rest (Camp fire etc.) DONE
+-Move to next Field DONE
+
+Units general
+
+-Walk / Run DONE
+-Death Sounds DONE
+-Getting Hurt DONE
+-Getting Selected DONE
+-Apply to Command DONE
+-Getting left behind Male / Female DONE
+
+Merchenary
+
+-Attack (Fight) DONE
+-Attack (Run) DONE
+
+Worker
+
+-Attack (Hunt) DONE
+
+Healer
+
+-Heal DONE
+
+Prince
+
+-Use Special Ability DONE
+
+Scout
+
+-Scout DONE
+
+Camel / Wagon
+
+-Getting Selected DONE
+-Getting Hurt DONE
+-Die DONE
+-Apply to Command DONE 
+-Idle sounds (mööööh etc.) DONE
+
+AI / Enemies
+
+-Attack DONE
+-Getting Hurt DONE
+-Die DONE
+-Spawn DONE
+
+AI / Animals
+
+Sandwurm
+
+-Attack DONE
+-Getting Hurt DONE
+-Death DONE
+-Spawn DONE
+
+Antilope
+
+-Die DONE
+-Spawn DONE
+
+Schakal
+
+-Attack DONE
+-Getting Hurt DONE
+-Die DONE
+-Spawn DONE
+
+Aligator
+
+-Attack DONE
+-Getting Hurt DONE
+-Die DONE
+-Spawn DONE
+
+UI
+
+-Button Hover DONE
+-Button Click DONE
+-Button Value Up / Down DONE
+-Button Close DONE
+
+-Unit Menu open DONE
+-Unit Menu close DONE
+
+-Map open DONE
+-Map close DONE
+-Resource list open DONE
+-Resource list close DONE
+
+Event
+
+-Falcon arrive
+-Falcon leave
+-Papyrus open (MAP/RESOURCE SOUNDS)
+-Papyrus close (MAP/RESOURCE SOUNDS)
+
+-Start new Turn DONE
+-Consume Resources DONE
+
+Ambient Loop for:
+
+-Forest DONE
+-Sand DONE
+-Oasis DONE
+-Mountain DONE
+
+-Sandstorm Sound DONE
+
+-Title / Menu loop DONE
+-Ingame standard loop DONE
+-combat loop DONE
+
+-won game loop DONE
+-lost game loop DONE

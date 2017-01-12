@@ -10,6 +10,7 @@ public class activeTile : MonoBehaviour {
         if(SceneHandler.activeMode== GameMode.EXPLORATION)
         {
             SceneHandler.endTurn();
+            
         }
         
     }

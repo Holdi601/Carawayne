@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Parser -->
+<rootnode>
+  <version>Version 2.0.203</version>
+	<task nr="1" title="Meister der Oase">
+		<eventText>Ein paar Leute haben sich an dieser Oase eingenistet - und sind bewaffnet. Du kannst Schutzgeld (3 Proviant) zahlen um für die Nutzung zu Zahlen - oder du kämpfst dir den Weg durch drei Räuber frei.</eventText>
+		<code>Choice: Fight 3 enemies from forward or pay 3 res</code>
+		<consequenceText>Konsequenz: Das Wasser der Oase schien nicht umsonst bewacht worden zu sein. Jeder Charakter wird um 2 Lebenspunkte geheilt.</consequenceText>
+		<consequenceCode>Every character gets 2 power</consequenceCode>
+	</task>
+	<task nr="2" title="Unruhige Tiere">
+		<eventText>Irgendetwas stimmt nicht. Vertraust du auf deine Tiere und ziehst sofort ein Feld weiter, oder bleibst du hier und erwartest das nächste Ereignis mit vollen Konsequenzen?</eventText>
+		<code>Choice: recieve additional event and consequence or move away one field at no cost</code>
+		<consequenceText>Konsequenz: Das hintere Kamel ist kurz davor durchzugehen. Du kannst die Hälfte deines Proviants ausgeben (aufgerundet) um es einzufangen.</consequenceText>
+		<consequenceCode>Choice: pay half ressources or lose camel most far away from center</consequenceCode>
+	</task>
+	<task nr="3" title="Beruhigendes Wasser">
+		<eventText>Die Oase ist erfrischend und klar. Jedes Gruppenmitglied erhält auf jedes Attribut einen Schub von eins.</eventText>
+		<code>Every char gets 1 power</code>
+		<consequenceText>Konsequenz: Ihr hättet das wundersame Wasser vielleicht doch nicht mitnehmen sollen. Es riecht faulig. Ihr verliert für jedes Kamel 2 Vorräte.</consequenceText>
+		<consequenceCode>Lose 2 res for every camel</consequenceCode>
+	</task>
+	<task nr="4" title="Krokodil!">
+		<eventText>Leider bist du nicht der einzige Besucher. Ein Raubtier greift dich von vorne an!</eventText>
+		<code>fight 1 enemy from middle zone</code>
+		<consequenceText>Konsequenz: Es war schlau, die Krokodilhaut mitzunehmen. Gewisse Leute werden dafür viel Geld bezahlen. Ihr erhaltet 1 Token.</consequenceText>
+		<consequenceCode>Get useless token5</consequenceCode>
+	</task>
+	<task nr="5" title="Zurückgelassen">
+		<eventText>Ein einsamer Söldner schaut euch erwartungsvoll an. Ihr könnt ihn für zwei Proviant anheuern.</eventText>
+		<code>Choice: pay 2 res for one char of type merc. mark that merc.</code>
+		<consequenceText>Konsequenz: Er wurde nicht umsonst zurückgelassen. Der Söldner ist weg, und mit ihm zwei weitere Schätze.</consequenceText>
+		<consequenceCode>remove marked merc. remove 2 res</consequenceCode>
+	</task>
+	<task nr="6" title="Reflektieren">
+		<eventText>Ihr denkt über all jene nach, welche die Reise nicht beendeten. Sie wussten das Risiko und für Trauer ist es eine schlechte Zeit. Du erhältst für jedes verstorbenes Gruppenmitglied eine Kraft.</eventText>
+		<code>every char of mainChar recieves 1 power per dead character</code>
+		<consequenceText>Konsequenz: In der Entfernung gibt es ein Flimmern. Bekannte Gesichter scheinen dir den Weg zu weisen. Decke die nächste Oase auf.</consequenceText>
+		<consequenceCode>recieve position of next oasis</consequenceCode>
+	</task>
+	<task nr="7" title="Schlammiges Wasser">
+		<eventText>Tiere benutzen die Wassergrube um sich gegen verschiedene Insekten zu schützen. Von den aufgefüllten Vorräten dieser Oase verlierst du jeweils eines.</eventText>
+		<code>lose 1 resource for every camel</code>
+		<consequenceText>Konsequenz: In dem Schlamm scheint sich ein kleiner, glänzender Brocken eingeschleust zu haben. Du erhältst einen Schatz-Spielstein.</consequenceText>
+		<consequenceCode>get nearly usesless token4</consequenceCode>
+	</task>
+	<task nr="8" title="Die Vögel">
+		<eventText>Ein Schwarm exotischer Vögel lässt sich auf der Oase nieder. Das atemberaubende Schauspiel inspiriert ein Gruppenmitglied, welches 2 Kraft erhält.</eventText>
+		<code>Choice. pick char to restore 2 power. mark char</code>
+		<consequenceText>Konsequenz: Leider sind die Vögel auch ohrenbetäubend. Alle anderen Gruppenmitglieder verlieren 2 Kraft.</consequenceText>
+		<consequenceCode>every non marked char loses 2 power</consequenceCode>
+	</task>
+	<task nr="9" title="Lady Of The Lake">
+		<eventText>Eine seltsame Frau wohnt bei der Oase. Sie wirkt irgendwie seltsam. Du kannst ihr zuhören und im Tausch für 5 Kraft des Hauptcharakters die nächste Oase aufdecken.</eventText>
+		<code>Pay 5 power for nearest non-used oasis.</code>
+		<consequenceText>Konsequenz: Ihre geisterhafte Stimme hallt durch die Wüste. Bei dem nächsten Event wird danach sofort die Konsequenz ausgelöst.</consequenceText>
+		<consequenceCode>On next event, trigger consequence</consequenceCode>
+	</task>
+	<task nr="10" title="Ausgetrocknet">
+		<eventText>Das Wasser aus dem Trinkschlauch rieselt eigenartig. Die Vorräte der Oase sind nutzloser Sand! Du verlierst die erhaltenen Vorräte der letzten Oase.</eventText>
+		<code>No ressources from oasis. Sucks to be you.</code>
+		<consequenceText>Konsequenz: Die nächste entdeckte, nicht-benutzte Oase wird in Wüste verwandelt.</consequenceText>
+		<consequenceCode>Get nearest non-used oasis. mutate into sand.</consequenceCode>
+	</task>
+	<task nr="11" title="Sintflut">
+		<eventText>Der Wasserpegel der Oase steigt und steigt. Würfle. Das ausgewürfelte Feld wird ebenfalls in eine Oase umgewandelt.</eventText>
+		<code>RNG with dice. Mutate rolled field into oasis. Also mark the oasis field</code>
+		<consequenceText>Ein Heuschreckenschwarm taucht am Horizont auf. Um keine Vorräte zu verlieren zieht deine Gruppe ein weiteres Feld von der betroffenen Oase weg.</consequenceText>
+		<consequenceCode>move one field away from marked oasis</consequenceCode>
+	</task>
+	<task nr="12" title="Trugbild">
+		<eventText>Das Wasser scheint ohne Konsistenz… wie eine Täuschung. Stattdessen befindet sich ein Versteck am Grunde des Sees. Um nicht mit leeren Händen zu gehen kannst du ein Karawanenmitglied zum Sammeln beauftragen – es verliert 2 Kraft. Ansonsten verlierst du die Vorräte dieser Oase.</eventText>
+		<code>Choice: Pay two power from single char. else no ressources.</code>
+		<consequenceText>Konsequenz: Es war nicht die einzige Täuschung. Würfle. Das ausgewürfelte Feld wird in ein Gebirge umgewandelt, falls möglich.</consequenceText>
+		<consequenceCode>RNG with dice. Based on dice, the corresponding field type is changed to mountain</consequenceCode>
+	</task>
+	<task nr="13" title="Wasser und Sand">
+		<eventText>Man hört das heulen des Windes. Der Sandsturm wird zwei Felder in deine Richtung bewegt (jedoch nicht auf dich herauf). Der Sandsturm ändert seine Richtung (erhält ein neues Ziel).</eventText>
+		<code>Pick closest sandstorm. move sandstorm in direction of player (2 times). pick new target for sandstorm</code>
+		<consequenceText>Konsequenz: Wenn der Sandsturm sich mehr als 3 Felder von dir entfernt ist erhältst jedes Gruppenmitglied 1 Kraft.</consequenceText>
+		<consequenceCode>if every sandstorm is 3 fields away, recover 1 power for every char</consequenceCode>
+	</task>
+	<task nr="14" title="Erfrischender Regen">
+		<eventText>Die Natur scheint die harte Umgebung zu vergessen als die ersten Tropfen fallen. Fülle für jedes Kamel zusätzlich einen weiteren Vorrat auf.</eventText>
+		<code>Get for every char of type camel if (not max res) one ressource</code>
+		<consequenceText>Konsequenz: Der Regen scheint nicht aufzuhören. Die Nässe schadet der GruppenKraft – minus 1 für jedes Gruppenmitglied.</consequenceText>
+		<consequenceCode>Every char loses 1 power</consequenceCode>
+	</task>
+	<task nr="15" title="Die alte Mann">
+		<eventText>Bei der Oase lebt ein alter Herr, der dir Geschichten erzählt. So unglaubwürdig es auch erscheinen mag, den Arbeitern gefällt es. Jeder Arbeiter/Jäger erhält 2 Kraft.</eventText>
+		<code>every char of type hunter gets 2 power</code>
+		<consequenceText>Konsequenz: Die Söldner sind genervt – denn sie wissen, dass sie es sind, welche die Arbeiter vor den „Legenden“ schützen müssen. Jeder Kämpfer verliert 1 Kraft.</consequenceText>
+		<consequenceCode>every char of type merc loses 1 power</consequenceCode>
+	</task>
+	<task nr="16" title="Phiole mit Heilwasser">
+		<eventText>Ein Händler bietet dir einen seltenen Trank an. Du kannst ihn für 4 Vorräte kaufen. Du erhältst dann einen Spielstein, welchen du beim Reisen oder im Kampf einlösen kannst um bei einem Charakter den Kraftstand auf Maximum zu setzen.</eventText>
+		<code>choice: pay 4 res for token3. Token3: use to refill power of single char</code>
+		<consequenceText>Konsequenz: Wähle einen Charakter aus. Setze dessen Kraft auf 1.</consequenceText>
+		<consequenceCode>Choice: pick a character. set character power to 1</consequenceCode>
+	</task>
+	<task nr="17" title="Schmuckstück bei der Oase">
+		<eventText>Würfle. Du findest bei einer 1-3 eine goldene Öllampe, bei einer 4-6 einen eingravierten Ring. Du erhältst den entsprechenden Spielstein.</eventText>
+		<code>RNG: if lower 50%, give player token1, if >50% give token2. Token2: can be used for 2res.</code>
+		<consequenceText>Konsequenz: Ein Mann kommt dir entgegen und behauptet, dass diese Antiquität ihm gehöre. Du kannst ihm das Schmuckstück für 4 Proviant übergeben.</consequenceText>
+		<consequenceCode>Choice: remove token 1 or 2 for 8 res</consequenceCode>
+	</task>
+	<task nr="18" title="Der Händler">
+		<eventText>Du kannst Spielsteine, welche du besitzt, gegen 8 Proviant eintauschen.</eventText>
+		<code>choose to trade all token 8 res/each</code>
+		<consequenceText>Konsequenz: Er macht dir ein gutes Angebot. Du kannst für drei Proviant die Kraft deiner Gruppe wieder auffüllen.</consequenceText>
+		<consequenceCode>choice: pay 5 ressources then refill all power for every char</consequenceCode>
+	</task>
+	<task nr="19" title="Stille">
+		<eventText>Nichts passiert. In den nächsten zwei Runden kann keine Konsequenz ausgelöst werden.</eventText>
+		<code>disable consequence trigger for 3 turns</code>
+		<consequenceText>Konsequenz: Es passiert nichts.</consequenceText>
+		<consequenceCode>nothing</consequenceCode>
+	</task>
+	<task nr="20" title="Konsequenz!">
+		<eventText>Die Konsequenz des letzten Ereignis wird aktiviert. Die betroffene Ereignis-Karte wird dann aus dem Ablagestapel entfernt und wieder eingemischt. Was passieren wird sieht man in den Reflektionen.</eventText>
+		<code>execute consequence of last triggered event if possible</code>
+		<consequenceText></consequenceText>
+		<consequenceCode>nothing</consequenceCode>
+	</task>
+</rootnode>
