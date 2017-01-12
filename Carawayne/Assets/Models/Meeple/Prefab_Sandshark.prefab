@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 82641865957062242}
   - component: {fileID: 82397887616634714}
   m_Layer: 0
-  m_Name: Prefab_Sandshark(no audio)
+  m_Name: Prefab_Sandshark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -266,18 +266,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2e68ccc70bac9849ab7d21a5f3aa4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _soundSwitcher: 
-  _audioSpawn: {fileID: 0}
+  _audioRest: {fileID: 0}
+  _audioMoveOn: {fileID: 0}
+  _audioSpawn: {fileID: 8300000, guid: 1f6a26a28329b41419712703b01cbcfc, type: 3}
   _audioRun: {fileID: 0}
   _audioLeftBehind: {fileID: 0}
   _audioSelected: {fileID: 0}
   _audioApplyToCommand: {fileID: 0}
-  _audioAttack_01: {fileID: 0}
+  _audioAttack_01: {fileID: 8300000, guid: a7aa425ce557aa548bada0a07688e9a1, type: 3}
   _audioAttack_02: {fileID: 0}
   _audioAttack_03: {fileID: 0}
-  _audioHurt_01: {fileID: 0}
+  _audioHurt_01: {fileID: 8300000, guid: a34e5149520fb904b96eff08ce0a1e3e, type: 3}
   _audioHurt_02: {fileID: 0}
-  _audioDie_01: {fileID: 0}
+  _audioDie_01: {fileID: 8300000, guid: a5615d2fe2841704a85af5c2fde324c8, type: 3}
   _audioDie_02: {fileID: 0}
   _audioSpecialAbility: {fileID: 0}
   _audioIdle_01: {fileID: 0}
