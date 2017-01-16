@@ -7,6 +7,7 @@
 		<code>Get the first character of the caravan. Player can choose to use the next (nearest) character to save the first. If he tries, use RNG. If above 50% the characters are saved. If lower, this character is now also in danger. Player can then choose the next character to try to save both.</code>
 		<consequenceText>Konsequenz: Das Chaos des Treibsands scheint eine schlecht gesicherte Vorratskiste beansprucht zu haben. Du verlierst zwei Proviant.</consequenceText>
 		<consequenceCode>Group loses 2 res</consequenceCode>
+  <eventImage>DickButt.png</eventImage>
 	</task>
 	<task nr="2" title="Ungetüm im Sande">
 		<eventText>Sind das Rückenflossen in den Dünen? Du wirst von drei Raubtieren von vorne angegriffen.</eventText>

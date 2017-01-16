@@ -74,6 +74,12 @@ public class SoundHelper : MonoBehaviour
         _dontOverlap = false;
     }
 
+    public void Stop()
+    {
+        _audioSource_1.Stop();
+        _audioSource_2.Stop();
+    }
+
     public void Play(string soundToPlay)
     {
         SetAudioSources(soundToPlay);
@@ -86,7 +92,7 @@ public class SoundHelper : MonoBehaviour
         {
             _audioSourceToChoose = 2;
         }
-        if(_audioSource_2.isPlaying)
+        if (_audioSource_2.isPlaying)
         {
             _audioSourceToChoose = 1;
         }
@@ -114,6 +120,7 @@ public class SoundHelper : MonoBehaviour
 
             case "run":
                 clip = _audioRun;
+                _dontOverlap = true;
                 Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
                 break;
 
