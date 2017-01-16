@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -186,6 +186,11 @@ Prefab:
     - target: {fileID: 224873421331094746, guid: 1bfbaea8a7498224ebbe9642432f9bad,
         type: 2}
       propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 223837409161120648, guid: 1bfbaea8a7498224ebbe9642432f9bad,
+        type: 2}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -896,7 +901,7 @@ MonoBehaviour:
   transParent_Prefab: {fileID: 2100000, guid: 13e5c84158dda8d44b6c96ab8520af3b, type: 2}
   texture_Material_prefab: {fileID: 2100000, guid: cea97bb0842b32d478a1c22ead134422,
     type: 2}
-  hpbar_prefab: {fileID: 100000, guid: ea765247269d4614e92f812042787f2e, type: 3}
+  hpbar_prefab: {fileID: 100000, guid: 884ba7b37cd1af6418bb32b1db8cff3a, type: 3}
   prefab_soldier: {fileID: 1134983007049428, guid: 2d53847d3bdb0fd42b3c48867321395e,
     type: 2}
   prefab_healer: {fileID: 1919196483676270, guid: 960b1d50592d7e241a30cf23497d89f8,
@@ -911,7 +916,7 @@ MonoBehaviour:
     type: 2}
   prefab_camel: {fileID: 1315896916829692, guid: 6838a15f6d10ca84ba3e068daae07fd4,
     type: 2}
-  prefab_food: {fileID: 1780428061912752, guid: ee9a418dec756244992d211b7df8f472,
+  prefab_food: {fileID: 1780428061912752, guid: 1b1cbc9fcdef43b429d738d6fa66b128,
     type: 2}
   prefab_lookOutTower: {fileID: 1000013517729732, guid: 429b9c1ba659f624db575538aaf3f7a1,
     type: 2}
