@@ -151,8 +151,7 @@ public class EventSystemManager : MonoBehaviour
 
     private void CallEventFunctions(string codeEvent, string codeEventConsequence)
     {
-        Debug.Log("Event Code: " + codeEvent);
-        Debug.Log("Consequence Code: " + codeEventConsequence);
+        EventFunctionCollection.CallEventFunctions(codeEvent, codeEventConsequence);
 
         // Idee:
         
