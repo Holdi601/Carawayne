@@ -90,10 +90,12 @@ public class SceneHandler :MonoBehaviour{
         //}
 
         //HUNTINGGAME
+        
         TacticalGame game = new HuntingGround(5,2);
         game.init();
         game.run();
 
+        
         while (activeMode == GameMode.TACTICAL)
         {
             List<Hunter> hunters = getAllMeeplesFromType<Hunter>();
@@ -111,9 +113,14 @@ public class SceneHandler :MonoBehaviour{
                     hunter.moveTowardsTarget(targetMeeple.Pos);
                 }
             }
-
+            
             game.onPlayerInteractionEnded();
+            
+            
         }
+
+        
+
     }
 
     public static T createMeeple<T>(string _name, HexaPos _hexPos) where T:Meeple
@@ -144,14 +151,19 @@ public class SceneHandler :MonoBehaviour{
                 meepleObj = (GameObject)Instantiate(Initialisation.camel);
                 break;
             default:
-                break;
+                return null;
         }
         
         Meeple meeple = meepleObj.AddComponent<T>();
+        Vector3 scaleSave = meeple.transform.localScale;
+        Vector3 posSave = meeple.transform.localPosition;
         meeple.Pos = _hexPos;
         meeple.meepleName = _name;
 
         positionAndParent_Meeple(meepleObj, _hexPos);
+        meeple.transform.localScale = scaleSave;
+        meeple.transform.localPosition = posSave;
+        
 
         meeples.Add(meeple);
         return (T)meeple;
@@ -248,11 +260,45 @@ public class SceneHandler :MonoBehaviour{
     public static void positionAndParent_Meeple(GameObject Meeple, HexaPos position)
     {
         GameObject par = GameObject.Find("MeepleCollection");
+        GameObject fath = new GameObject(Meeple.GetComponent<Meeple>().meepleName);
+        
+        fath.transform.localScale = par.transform.lossyScale;
+        fath.transform.position = par.transform.position;
+
+        
         Meeple.transform.localScale = par.transform.lossyScale;
         Meeple.transform.position = par.transform.position;
-        Meeple.transform.parent = par.transform;
+        //Meeple.transform.Translate(new Vector3(0, 0.4f, 0), Space.Self);
+        fath.transform.parent = par.transform;
+        Meeple.transform.parent = fath.transform;
         setMeeplePos(Meeple, position);
+        
+        Meeple mip = Meeple.GetComponent<Meeple>();
+        if (mip.GetType().IsSubclassOf(typeof(Companion)))
+        {
+            Companion c = Meeple.GetComponent<Companion>();
+            if (c.GetType().Name != "PackAnimal")
+            {
+                c.setFoodPackages_hpBar();
+            }
+            
+        }
+        
+    }
 
+    public static void positionAndParent_HP(GameObject Meeple, GameObject hp)
+    {
+        hp.transform.localScale = Meeple.transform.lossyScale;
+        hp.transform.position = Meeple.transform.position;
+        hp.transform.parent = Meeple.transform.parent;
+    }
+
+    public static void positionAndParent_Food(GameObject Meeple, GameObject food)
+    {
+        
+        food.transform.localScale = Meeple.transform.lossyScale;
+        food.transform.position = Meeple.transform.position;
+        food.transform.parent = Meeple.transform.parent;
     }
 
     public static void setMeeplePos(GameObject meepleObj, HexaPos position)
@@ -260,7 +306,7 @@ public class SceneHandler :MonoBehaviour{
         Meeple meeple = meepleObj.GetComponent<Meeple>();
         smallMap[meeple.Pos.x, meeple.Pos.y].GetComponent<innerTile>().meep = null;
 
-        meepleObj.transform.localPosition = Map.MapTileToPosition(position);
+        meepleObj.transform.parent.transform.localPosition = Map.MapTileToPosition(position);
         meeple.Pos = position;
 
         if (!(position.x<0||position.x>14||position.y<0||position.y>14))

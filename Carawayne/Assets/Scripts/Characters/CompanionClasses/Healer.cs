@@ -12,11 +12,13 @@ public class Healer: Companion
 
     void Awake()
     {
+        
         proviantDemand = 1;
         proviantDemandMax = 1;
         strength = 2;
         strengthMax = 10;
         healPower = 2;
+        setFoodPackages_hpBar();
     }
 
     public void heal(Companion _target)

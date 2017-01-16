@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -267,10 +267,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52bd4c9751cce9948a6b5d1e763df0b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _musicClip: 
-  _terrainType: 
-  _jingleChecker: 0
-  _wonLost: 0
   _audioTitle: {fileID: 8300000, guid: b6a6f8bef53f5fe4aac30506e2be5b0c, type: 3}
   _audioGameplay: {fileID: 8300000, guid: e5fb09b246123a34c8d084a0bb047e19, type: 3}
   _audioCombat: {fileID: 8300000, guid: d8171b8b1b0396749be573447b5c9655, type: 3}
@@ -798,6 +794,9 @@ MonoBehaviour:
   innerTileMat: {fileID: 2100000, guid: 3a606381b375dcc49a82c1a6bad19931, type: 2}
   lookOutMat: {fileID: 2100000, guid: 4e44e24bf206a9d458bf512a8e1c889b, type: 2}
   transParent_Prefab: {fileID: 2100000, guid: 13e5c84158dda8d44b6c96ab8520af3b, type: 2}
+  texture_Material_prefab: {fileID: 2100000, guid: cea97bb0842b32d478a1c22ead134422,
+    type: 2}
+  hpbar_prefab: {fileID: 100000, guid: ea765247269d4614e92f812042787f2e, type: 3}
   prefab_soldier: {fileID: 1134983007049428, guid: 2d53847d3bdb0fd42b3c48867321395e,
     type: 2}
   prefab_healer: {fileID: 1919196483676270, guid: 960b1d50592d7e241a30cf23497d89f8,
@@ -812,7 +811,8 @@ MonoBehaviour:
     type: 2}
   prefab_camel: {fileID: 1315896916829692, guid: 6838a15f6d10ca84ba3e068daae07fd4,
     type: 2}
-  prefab_food: {fileID: 0}
+  prefab_food: {fileID: 1780428061912752, guid: ee9a418dec756244992d211b7df8f472,
+    type: 2}
   prefab_lookOutTower: {fileID: 1000013517729732, guid: 429b9c1ba659f624db575538aaf3f7a1,
     type: 2}
   prefab_staticHostile: {fileID: 0}
@@ -1043,7 +1043,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2e68ccc70bac9849ab7d21a5f3aa4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _soundSwitcher: 
   _audioRest: {fileID: 8300000, guid: 11ba7ba462b4c614c879312b49bb7552, type: 3}
   _audioMoveOn: {fileID: 8300000, guid: 4921abc8a659d4c4fb58c0d40d60bcb2, type: 3}
   _audioSpawn: {fileID: 0}

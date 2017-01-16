@@ -34,7 +34,9 @@ public class Initialisation : MonoBehaviour
     public Material innerTileMat;
     public Material lookOutMat;
     public Material transParent_Prefab;
+    public Material texture_Material_prefab;
 
+    public GameObject hpbar_prefab;
     public GameObject prefab_soldier;
     public GameObject prefab_healer;
     public GameObject prefab_king;
@@ -51,6 +53,9 @@ public class Initialisation : MonoBehaviour
     public GameObject prefab_sandworm;
     public GameObject prefab_sandshark;
     public GameObject prefab_gollok;
+
+
+   
 
     //Shared prefabs for the map Creator e.g.
     public static GameObject sandTile_1;
@@ -103,12 +108,17 @@ public class Initialisation : MonoBehaviour
     public static GameObject gollok;
     public static GameObject planeSample;
 
+
+    public static GameObject hpbar;
+    public static Material texture_Material;
     public static GameObject mapGO, innerTileHolderGO, tileHolderGo;
 
     // Use this for initialization
 
     void Awake()
     {
+        hpbar = hpbar_prefab;
+        texture_Material = texture_Material_prefab;
         sandTile_1 = sandTile_1_prefab;
         sandTile_2 = sandTile_2_prefab;
         sandTile_3 = sandTile_3_prefab;
@@ -154,5 +164,16 @@ public class Initialisation : MonoBehaviour
         lookOutTower = prefab_lookOutTower;
         staticHostile = prefab_staticHostile;
         antilope = prefab_antilope;
+
+
+
+      
+        
+    }
+
+
+    void Update()
+    {
+
     }
 }
