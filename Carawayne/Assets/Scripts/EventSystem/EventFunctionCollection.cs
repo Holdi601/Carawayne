@@ -15,36 +15,81 @@ public class EventFunctionCollection : MonoBehaviour
         //}
 
         // Then call them
-
-        // z.B. MoveSandstorm(10, 10);
-    }
-
-    //Returns the nearest sandstorm.
-    private void GetNearestSandstorm()
-    {
-
-    }
-
-    //Move the sandstorm in the direction, move it X fields.
-    private static void MoveSandstorm(int direction, int fields)
-    {
-
-    }
-
-    //Player cannot move to the next field for X rounds and has to take a break.
-    private static void DisallowPlayerMove(int rounds)
-    {
-
     }
 
     //Returns 0-5, möglicherweise vollkommen unnötig
-    private static void GetRandomDirection()
+    public static int GetRandomDirection()
     {
-
+        System.Random rnd = new System.Random();
+        return rnd.Next(0, 5);
     }
 
-    //Returns fieldtype
-    private static void GetRandomFieldType()
+    public static tileType GetRandomFieldType()
+    {
+        System.Random rnd = new System.Random();
+        int nmbr = rnd.Next(0, 3);
+        switch (nmbr)
+        {
+            case 0: return tileType.Desert;
+            case 1: return tileType.Forrest;
+            case 2: return tileType.Mountain;
+            case 3: return tileType.Oasis;
+            default: return tileType.Desert;
+        }
+    }
+
+    public static HexaPos GetRandomField()
+    {
+        System.Random rnd = new System.Random();
+        int x = rnd.Next(0, SceneHandler.largeMap.GetLength(0));
+        int y = rnd.Next(0, SceneHandler.largeMap.GetLength(1));
+
+        HexaPos res = new HexaPos(x, y);
+        return res;
+    }
+
+    public static int GetDirection(HexaPos pos, HexaPos tgtPos)
+    {
+        return Map.getDirection(pos, tgtPos);
+    }
+
+    public static List<HexaPos> GetFieldsOfType(tileType type)
+    {
+        return Map.GetFieldsOfType(type);
+    }
+
+    public static List<Tile> GetFieldsOfType_t(tileType type)
+    {
+        return Map.GetFieldsOfType_t(type);
+    }
+
+    public static List<GameObject> GetFieldsOfType_g(tileType type)
+    {
+        return Map.GetFieldsOfType_g(type);
+    }
+
+    public static List<HexaPos> GetFieldsHidden()
+    {
+        return Map.GetFieldsHidden();
+    }
+
+    public static List<HexaPos> GetFieldsInRadius(int radius)
+    {
+        return Map.GetFieldsInRadius(radius);
+    }
+
+    public static void FieldChangeType(HexaPos pos, tileType type)
+    {
+        Map.FieldChangeType(pos, type);
+    }
+
+    public static HexaPos getPositionDirectionalByDistance(HexaPos _originalPos, int _dir, int _dist)
+    {
+        return Map.getPositionDirectionalByDistance(_originalPos, _dir, _dist);
+    }
+
+    //Get the field in the direction 1-6, with an distance of Y from the player.
+    private static void GetFieldInDirection(int direction, int field)
     {
 
     }
@@ -91,37 +136,20 @@ public class EventFunctionCollection : MonoBehaviour
 
     }
 
-    //Or field.type
-    //private static void GetFieldsOfType(TileType type)
-    //{
-
-    //}
-
-    //Or field.hidden
-    private static void GetFieldsHidden()
+    //Returns the nearest sandstorm.
+    private void GetNearestSandstorm()
     {
 
     }
 
-    private static void GetFieldsInRadius(int radius)
+    //Move the sandstorm in the direction, move it X fields.
+    private static void MoveSandstorm(int direction, int fields)
     {
 
     }
 
-    //GetFieldInDirection(int dir) [0-5] //Instead use
-    private static void GetFieldsInRange(int dir)
-    {
-
-    }
-    // and use the 6 items in list 
-
-    //private static void FieldChangeType(TileType type)
-    //{
-
-    //}
-
-    //Get the field in the direction 1-6, with an distance of Y from the player.
-    private static void GetFieldInDirection(int direction, int field)
+    //Player cannot move to the next field for X rounds and has to take a break.
+    private static void DisallowPlayerMove(int rounds)
     {
 
     }
