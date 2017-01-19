@@ -1,20 +1,298 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EventFunctionCollection : MonoBehaviour
 {
-    // will probably need multiple params
-    public static void CallEventFunctions(string eventCode, string eventConsequenceCode)
+    // Parse all the stuff to do all the things :D
+    public static void CallEventFunctions(string[] eventCode, string[] consequenceCode)
     {
         Debug.Log("Calling Event Functions!");
-        Debug.Log("CODE RECEIVED: " + eventCode + " / " + eventConsequenceCode);
-        //switch(stuff)
-        //{
-        // find Functions to call here
-        //}
 
-        // Then call them
+        string[][] eventCodeExecutorPairs = new string[eventCode.Length][];
+        string[][] consequenceCodeExecutorPairs = new string[consequenceCode.Length][];
+
+        for (int i = 0; i < eventCode.Length; i++)
+        {
+            eventCodeExecutorPairs[i] = eventCode[i].Split("|".ToCharArray());
+
+            FindFunctions(eventCodeExecutorPairs[i], false);
+        }
+
+        for (int i = 0; i < consequenceCode.Length; i++)
+        {
+            consequenceCodeExecutorPairs[i] = consequenceCode[i].Split("|".ToCharArray());
+
+            FindFunctions(consequenceCodeExecutorPairs[i], true);
+        }
+    }
+
+    private static void FindFunctions(string[] code, bool consequence)
+    {
+        int paramInt_01 = 0;
+        int paramInt_02 = 0;
+        int paramInt_03 = 0;
+
+        HexaPos paramHex_01 = new HexaPos();
+        HexaPos paramHex_02 = new HexaPos();
+        HexaPos paramHex_03 = new HexaPos();
+
+        tileType paramTileType_01 = tileType.Desert;
+        tileType paramTileType_02 = tileType.Desert;
+        tileType paramTileType_03 = tileType.Desert;
+
+        
+        string paramMeeple_01 = "";
+        string paramMeeple_02 = "";
+        string paramMeeple_03 = "";
+
+        bool paramBool_01 = false;
+        bool paramBool_02 = false;
+        bool paramBool_03 = false;
+
+
+        for (int i = 0; i < code.Length; i++)
+        {
+            Debug.Log("Event-Code-Slot: " + i + ": " + code[i]);
+        }
+
+        if (code.Length > 1)
+        {
+            if (code[1].Contains(","))
+            {
+                string[] temp = code[1].Split(",".ToCharArray());
+                paramHex_01.x = int.Parse(temp[0]);
+                paramHex_01.y = int.Parse(temp[1]);
+            }
+            else
+            {
+                switch (code[1])
+                {
+                    case "false":
+                        paramBool_01 = false;
+                        break;
+                    case "true":
+                        paramBool_01 = true;
+                        break;
+
+                    case "1":
+                        paramInt_01 = 1;
+                        break;
+                    case "2":
+                        paramInt_01 = 2;
+                        break;
+                    case "3":
+                        paramInt_01 = 3;
+                        break;
+                    case "4":
+                        paramInt_01 = 4;
+                        break;
+                    case "5":
+                        paramInt_01 = 5;
+                        break;
+                    case "6":
+                        paramInt_01 = 6;
+                        break;
+                    case "7":
+                        paramInt_01 = 7;
+                        break;
+                    case "8":
+                        paramInt_01 = 8;
+                        break;
+                    case "9":
+                        paramInt_01 = 9;
+                        break;
+
+                    case "Desert":
+                        paramTileType_01 = tileType.Desert;
+                        break;
+                    case "Oasis":
+                        paramTileType_01 = tileType.Oasis;
+                        break;
+                    case "Forest":
+                        paramTileType_01 = tileType.Forrest;
+                        break;
+                    case "Mountain":
+                        paramTileType_01 = tileType.Mountain;
+                        break;
+
+                        
+                    case "Healer": 
+                    case "Mercenary":  
+                    case "Hunter":   
+                    case "Prince":        
+                    case "HuntedAnimal":
+                    case "Opponent":
+                    case "Scout":
+                    case "PackAnimal":
+                        paramMeeple_01 = code[1];
+                        break;
+                }
+            }
+        }
+        if (code.Length > 2)
+        {
+            if (code[2].Contains(","))
+            {
+                string[] temp = code[2].Split(",".ToCharArray());
+                paramHex_02.x = int.Parse(temp[0]);
+                paramHex_02.y = int.Parse(temp[1]);
+            }
+            else
+            {
+                switch (code[2])
+                {
+                    case "false":
+                        paramBool_02 = false;
+                        break;
+                    case "true":
+                        paramBool_02 = true;
+                        break;
+
+                    case "1":
+                        paramInt_02 = 1;
+                        break;
+                    case "2":
+                        paramInt_02 = 2;
+                        break;
+                    case "3":
+                        paramInt_02 = 3;
+                        break;
+                    case "4":
+                        paramInt_02 = 4;
+                        break;
+                    case "5":
+                        paramInt_02 = 5;
+                        break;
+                    case "6":
+                        paramInt_02 = 6;
+                        break;
+                    case "7":
+                        paramInt_02 = 7;
+                        break;
+                    case "8":
+                        paramInt_02 = 8;
+                        break;
+                    case "9":
+                        paramInt_02 = 9;
+                        break;
+
+                    case "Desert":
+                        paramTileType_02 = tileType.Desert;
+                        break;
+                    case "Oasis":
+                        paramTileType_02 = tileType.Oasis;
+                        break;
+                    case "Forest":
+                        paramTileType_02 = tileType.Forrest;
+                        break;
+                    case "Mountain":
+                        paramTileType_02 = tileType.Mountain;
+                        break;
+
+                    case "Healer":
+                    case "Mercenary":
+                    case "Hunter":
+                    case "Prince":
+                    case "HuntedAnimal":
+                    case "Opponent":
+                    case "Scout":
+                    case "PackAnimal":
+                        paramMeeple_02 = code[2];
+                        break;
+                }
+            }
+        }
+        if (code.Length > 3)
+        {
+            if (code[3].Contains(","))
+            {
+                string[] temp = code[3].Split(",".ToCharArray());
+                paramHex_03.x = int.Parse(temp[0]);
+                paramHex_03.y = int.Parse(temp[1]);
+            }
+            else
+            {
+                switch (code[3])
+                {
+                    case "false":
+                        paramBool_03 = false;
+                        break;
+                    case "true":
+                        paramBool_03 = true;
+                        break;
+
+                    case "1":
+                        paramInt_03 = 1;
+                        break;
+                    case "2":
+                        paramInt_03 = 2;
+                        break;
+                    case "3":
+                        paramInt_03 = 3;
+                        break;
+                    case "4":
+                        paramInt_03 = 4;
+                        break;
+                    case "5":
+                        paramInt_03 = 5;
+                        break;
+                    case "6":
+                        paramInt_03 = 6;
+                        break;
+                    case "7":
+                        paramInt_03 = 7;
+                        break;
+                    case "8":
+                        paramInt_03 = 8;
+                        break;
+                    case "9":
+                        paramInt_03 = 9;
+                        break;
+
+                    case "desert":
+                        paramTileType_03 = tileType.Desert;
+                        break;
+                    case "oasis":
+                        paramTileType_03 = tileType.Oasis;
+                        break;
+                    case "forest":
+                        paramTileType_03 = tileType.Forrest;
+                        break;
+                    case "mountain":
+                        paramTileType_03 = tileType.Mountain;
+                        break;
+
+                    case "Healer":
+                    case "Mercenary":
+                    case "Hunter":
+                    case "Prince":
+                    case "HuntedAnimal":
+                    case "Opponent":
+                    case "Scout":
+                    case "PackAnimal":
+                        paramMeeple_03 = code[3];
+                        break;
+                }
+            }
+        }
+
+        switch(code[0])
+        {
+            case "GETFIELDSOFTYPE":
+                if(!consequence)
+                {
+                    GetFieldsOfType(paramTileType_01);
+                }
+                else
+                {
+                    // Wait until (something), then trigger Consequence functions 
+                }
+                break;
+
+                // TODOOOO
+        }
     }
 
     //Returns 0-5, möglicherweise vollkommen unnötig
@@ -131,7 +409,7 @@ public class EventFunctionCollection : MonoBehaviour
     }
 
     //Saves a var for later use
-    private static void MarkEventOutcome(string outcome)
+    private static void MarkEventOutcome(bool outcome)
     {
 
     }
@@ -154,7 +432,7 @@ public class EventFunctionCollection : MonoBehaviour
 
     }
 
-    private static void PlayerToField(Tile gotoTile)
+    private static void PlayerToField(HexaPos gotoTile)
     {
 
     }
@@ -203,6 +481,33 @@ public class EventFunctionCollection : MonoBehaviour
 
     private static Meeple[] GetMeeplesOfType(Meeple type)
     {
+
+        switch (typeof(Meeple).ToString())
+        {
+            case "Mercenary":
+                
+                break;
+            case "Hunter":
+                
+                break;
+            case "Prince":
+                
+                break;
+            case "HuntedAnimal":
+                
+                break;
+            case "Opponent":
+                
+                break;
+            case "Scout":
+                
+                break;
+            case "PackAnimal":
+                
+                break;
+            default:
+                return null;
+        }
         var meeple = new Meeple[5];
         return meeple;
     }

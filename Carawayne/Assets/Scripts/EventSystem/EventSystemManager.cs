@@ -155,7 +155,23 @@ public class EventSystemManager : MonoBehaviour
 
     private void CallEventFunctions(string codeEvent, string codeEventConsequence)
     {
-        EventFunctionCollection.CallEventFunctions(codeEvent, codeEventConsequence);
+        string codeEv = "GETFIELDSOFTYPE|desert~GETFIELDSINRADIUS|3|5";
+        string codeCons = "GETFIELDSOFTYPE|desert~GETFIELDSINRADIUS|3";
+        
+        string[] splitCodeEventPairs = codeEv.Split("~".ToCharArray());
+        string[] splitCodeConsequencePairs = codeCons.Split("~".ToCharArray());
+
+        for(int i = 0; i < splitCodeEventPairs.Length; i++)
+        {
+            Debug.Log("Event-Pair " + i + ": " + splitCodeEventPairs[i]);
+        }
+
+        for (int i = 0; i < splitCodeConsequencePairs.Length; i++)
+        {
+            Debug.Log("Consequence-Pair " + i + ": " + splitCodeConsequencePairs[i]);
+        }
+
+        EventFunctionCollection.CallEventFunctions(splitCodeEventPairs, splitCodeConsequencePairs);
 
         // Idee:
         
