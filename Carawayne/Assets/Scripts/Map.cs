@@ -921,7 +921,7 @@ public class Map : MonoBehaviour {
             GameObject actmap = landscape[newX,newY].transform.FindChild("actualTile").gameObject;
             GameObject seeingTower = (GameObject)Instantiate(Initialisation.lookOutTower);
             seeingTower.transform.position = actmap.transform.position;
-            seeingTower.transform.Translate(new Vector3(0, 0.5f, 0));
+            
             seeingTower.transform.parent = actmap.transform;
         }
         
@@ -942,7 +942,7 @@ public class Map : MonoBehaviour {
             GameObject actmap = landscape[positions[i].x, positions[i].y].transform.FindChild("actualTile").gameObject;
             GameObject seeingTower = (GameObject)Instantiate(Initialisation.lookOutTower);
             seeingTower.transform.position = actmap.transform.position;
-            seeingTower.transform.Translate(new Vector3(0, 0.5f, 0));
+            
             seeingTower.transform.parent = actmap.transform;
             landscape[positions[i].x, positions[i].y].GetComponent<Tile>().special = specialTile.Lookout;
 
@@ -957,6 +957,7 @@ public class Map : MonoBehaviour {
         finishTile.transform.localScale = actmap.transform.lossyScale;
         finishTile.transform.name = "actualTile";
         finishTile.transform.parent = actmap.transform.parent;
+        finishTile.transform.tag = "Finish";
         discoveredTile dt = finishTile.AddComponent<discoveredTile>();
         dt.position = position;
         Destroy(actmap);

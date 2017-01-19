@@ -73,6 +73,12 @@ public class LoopAudio : MonoBehaviour
         {
             FadeVolume();
         }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            Debug.Log("log");
+            Map.discover(SceneHandler.finishTile);
+        }
     }
 
     // Functions To Call from elsewhere

@@ -20,7 +20,10 @@ public class SceneHandler :MonoBehaviour{
     private static HexaPos lastPosition;
     public static HexaPos selectedMapTile;
     public static Meeple selectedMeeple;
+    public static HexaPos finishTile;
     public static int tacticalDirection=4;
+    
+    
 
     public static TacticalGame activeTacticalGame;
     public static System.Random rand;
@@ -34,16 +37,17 @@ public class SceneHandler :MonoBehaviour{
         //Create tactical Map;
         smallMap = Map.createSmallHexa();
         Map.setLookout(5);
-
+        finishTile = EventFunctionCollection.GetRandomField();
+        Map.setFinish(finishTile);
+        
         //WICHTIG DRIN BEHALTEN!!!
         caravanPosition = new HexaPos(0, 0);
         
-        //Map.discoverAllTiles(true);
 
         //Map.discoverAllTiles(true);
         //Gesamt Skalierung des Brettspiels hilfreich für die Kameraführung. Momentan skalierung 10x
         Initialisation.mapGO.transform.localScale = new Vector3(10, 10, 10);
-
+        turn = 0;
         //Testing Area
         moveCaravan(new HexaPos(0, 0));
 
@@ -58,7 +62,7 @@ public class SceneHandler :MonoBehaviour{
         createMeeple<PackAnimal>("Camel1", new HexaPos(9, 10));
 
         sandstorms = new List<Sandstorm>();
-        turn = 0;
+        
         activeCompanion = null;
         activeMode = GameMode.EXPLORATION;
         rand = new System.Random();
@@ -143,6 +147,9 @@ public class SceneHandler :MonoBehaviour{
                 break;
             case "Opponent":
                 meepleObj = (GameObject)Instantiate(Initialisation.raider);
+                break;
+            case "Healer":
+                meepleObj = (GameObject)Instantiate(Initialisation.healer);
                 break;
             case "Scout":
                 meepleObj = (GameObject)Instantiate(Initialisation.scout);
@@ -239,9 +246,24 @@ public class SceneHandler :MonoBehaviour{
         return genericMeeples;
     }
 
-    public static void endTurn()
+    public static void endTurn(bool _moved)
     {
-        
+        if (turn > 0)
+        {
+            Debug.Log("The turn ended. Did the Caravan moved? " + _moved);
+            GameObject tileHolder = GameObject.Find("tileHolder");
+            SoundHelper sh = tileHolder.GetComponent<SoundHelper>();
+            if (_moved)
+            {
+                sh.Play("move");
+            }
+            else
+            {
+                sh.Play("rest");
+            }
+        }
+
+        turn++;
     }
 
 
@@ -253,7 +275,7 @@ public class SceneHandler :MonoBehaviour{
         Map.setActiveTile(pos, lastPosition);
         Map.discover(pos);
         caravanPosition = pos;
-        endTurn();
+        endTurn(true);
 
     }
 
@@ -268,6 +290,7 @@ public class SceneHandler :MonoBehaviour{
         
         Meeple.transform.localScale = par.transform.lossyScale;
         Meeple.transform.position = par.transform.position;
+        
         //Meeple.transform.Translate(new Vector3(0, 0.4f, 0), Space.Self);
         fath.transform.parent = par.transform;
         Meeple.transform.parent = fath.transform;
@@ -303,7 +326,7 @@ public class SceneHandler :MonoBehaviour{
 
     public static void setMeeplePos(GameObject meepleObj, HexaPos position)
     {
-        Meeple meeple = meepleObj.GetComponent<Meeple>();
+        Meeple meeple = meepleObj.GetComponentInChildren<Meeple>();
         smallMap[meeple.Pos.x, meeple.Pos.y].GetComponent<innerTile>().meep = null;
 
         meepleObj.transform.parent.transform.localPosition = Map.MapTileToPosition(position);
@@ -373,7 +396,7 @@ public class SceneHandler :MonoBehaviour{
                     Map.discover(pos);
                 }else if(largeMap[pos.x, pos.y].GetComponent<Tile>().special == specialTile.Finish)
                 {
-                    //Code to win the game here.
+                    Debug.Log("You won. You cunt.");
                 }
                 
             }

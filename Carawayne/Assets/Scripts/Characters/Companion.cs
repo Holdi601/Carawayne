@@ -33,6 +33,7 @@ public class Companion : Meeple {
 
     //Reinhold
     private GameObject[] foodObjects;
+    private GameObject[] skullObjects;
     private GameObject hpbar;
     private Texture2D hpbar_content;
     public int proviantDemandMax
@@ -54,13 +55,48 @@ public class Companion : Meeple {
                     }
                 }
             }
+            if (skullObjects != null)
+            {
+                for(int i=0; i<skullObjects.Length; i++)
+                {
+                    if (skullObjects[i] != null)
+                    {
+                        Destroy(skullObjects[i]);
+                    }
+                }
+            }
+
             foodObjects = new GameObject[value];
+            skullObjects = new GameObject[value];
             for(int i=0; i<value; i++)
             {
                 foodObjects[i] = (GameObject)Instantiate(Initialisation.food);
                 foodObjects[i].transform.name = "FoodPack_" + i.ToString();
+                foodObjects[i].AddComponent<food>();
+                skullObjects[i] = (GameObject)Instantiate(Initialisation.skull);
+                skullObjects[i].transform.name = "SkullPack_" + i.ToString();
+                skullObjects[i].AddComponent<skull>();
             }
 
+            updateFoodConsumption();
+
+        }
+    }
+
+    void updateFoodConsumption()
+    {
+        for (int i = 0; i < foodObjects.Length; i++)
+        {
+            if (i < proviantDemand)
+            {
+                foodObjects[i].SetActive(true);
+                skullObjects[i].SetActive(false);
+            }
+            else
+            {
+                foodObjects[i].SetActive(false);
+                skullObjects[i].SetActive(true);
+            }
         }
     }
 
@@ -105,10 +141,11 @@ public class Companion : Meeple {
 
 
                 SceneHandler.positionAndParent_Food(gameObject, foodObjects[i]);
+                SceneHandler.positionAndParent_Food(gameObject, skullObjects[i]);
                 foodObjects[i].transform.Translate(new Vector3(0.3f, 0, 0));
-                foodObjects[i].transform.RotateAround(foodObjects[i].transform.parent.transform.position, new Vector3(0, 1, 0), (i * 30));
-                foodObjects[i].transform.localScale = foodObjects[i].transform.localScale * 0.1f;
-                foodObjects[i].transform.Translate(new Vector3(0, 0.0258f, 0), Space.Self);
+                foodObjects[i].transform.RotateAround(foodObjects[i].transform.parent.transform.position, new Vector3(0, 1, 0), (i * 50));
+                skullObjects[i].transform.Translate(new Vector3(0.3f, 0, 0));
+                skullObjects[i].transform.RotateAround(skullObjects[i].transform.parent.transform.position, new Vector3(0, 1, 0), (i * 50));
 
 
             }
@@ -206,18 +243,9 @@ public class Companion : Meeple {
             proviantDemand = Math.Max(value, 0);
             proviantDemand = Math.Min(value, proviantDemandMax);
 
-           
-               
-                for(int i=0; i<foodObjects.Length; i++)
-                {
-                    if (i < proviantDemand)
-                    {
-                        foodObjects[i].SetActive(true);
-                    }else
-                    {
-                        foodObjects[i].SetActive(false);
-                    }
-                }
+
+
+            updateFoodConsumption();
             
 
 

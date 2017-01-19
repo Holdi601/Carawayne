@@ -45,6 +45,7 @@ public class Initialisation : MonoBehaviour
     public GameObject prefab_raider;
     public GameObject prefab_camel;
     public GameObject prefab_food;
+    public GameObject prefab_skull;
     public GameObject prefab_lookOutTower;
     public GameObject prefab_staticHostile;
     public GameObject prefab_aligator;
@@ -98,6 +99,7 @@ public class Initialisation : MonoBehaviour
     public static GameObject raider;
     public static GameObject camel;
     public static GameObject food;
+    public static GameObject skull;
     public static GameObject lookOutTower;
     public static GameObject staticHostile;
     public static GameObject aligator;
@@ -117,6 +119,7 @@ public class Initialisation : MonoBehaviour
 
     void Awake()
     {
+        skull = prefab_skull;
         hpbar = hpbar_prefab;
         texture_Material = texture_Material_prefab;
         sandTile_1 = sandTile_1_prefab;

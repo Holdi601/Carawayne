@@ -104,39 +104,39 @@ public class SoundHelper : MonoBehaviour
             case "rest":
                 clip = _audioRest;
                 _dontOverlap = true;
-                Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
+                
                 break;
 
             case "move":
                 clip = _audioMoveOn;
                 _dontOverlap = true;
-                Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
+                
                 break;
 
             case "spawn":
                 clip = _audioSpawn;
-                Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
+                
                 break;
 
             case "run":
                 clip = _audioRun;
                 _dontOverlap = true;
-                Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
+                
                 break;
 
             case "leftBehind":
                 clip = _audioLeftBehind;
-                Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
+                
                 break;
 
             case "selected":
                 clip = _audioSelected;
-                Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
+                
                 break;
 
             case "applyToCommand":
                 clip = _audioApplyToCommand;
-                Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
+                
                 break;
 
             case "attack":
@@ -163,7 +163,7 @@ public class SoundHelper : MonoBehaviour
                 {
                     clip = _audioAttack_01;
                 }
-                Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
+                
                 break;
 
             case "hurt":
@@ -185,7 +185,7 @@ public class SoundHelper : MonoBehaviour
                 {
                     clip = _audioHurt_01;
                 }
-                Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
+                
                 break;
 
             case "die":
@@ -207,12 +207,12 @@ public class SoundHelper : MonoBehaviour
                 {
                     clip = _audioDie_01;
                 }
-                Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
+                
                 break;
 
             case "useSpecialAbility":
                 clip = _audioSpecialAbility;
-                Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
+                
                 break;
 
             case "idle":
@@ -234,7 +234,7 @@ public class SoundHelper : MonoBehaviour
                 {
                     clip = _audioIdle_01;
                 }
-                Debug.Log("Setting AudioSource_" + _audioSourceToChoose + " Clip to " + clip + "!");
+                
                 break;
         }
 
@@ -253,7 +253,7 @@ public class SoundHelper : MonoBehaviour
             }
             else
             {
-                Debug.Log("Angefordertes Soundfile nicht verfügbar! (Serialisierung im Script SoundHelper prüfen)");
+                
             }
         }
 
@@ -272,7 +272,7 @@ public class SoundHelper : MonoBehaviour
             }
             else
             {
-                Debug.Log("Angefordertes Soundfile nicht verfügbar! (Serialisierung im Script SoundHelper prüfen)");
+                
             }
         }
     }
@@ -280,7 +280,7 @@ public class SoundHelper : MonoBehaviour
     private int ChooseRandomClip(int min, int max)
     {
         int randomClip = Random.Range(min, max + 1);
-        Debug.Log("Random Clip Number: " + randomClip);
+        
         return randomClip;
     }
 }
