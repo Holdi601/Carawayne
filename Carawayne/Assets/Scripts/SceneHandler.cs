@@ -22,6 +22,8 @@ public class SceneHandler :MonoBehaviour{
     public static Meeple selectedMeeple;
     public static HexaPos finishTile;
     public static int tacticalDirection=4;
+    public static bool scoutingActive;
+    public static bool healingActive;
     
     
 
@@ -33,7 +35,8 @@ public class SceneHandler :MonoBehaviour{
         
         //Create large Landscape
         largeMap = Map.createLandscape(20, 20);
-        
+        scoutingActive = false;
+        healingActive = false;
         //Create tactical Map;
         smallMap = Map.createSmallHexa();
         Map.setLookout(5);
@@ -67,6 +70,7 @@ public class SceneHandler :MonoBehaviour{
         activeMode = GameMode.EXPLORATION;
         rand = new System.Random();
 
+        
         //List<HexaPos> opponentsPos = new List<HexaPos>();
         //opponentsPos.Add(new HexaPos(12,12));
         //opponentsPos.Add(new HexaPos(12,13));
@@ -94,11 +98,13 @@ public class SceneHandler :MonoBehaviour{
         //}
 
         //HUNTINGGAME
-        
+
         TacticalGame game = new HuntingGround(5,2);
         game.init();
         game.run();
 
+
+        
         
         while (activeMode == GameMode.TACTICAL)
         {
@@ -290,6 +296,7 @@ public class SceneHandler :MonoBehaviour{
         
         Meeple.transform.localScale = par.transform.lossyScale;
         Meeple.transform.position = par.transform.position;
+        Meeple.transform.localEulerAngles = new Vector3(0, 180, 0);
         
         //Meeple.transform.Translate(new Vector3(0, 0.4f, 0), Space.Self);
         fath.transform.parent = par.transform;
@@ -365,7 +372,7 @@ public class SceneHandler :MonoBehaviour{
     public static void clickMaptile(HexaPos pos)
     {
         
-        if (Map.distance(pos, caravanPosition)<2 && activeMode==GameMode.EXPLORATION)
+        if (Map.distance(pos, caravanPosition)<2 && activeMode==GameMode.EXPLORATION &&!scoutingActive)
         {
             if (selectedMapTile == pos)
             {
@@ -421,6 +428,10 @@ public class SceneHandler :MonoBehaviour{
                 }
                 selectedMapTile = pos;
             }
+        }else if (Map.distance(pos, caravanPosition) < 3 && activeMode == GameMode.EXPLORATION && scoutingActive)
+        {
+            Map.discover(pos);
+            scoutingActive = false;
         }
     }
 

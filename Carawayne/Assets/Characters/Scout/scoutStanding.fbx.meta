@@ -1,0 +1,261 @@
+fileFormatVersion: 2
+guid: 928c37e76754cd74198198afe73f8e8a
+timeCreated: 1484829440
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Character2_Head
+    100002: Character2_Hips
+    100004: Character2_LeftArm
+    100006: Character2_LeftFoot
+    100008: Character2_LeftForeArm
+    100010: Character2_LeftHand
+    100012: Character2_LeftHandMiddle1
+    100014: Character2_LeftHandMiddle2
+    100016: Character2_LeftLeg
+    100018: Character2_LeftShoulder
+    100020: Character2_LeftToeBase
+    100022: Character2_LeftUpLeg
+    100024: Character2_Neck
+    100026: Character2_Neck1
+    100028: Character2_Reference
+    100030: Character2_RightArm
+    100032: Character2_RightFoot
+    100034: Character2_RightForeArm
+    100036: Character2_RightHand
+    100038: Character2_RightHandMiddle1
+    100040: Character2_RightHandMiddle2
+    100042: Character2_RightLeg
+    100044: Character2_RightShoulder
+    100046: Character2_RightToeBase
+    100048: Character2_RightUpLeg
+    100050: Character2_Spine
+    100052: Character2_Spine1
+    100054: Character2_Spine2
+    100056: glasses_hull:glassesChord_geo
+    100058: glasses_hull:r_glassHull_geo
+    100060: scout_scout_geo1
+    100062: scout_scout_grp
+    100064: scout_scoutBeard_geo
+    100066: scout_shoulderArmor_geo
+    100068: //RootNode
+    400000: Character2_Head
+    400002: Character2_Hips
+    400004: Character2_LeftArm
+    400006: Character2_LeftFoot
+    400008: Character2_LeftForeArm
+    400010: Character2_LeftHand
+    400012: Character2_LeftHandMiddle1
+    400014: Character2_LeftHandMiddle2
+    400016: Character2_LeftLeg
+    400018: Character2_LeftShoulder
+    400020: Character2_LeftToeBase
+    400022: Character2_LeftUpLeg
+    400024: Character2_Neck
+    400026: Character2_Neck1
+    400028: Character2_Reference
+    400030: Character2_RightArm
+    400032: Character2_RightFoot
+    400034: Character2_RightForeArm
+    400036: Character2_RightHand
+    400038: Character2_RightHandMiddle1
+    400040: Character2_RightHandMiddle2
+    400042: Character2_RightLeg
+    400044: Character2_RightShoulder
+    400046: Character2_RightToeBase
+    400048: Character2_RightUpLeg
+    400050: Character2_Spine
+    400052: Character2_Spine1
+    400054: Character2_Spine2
+    400056: glasses_hull:glassesChord_geo
+    400058: glasses_hull:r_glassHull_geo
+    400060: scout_scout_geo1
+    400062: scout_scout_grp
+    400064: scout_scoutBeard_geo
+    400066: scout_shoulderArmor_geo
+    400068: //RootNode
+    2300000: glasses_hull:r_glassHull_geo
+    2300002: scout_shoulderArmor_geo
+    3300000: glasses_hull:r_glassHull_geo
+    3300002: scout_shoulderArmor_geo
+    4300000: scout_shoulderArmor_geo
+    4300002: glasses_hull:r_glassHull_geo
+    4300004: scout_scoutBeard_geo
+    4300006: scout_scout_geo1
+    4300008: glasses_hull:glassesChord_geo
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: glasses_hull:glassesChord_geo
+    13700002: scout_scout_geo1
+    13700004: scout_scoutBeard_geo
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: "Avatar Rig Configuration mis-match. Inbetween bone rotation
+      in configuration does not match rotation in animation file\nscoutStanding\nClip
+      'Take 001' has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'Character2_Spine'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n"
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 60
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Character2_Reference
+        weight: 1
+      - path: Character2_Reference/Character2_Hips
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_LeftUpLeg
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_LeftUpLeg/Character2_LeftLeg
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_LeftUpLeg/Character2_LeftLeg/Character2_LeftFoot
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_LeftUpLeg/Character2_LeftLeg/Character2_LeftFoot/Character2_LeftToeBase
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_RightUpLeg
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_RightUpLeg/Character2_RightLeg
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_RightUpLeg/Character2_RightLeg/Character2_RightFoot
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_RightUpLeg/Character2_RightLeg/Character2_RightFoot/Character2_RightToeBase
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2/Character2_LeftShoulder
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2/Character2_LeftShoulder/Character2_LeftArm
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2/Character2_LeftShoulder/Character2_LeftArm/Character2_LeftForeArm
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2/Character2_LeftShoulder/Character2_LeftArm/Character2_LeftForeArm/Character2_LeftHand
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2/Character2_LeftShoulder/Character2_LeftArm/Character2_LeftForeArm/Character2_LeftHand/Character2_LeftHandMiddle1
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2/Character2_LeftShoulder/Character2_LeftArm/Character2_LeftForeArm/Character2_LeftHand/Character2_LeftHandMiddle1/Character2_LeftHandMiddle2
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2/Character2_LeftShoulder/Character2_LeftArm/scout_shoulderArmor_geo
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2/Character2_Neck
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2/Character2_Neck/Character2_Neck1
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2/Character2_Neck/Character2_Neck1/Character2_Head
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2/Character2_RightShoulder
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2/Character2_RightShoulder/Character2_RightArm
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2/Character2_RightShoulder/Character2_RightArm/Character2_RightForeArm
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2/Character2_RightShoulder/Character2_RightArm/Character2_RightForeArm/Character2_RightHand
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2/Character2_RightShoulder/Character2_RightArm/Character2_RightForeArm/Character2_RightHand/Character2_RightHandMiddle1
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2/Character2_RightShoulder/Character2_RightArm/Character2_RightForeArm/Character2_RightHand/Character2_RightHandMiddle1/Character2_RightHandMiddle2
+        weight: 1
+      - path: Character2_Reference/Character2_Hips/Character2_Spine/Character2_Spine1/Character2_Spine2/glasses_hull:r_glassHull_geo
+        weight: 1
+      - path: glasses_hull:glassesChord_geo
+        weight: 1
+      - path: scout_scout_grp
+        weight: 1
+      - path: scout_scout_grp/scout_scout_geo1
+        weight: 1
+      - path: scout_scout_grp/scout_scoutBeard_geo
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 0
+    normalImportMode: 1
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

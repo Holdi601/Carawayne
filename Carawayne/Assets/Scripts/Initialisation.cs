@@ -55,7 +55,7 @@ public class Initialisation : MonoBehaviour
     public GameObject prefab_sandshark;
     public GameObject prefab_gollok;
 
-
+    public Sprite prefab_sprt;
    
 
     //Shared prefabs for the map Creator e.g.
@@ -114,11 +114,13 @@ public class Initialisation : MonoBehaviour
     public static GameObject hpbar;
     public static Material texture_Material;
     public static GameObject mapGO, innerTileHolderGO, tileHolderGo;
+    public static Sprite sprt;
 
     // Use this for initialization
 
     void Awake()
     {
+        sprt = prefab_sprt;
         skull = prefab_skull;
         hpbar = hpbar_prefab;
         texture_Material = texture_Material_prefab;

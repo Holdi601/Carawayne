@@ -142,6 +142,7 @@ public class Map : MonoBehaviour {
         father.transform.position = new Vector3(-0.976f, 0.014f, -0.697f);
         father.transform.localScale = new Vector3(0.0666f, 0.0666f, 0.0666f);
         father.transform.parent = godfather.transform;
+        
         return result;
     }
 

@@ -71,7 +71,8 @@ public class Meeple : MonoBehaviour
             alive = value;
             Debug.Log(meepleName + " died!");
             SceneHandler.meeples.Remove(this);
-            Destroy(gameObject);
+            GameObject tmp = gameObject.transform.parent.gameObject;
+            Destroy(tmp);
             //Todo: Do kill implementation stuff
         }
     }

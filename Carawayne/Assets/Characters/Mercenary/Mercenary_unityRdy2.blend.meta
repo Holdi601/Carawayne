@@ -1,0 +1,193 @@
+fileFormatVersion: 2
+guid: 7b163458ba9b462478ca9b9e4c53742b
+timeCreated: 1484579572
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: armature
+    100002: chest
+    100004: f_index_01_L
+    100006: f_index_01_R
+    100008: f_index_02_L
+    100010: f_index_02_R
+    100012: f_middle_01_L
+    100014: f_middle_01_R
+    100016: f_middle_02_L
+    100018: f_middle_02_R
+    100020: f_middle_03_L
+    100022: f_middle_03_R
+    100024: f_pinky_01_L
+    100026: f_pinky_01_R
+    100028: f_pinky_02_L
+    100030: f_pinky_02_R
+    100032: f_ring_01_L
+    100034: f_ring_01_R
+    100036: f_ring_02_L
+    100038: f_ring_02_R
+    100040: foot_L
+    100042: foot_R
+    100044: forearm_L
+    100046: forearm_R
+    100048: Hand_L
+    100050: Hand_R
+    100052: head
+    100054: head_end
+    100056: hips
+    100058: Merc2
+    100060: Merc2Armor
+    100062: Merc2Wepon
+    100064: Merc2WeponBack
+    100066: //RootNode
+    100068: neck
+    100070: shin_L
+    100072: shin_R
+    100074: shoulder_L
+    100076: shoulder_R
+    100078: spine
+    100080: thigh_L
+    100082: thigh_R
+    100084: thumb_01_L
+    100086: thumb_01_R
+    100088: thumb_02_L
+    100090: thumb_02_R
+    100092: upper_arm_L
+    100094: upper_arm_R
+    100096: wepon
+    400000: armature
+    400002: chest
+    400004: f_index_01_L
+    400006: f_index_01_R
+    400008: f_index_02_L
+    400010: f_index_02_R
+    400012: f_middle_01_L
+    400014: f_middle_01_R
+    400016: f_middle_02_L
+    400018: f_middle_02_R
+    400020: f_middle_03_L
+    400022: f_middle_03_R
+    400024: f_pinky_01_L
+    400026: f_pinky_01_R
+    400028: f_pinky_02_L
+    400030: f_pinky_02_R
+    400032: f_ring_01_L
+    400034: f_ring_01_R
+    400036: f_ring_02_L
+    400038: f_ring_02_R
+    400040: foot_L
+    400042: foot_R
+    400044: forearm_L
+    400046: forearm_R
+    400048: Hand_L
+    400050: Hand_R
+    400052: head
+    400054: head_end
+    400056: hips
+    400058: Merc2
+    400060: Merc2Armor
+    400062: Merc2Wepon
+    400064: Merc2WeponBack
+    400066: //RootNode
+    400068: neck
+    400070: shin_L
+    400072: shin_R
+    400074: shoulder_L
+    400076: shoulder_R
+    400078: spine
+    400080: thigh_L
+    400082: thigh_R
+    400084: thumb_01_L
+    400086: thumb_01_R
+    400088: thumb_02_L
+    400090: thumb_02_R
+    400092: upper_arm_L
+    400094: upper_arm_R
+    400096: wepon
+    4300000: Merc2
+    4300002: Merc2WeponBack
+    4300004: Merc2Armor
+    4300006: Merc2Wepon
+    7400000: Default Take
+    7400002: Attack
+    7400004: Death
+    7400006: Idle
+    9500000: //RootNode
+    13700000: Merc2
+    13700002: Merc2Armor
+    13700004: Merc2Wepon
+    13700006: Merc2WeponBack
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: "\nClip 'Attack' has import animation warnings that might
+      lower retargeting quality:\nNote: Activate translation DOF on avatar to improve
+      retargeting quality.\n\t'f_index_02_L' has translation animation that will be
+      discarded.\n\t'thigh_L' has translation animation that will be discarded.\n\nClip
+      'Death' has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'thigh_L'
+      has translation animation that will be discarded.\n\t'thigh_R' has translation
+      animation that will be discarded.\n"
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

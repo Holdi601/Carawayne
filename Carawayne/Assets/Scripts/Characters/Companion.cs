@@ -8,7 +8,7 @@ public class Companion : Meeple {
     public int proviantDemand;
     public int ProviantDemandMax;
    
-    private int _Strength;
+    public int _Strength;
     public int strength
     {
         get
@@ -146,6 +146,10 @@ public class Companion : Meeple {
                 foodObjects[i].transform.RotateAround(foodObjects[i].transform.parent.transform.position, new Vector3(0, 1, 0), (i * 50));
                 skullObjects[i].transform.Translate(new Vector3(0.3f, 0, 0));
                 skullObjects[i].transform.RotateAround(skullObjects[i].transform.parent.transform.position, new Vector3(0, 1, 0), (i * 50));
+                skullObjects[i].transform.Translate(new Vector3(0,0,0.133f));
+                Vector3 tmp = skullObjects[i].transform.localEulerAngles;
+                tmp.z = -90;
+                skullObjects[i].transform.localEulerAngles = tmp;
 
 
             }
@@ -153,6 +157,11 @@ public class Companion : Meeple {
         }
 
         
+    }
+
+    public void openStatistics()
+    {
+
     }
 
     //public Companion(HexaPos _pos, string _name, int _proviantDemand, int _strength): base(_pos, _name)
@@ -254,19 +263,29 @@ public class Companion : Meeple {
 
     void OnMouseDown()
     {
-        SceneHandler.activeCompanion = this;
-        List<HexaPos> walkableTilesPos = new List<HexaPos>();
-        walkableTilesPos = Map.tilesInRange(SceneHandler.activeCompanion.Pos, SceneHandler.activeCompanion.walkRange);
-
-        Map.highlightAllInnerTiles(false);
-
-        foreach (HexaPos tilePos in walkableTilesPos)
+        if (!SceneHandler.healingActive)
         {
-            if (tilePos.x < 15 && tilePos.x > -1 && tilePos.y < 15 && tilePos.y > -1)
+
+
+            SceneHandler.activeCompanion = this;
+            List<HexaPos> walkableTilesPos = new List<HexaPos>();
+            walkableTilesPos = Map.tilesInRange(SceneHandler.activeCompanion.Pos, SceneHandler.activeCompanion.walkRange);
+
+            Map.highlightAllInnerTiles(false);
+
+            foreach (HexaPos tilePos in walkableTilesPos)
             {
-                SceneHandler.smallMap[tilePos.x, tilePos.y].GetComponent<innerTile>().setHighlighted(true);
+                if (tilePos.x < 15 && tilePos.x > -1 && tilePos.y < 15 && tilePos.y > -1)
+                {
+                    SceneHandler.smallMap[tilePos.x, tilePos.y].GetComponent<innerTile>().setHighlighted(true);
+                }
+
             }
-            
+        }else
+        {
+            Strength += 1;
+            SceneHandler.healingActive = false;
         }
+
     }
 }

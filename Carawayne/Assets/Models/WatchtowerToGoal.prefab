@@ -390,6 +390,7 @@ GameObject:
   - component: {fileID: 33084440336939866}
   - component: {fileID: 23311065284218940}
   - component: {fileID: 114642442448855650}
+  - component: {fileID: 114906965430252622}
   m_Layer: 0
   m_Name: sunclockPointer_geo
   m_TagString: Untagged
@@ -1792,6 +1793,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 130bbad35e1a6124fa147014465f27cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goal: {fileID: 0}
+--- !u!114 &114906965430252622
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1646985795000886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a39f71e7266a19f4b9b476d671c2f628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   goal: {fileID: 0}
