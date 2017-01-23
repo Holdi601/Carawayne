@@ -12,6 +12,7 @@ public class Prince : Companion {
         strength = 10;
         strengthMax = 10;
         walkRange = 2;
+        HasActionOutstanding = true;
     }
 
 }

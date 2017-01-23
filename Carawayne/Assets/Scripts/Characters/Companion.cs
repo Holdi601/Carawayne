@@ -10,7 +10,7 @@ public class Companion : Meeple {
     public int strength;
     public int strengthMax;
     private float proviantRation;
-    public bool hasActionOutstanding;
+    private bool hasActionOutstanding;
 
     //public Companion(HexaPos _pos, string _name, int _proviantDemand, int _strength): base(_pos, _name)
     //{
@@ -22,17 +22,27 @@ public class Companion : Meeple {
     //    hasActionOutstanding = true;
     //}
 
+    public void initFoo()
+    {
+        ProviantRation = 1.0f;
+        hasActionOutstanding = true;
+        walkRange = 1;
+        Debug.Log("AWAKE COMPANION");
+    }
+
     void Awake()
     {
         ProviantRation = 1.0f;
         hasActionOutstanding = true;
         walkRange = 1;
+        Debug.Log("AWAKE COMPANION");
     }
 
     public void moveTo(HexaPos _pos)
     {
         //Todo: Missing implementation movement
         hasActionOutstanding = false;
+
     }
 
     public void doAction(/*Action _action*/)
@@ -40,6 +50,7 @@ public class Companion : Meeple {
         //Todo: Implement if decide to generic action instead of individual subClass actions (fight, heal, etc...)
         //Todo: OnPlayerInteractionEnded trigger for tactical game. Raise Event OnPlayerInteraction
         hasActionOutstanding = false;
+        
     }
 
     //Consume a proviant ration
@@ -99,15 +110,66 @@ public class Companion : Meeple {
 
     void OnMouseDown()
     {
-        SceneHandler.activeCompanion = this;
-        List<HexaPos> walkableTilesPos = new List<HexaPos>();
-        walkableTilesPos = Map.tilesInRange(SceneHandler.activeCompanion.Pos, SceneHandler.activeCompanion.walkRange);
-
-        Map.highlightAllInnerTiles(false);
-
-        foreach (HexaPos tilePos in walkableTilesPos)
+        
+        if (SceneHandler.activeMode== GameMode.EXPLORATION)
         {
-            SceneHandler.smallMap[tilePos.x, tilePos.y].GetComponent<innerTile>().setHighlighted(true);
+            activateCompanion(false);
+        }
+        else if (SceneHandler.activeTacticalGame.GetType()==typeof(HuntingGround))
+        {
+            if (GetType()==typeof(Hunter))
+            {
+                activateCompanion();
+            }
+        }
+        else if (SceneHandler.activeTacticalGame.GetType() == typeof (BattleGround))
+        {
+            if (GetType() == typeof (Mercenary))
+            {
+                activateCompanion();
+            }
+        }
+        
+    }
+
+    public void activateCompanion(bool _respectWalkRange=true)
+    {
+        SceneHandler.activeCompanion = this;
+
+        if (hasActionOutstanding)
+        {
+            if (_respectWalkRange)
+            {
+                List<HexaPos> walkableTilesPos = new List<HexaPos>();
+                walkableTilesPos = Map.tilesInRange(Pos, walkRange);
+
+                Map.highlightAllInnerTiles(false);
+                foreach (HexaPos tilePos in walkableTilesPos)
+                {
+                    SceneHandler.smallMap[tilePos.x, tilePos.y].GetComponent<innerTile>().setHighlighted(true);
+                }
+            }
+            else
+            {
+                Map.highlightAllInnerTiles(true);
+            }
+
+            MeshRenderer innerTMesh = SceneHandler.smallMap[Pos.x, Pos.y].GetComponent<MeshRenderer>();
+            innerTMesh.material = Initialisation.lookOutMate;
+        }
+    }
+
+    public bool HasActionOutstanding
+    {
+        get { return hasActionOutstanding; }
+        set
+        {
+            hasActionOutstanding = value;
+
+            if (!hasActionOutstanding)
+            {
+                SceneHandler.activeTacticalGame.onPlayerInteractionEnded();
+            }
         }
     }
 }

@@ -22,6 +22,7 @@ public class Hunter: Companion
         dice = 1;
         diceValue = 6;
         walkRange = 3;
+        HasActionOutstanding = true;
     }
 
     public int hunt(HuntedAnimal _target)
@@ -29,7 +30,9 @@ public class Hunter: Companion
         int dist = Map.distance(_target.Pos, Pos);
         int rolledValue = SceneHandler.rollDice(diceValue);
 
-        hasActionOutstanding = false;
+        HasActionOutstanding = false;
+
+        Debug.Log(rolledValue+"--"+dist);
 
         //Todo: MapTiles distance problem. get Distance
         if (rolledValue >= dist)

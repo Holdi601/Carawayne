@@ -18,6 +18,7 @@ public class Meeple : MonoBehaviour
         pos = new HexaPos(0,0);
         walkRange = 1;
         meepleName = "StandardName";
+        Debug.Log("AWAKE MEEPOLE");
     }
 
     public void moveTo(HexaPos _pos)

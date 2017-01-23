@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.Compression;
+using System;
 
 public class HuntingGround : TacticalGame
 {
@@ -14,7 +16,6 @@ public class HuntingGround : TacticalGame
         initialDirection = _initialDirection;
         chasingRounds = _chasingRounds;
         animalsPos=new List<HexaPos>();
-        Debug.Log("AnimalsSpawningFromDirection:"+initialDirection);
         switch (initialDirection)
         {
             case 3:
@@ -54,20 +55,24 @@ public class HuntingGround : TacticalGame
                 animalsPos.Add(new HexaPos(4, 4));
                 break;
         }
+    }
 
-        foreach (HexaPos pos in animalsPos)
+    public override void clear()
+    {
+        List<HuntedAnimal> huntedAnimals = SceneHandler.getAllMeeplesFromType<HuntedAnimal>();
+        foreach (HuntedAnimal huntedAnimal in huntedAnimals)
         {
-            SceneHandler.createMeeple<HuntedAnimal>("animal", pos);
+            SceneHandler.Destroy(huntedAnimal.gameObject);
         }
     }
 
-    public void init()
+    override public void init()
     {
         //Todo: Disable all Copmanion Gameobjects which are note required
-
+        base.init();
         foreach (HexaPos pos in animalsPos)
         {
-            SceneHandler.createMeeple<Opponent>("Opponent", pos);
+            SceneHandler.createMeeple<HuntedAnimal>("animal", pos);
         }
     }
 
@@ -126,12 +131,12 @@ public class HuntingGround : TacticalGame
 
     public override bool hasPlayerAvailableMoves()
     {
-        List<Hunter> hunters = new List<Hunter>();
+        List<Hunter> hunters = SceneHandler.getAllMeeplesFromType<Hunter>();
 
         //Player has available moves left if at least one of his mercenaries action outstanding
         foreach (Hunter hunter in hunters)
         {
-            if (hunter.hasActionOutstanding)
+            if (hunter.HasActionOutstanding)
             {
                 return true;
             }
@@ -140,4 +145,17 @@ public class HuntingGround : TacticalGame
         return false;
     }
 
+    public override void highlightPossibleAgents()
+    {
+        List<Hunter> hunters = SceneHandler.getAllMeeplesFromType<Hunter>();
+
+        foreach (Hunter hunter in hunters)
+        {
+            if (hunter.HasActionOutstanding)
+            {
+                MeshRenderer meepTileMesh = SceneHandler.smallMap[hunter.Pos.x, hunter.Pos.y].GetComponent<MeshRenderer>();
+                meepTileMesh.material = Initialisation.activeAgentTileMaterial;
+            }
+        }
+    }
 }

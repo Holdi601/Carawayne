@@ -11,6 +11,7 @@ public class Scout : Companion {
         strength = 6;
         strengthMax = 10;
         walkRange = 4;
+        HasActionOutstanding = true;
     }
 
     //public Scout(HexaPos _pos, string _name, int _proviantDemand, int _strength) : base(_pos, _name, _proviantDemand, _strength)

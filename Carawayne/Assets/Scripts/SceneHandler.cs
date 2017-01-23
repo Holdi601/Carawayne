@@ -63,57 +63,11 @@ public class SceneHandler :MonoBehaviour{
         activeMode = GameMode.EXPLORATION;
         rand = new System.Random();
 
-        //List<HexaPos> opponentsPos = new List<HexaPos>();
-        //opponentsPos.Add(new HexaPos(12,12));
-        //opponentsPos.Add(new HexaPos(12,13));
-        //opponentsPos.Add(new HexaPos(12,14));
-        //opponentsPos.Add(new HexaPos(12,15));
-        //TacticalGame game = new BattleGround(opponentsPos);
-        //game.init();
-        //game.run();
+        activeTacticalGame = new HuntingGround(5, 2);
+        //activeTacticalGame = new BattleGround(5);
+        //activeTacticalGame.init();
+        //activeTacticalGame.run();
 
-        //while (activeMode == GameMode.TACTICAL)
-        //{
-        //    Mercenary activeMeeple = getAllMeeplesFromType<Mercenary>()[0];
-        //    Opponent targetMeeple = getAllMeeplesFromType<Opponent>()[0];
-        //    int dist = Map.distance(activeMeeple.Pos, targetMeeple.Pos);
-
-        //    if (dist <= 1)
-        //    {
-        //        activeMeeple.fight(targetMeeple);
-        //    }
-        //    else
-        //    {
-        //        activeMeeple.moveTowardsTarget(targetMeeple.Pos);
-        //    }
-        //    game.onPlayerInteractionEnded();
-        //}
-
-        //HUNTINGGAME
-        TacticalGame game = new HuntingGround(5,2);
-        game.init();
-        game.run();
-
-        while (activeMode == GameMode.TACTICAL)
-        {
-            List<Hunter> hunters = getAllMeeplesFromType<Hunter>();
-            foreach (Hunter hunter in hunters)
-            {
-                HuntedAnimal targetMeeple = getAllMeeplesFromType<HuntedAnimal>()[0];
-                int dist = Map.distance(hunter.Pos, targetMeeple.Pos);
-
-                if (dist <= 6)
-                {
-                    hunter.hunt(targetMeeple);
-                }
-                else
-                {
-                    hunter.moveTowardsTarget(targetMeeple.Pos);
-                }
-            }
-
-            game.onPlayerInteractionEnded();
-        }
     }
 
     public static T createMeeple<T>(string _name, HexaPos _hexPos) where T:Meeple
@@ -147,7 +101,7 @@ public class SceneHandler :MonoBehaviour{
                 break;
         }
         
-        Meeple meeple = meepleObj.AddComponent<T>();
+        T meeple = meepleObj.AddComponent<T>();
         meeple.Pos = _hexPos;
         meeple.meepleName = _name;
 
@@ -266,6 +220,11 @@ public class SceneHandler :MonoBehaviour{
         if (!(position.x<0||position.x>14||position.y<0||position.y>14))
         {
             smallMap[position.x, position.y].GetComponent<innerTile>().meep = meeple;
+        }
+
+        if (activeMode == GameMode.TACTICAL && meeple.GetType().IsSubclassOf(typeof(Companion)))
+        {
+            activeCompanion.HasActionOutstanding = false;
         }
     }
 

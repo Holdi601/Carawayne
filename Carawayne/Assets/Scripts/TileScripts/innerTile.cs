@@ -13,24 +13,52 @@ public class innerTile : MonoBehaviour {
     {
         if (isActive)
         {
-            SceneHandler.setMeeplePos(SceneHandler.activeCompanion.gameObject, new HexaPos(posX, posY));
-            SceneHandler.activeCompanion = null;
             Map.highlightAllInnerTiles(false);
+            if (meep == null)
+            {
+                SceneHandler.setMeeplePos(SceneHandler.activeCompanion.gameObject, new HexaPos(posX, posY));
+            }
+            else if (meep.GetType() == typeof(Opponent) && SceneHandler.activeTacticalGame.GetType() == typeof (BattleGround))
+            {
+                Mercenary merc = (Mercenary)SceneHandler.activeCompanion;
+                merc.fight(meep.GetComponent<Opponent>());
+            }
+            else if (meep.GetType() == typeof(HuntedAnimal) && SceneHandler.activeTacticalGame.GetType()==typeof (HuntingGround))
+            {
+                Debug.Log("HUNT");
+                Hunter hunter = (Hunter)SceneHandler.activeCompanion;
+                hunter.hunt(meep.GetComponent<HuntedAnimal>());
+            }
+
+        SceneHandler.activeCompanion = null;
+
         }
     }
 
     public void setHighlighted(bool _isHighlighted)
     {
-        if (_isHighlighted)
+        isActive = _isHighlighted;
+
+        if (_isHighlighted && meep == null)
         {
             GetComponent<MeshRenderer>().material = Initialisation.innerTileActiveMate;
+                    }
+        else if(_isHighlighted && meep != null)
+        {
+            if (!meep.GetType().IsSubclassOf(typeof (Companion)))
+            {
+                GetComponent<MeshRenderer>().material = Initialisation.lookOutMate;
+            }
+            else
+            {
+                GetComponent<MeshRenderer>().material = Initialisation.innerTileMate;
+                isActive = false;
+            }
         }
         else
         {
             GetComponent<MeshRenderer>().material = Initialisation.innerTileMate;
         }
-        
-        isActive = _isHighlighted;
     }
 
     void resetClicks()
