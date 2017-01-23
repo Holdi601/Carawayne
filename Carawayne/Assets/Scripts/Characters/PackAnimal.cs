@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PackAnimal : Companion
@@ -40,6 +41,34 @@ public class PackAnimal : Companion
         int rest = Math.Min((actualLoad - _amount), 0);
         ActualLoad -= _amount;
         return Math.Abs(rest);
+    }
+
+    public bool isGuided()
+    {
+        List<HexaPos> guidedPoses = getGuidedPos();
+        bool isGuided = false;
+
+        foreach (var guidePos in guidedPoses)
+        {
+            innerTile guidedTile = SceneHandler.smallMap[guidePos.x, guidePos.y].GetComponent<innerTile>();
+
+            if (guidedTile.meep != null && (guidedTile.meep.GetType().IsSubclassOf(typeof(Companion))))
+            {
+                isGuided = true;
+            }
+        }
+
+        return isGuided;
+    }
+
+    public List<HexaPos> getGuidedPos()
+    {
+        List<HexaPos> guidedTiles = new List<HexaPos>();
+        HexaPos guidePos = Map.getPositionDirectionalByDistance(new HexaPos(Pos.x, Pos.y), 1, 1);
+        guidedTiles.Add(guidePos);
+        guidePos = Map.getPositionDirectionalByDistance(new HexaPos(Pos.x, Pos.y), 2, 1);
+        guidedTiles.Add(guidePos);
+        return guidedTiles;
     }
 
     //GETTER & SETTER

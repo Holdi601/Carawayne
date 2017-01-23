@@ -17,7 +17,7 @@ public class UI_test : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-        proviantStoragedText.text = SceneHandler.storagedProviant().ToString();
-        proviantUptakeText.text = SceneHandler.getFoodUptake().ToString();
+        //proviantStoragedText.text = SceneHandler.storagedProviant().ToString();
+        //proviantUptakeText.text = SceneHandler.getFoodUptake().ToString();
     }
 }

@@ -32,6 +32,7 @@ public class Initialisation : MonoBehaviour
     public Material highlightMat;
     public Material innerTileActiveMat;
     public Material innerTileMat;
+    public Material innerTileForbiddenMat;
     public Material lookOutMat;
     public Material transParent_Prefab;
     public Material activeAgentTileMat;
@@ -88,6 +89,7 @@ public class Initialisation : MonoBehaviour
     public static Material highlightMate;
     public static Material innerTileActiveMate;
     public static Material innerTileMate;
+    public static Material innerTileForbiddenMaterial;
     public static Material activeAgentTileMaterial;
     public static Material lookOutMate;
     public static Material transparentMat;
@@ -140,6 +142,7 @@ public class Initialisation : MonoBehaviour
         undiscoveredTile = undiscoveredTile_prefab;
         highlightMate = highlightMat;
         innerTile = innerTile_prefab;
+        innerTileForbiddenMaterial = innerTileForbiddenMat;
 
         mapGO = GameObject.Find("Map");
         innerTileHolderGO = GameObject.Find("innerTileHolder");

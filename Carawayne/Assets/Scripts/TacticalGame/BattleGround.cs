@@ -125,6 +125,8 @@ public class BattleGround : TacticalGame
     {
         List<Mercenary> mercenaries = SceneHandler.getAllMeeplesFromType<Mercenary>();
 
+        Debug.Log("PLAZERTURNENDED");
+
         //Player has available moves left if at least one of his mercenaries action outstanding
         foreach (Mercenary mercenary in mercenaries)
         {
@@ -158,6 +160,15 @@ public class BattleGround : TacticalGame
                 MeshRenderer meepTileMesh = SceneHandler.smallMap[merc.Pos.x, merc.Pos.y].GetComponent<MeshRenderer>();
                 meepTileMesh.material = Initialisation.activeAgentTileMaterial;
             }
+        }
+    }
+
+    public override void checkStartUpCondition()
+    {
+        List<Mercenary> mercs = SceneHandler.getAllMeeplesFromType<Mercenary>();
+        if (mercs.Count<=0)
+        {
+            onPlayerInteractionEnded();
         }
     }
 }

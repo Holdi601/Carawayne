@@ -158,4 +158,13 @@ public class HuntingGround : TacticalGame
             }
         }
     }
+
+    public override void checkStartUpCondition()
+    {
+        List<Hunter> hunter = SceneHandler.getAllMeeplesFromType<Hunter>();
+        if (hunter.Count <= 0)
+        {
+            onPlayerInteractionEnded();
+        }
+    }
 }

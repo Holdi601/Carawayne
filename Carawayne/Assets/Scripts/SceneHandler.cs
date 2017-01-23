@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Policy;
+using UnityEngine.SceneManagement;
 
 public class SceneHandler :MonoBehaviour{
 
@@ -48,36 +50,27 @@ public class SceneHandler :MonoBehaviour{
         //WICHTIG DRIN BEHALTEN!!!
         caravanPosition = new HexaPos(0, 0);
         
-
         //Map.discoverAllTiles(true);
         //Gesamt Skalierung des Brettspiels hilfreich für die Kameraführung. Momentan skalierung 10x
         Initialisation.mapGO.transform.localScale = new Vector3(10, 10, 10);
         turn = 0;
-        //Testing Area
         moveCaravan(new HexaPos(0, 0));
-
         meeples = new List<Meeple>();
-
-        createMeeple<Mercenary>("Bernd", new HexaPos(5, 5));
-        createMeeple<Mercenary>("Brutus", new HexaPos(6, 5));
-        createMeeple<Scout>("Kyle", new HexaPos(7, 6));
-        createMeeple<Hunter>("Tobi", new HexaPos(6, 6));
-        createMeeple<Hunter>("Horst", new HexaPos(7, 7));
-        createMeeple<Prince>("Kaliffa", new HexaPos(8, 8));
-        createMeeple<PackAnimal>("Camel1", new HexaPos(9, 10));
-
         sandstorms = new List<Sandstorm>();
         
         activeCompanion = null;
-        activeMode = GameMode.EXPLORATION;
         rand = new System.Random();
 
+        activeMode = GameMode.PREPARATION;
 
-        activeTacticalGame = new HuntingGround(5, 2);
-        //activeTacticalGame = new BattleGround(5);
-        //activeTacticalGame.init();
-        //activeTacticalGame.run();
+        createMeeple<Hunter>("prep1", new HexaPos(2, 11), true);
+        createMeeple<Mercenary>("prep2", new HexaPos(4, 12), true);
+        createMeeple<Healer>("prep3", new HexaPos(5, 13), true);
+        createMeeple<Scout>("prep4", new HexaPos(7, 14), true);
+        createMeeple<PackAnimal>("prep5", new HexaPos(13, 12), true);
+        createMeeple<Prince>("Prince", new HexaPos(8, 7));
 
+        
     }
 
     //Update FoodUptake Variable
@@ -104,7 +97,7 @@ public class SceneHandler :MonoBehaviour{
         foodStorage = storagedProviant();
     }
 
-    public static T createMeeple<T>(string _name, HexaPos _hexPos) where T:Meeple
+    public static T createMeeple<T>(string _name, HexaPos _hexPos, bool _neutral = false) where T:Meeple
     {
         GameObject meepleObj = null;
 
@@ -139,6 +132,7 @@ public class SceneHandler :MonoBehaviour{
         }
         
         Meeple meeple = meepleObj.AddComponent<T>();
+        meepleObj.name = _name;
         Vector3 scaleSave = meeple.transform.localScale;
         Vector3 posSave = meeple.transform.localPosition;
         meeple.Pos = _hexPos;
@@ -152,8 +146,66 @@ public class SceneHandler :MonoBehaviour{
         SoundHelper sh = tileHolder.GetComponent<SoundHelper>();
         sh.Play("spawn");
 
-        meeples.Add(meeple);
+        if (!_neutral)
+        {
+            meeples.Add(meeple);
+        }
+        
+        highlightUnguidedPackAnimals();
+
         return (T)meeple;
+    }
+
+    public static void highlightUnguidedPackAnimals()
+    {
+        List<PackAnimal> packAnimals = getAllMeeplesFromType<PackAnimal>();
+        foreach (PackAnimal pAnimal in packAnimals)
+        {
+            if (!pAnimal.isGuided())
+            {
+                List<HexaPos> guidedPoses = pAnimal.getGuidedPos();
+
+                foreach (HexaPos guidPos in guidedPoses)
+                {
+                    MeshRenderer unguidedTile = smallMap[guidPos.x, guidPos.y].GetComponent<MeshRenderer>();
+                    unguidedTile.material = Initialisation.innerTileForbiddenMaterial;
+                }
+            }
+        }
+    }
+
+    public void startJourney()
+    {
+        Debug.Log("START JOUNREY");
+        List<PackAnimal> packAnimals = getAllMeeplesFromType<PackAnimal>();
+        foreach (PackAnimal packAnimal in packAnimals)
+        {
+            if (!packAnimal.isGuided())
+            {
+                return;
+            }
+        }
+
+        List<Companion> comps = getAllMeeplesFromType<Companion>();
+        if (comps.Count <= 0)
+        {
+            return;
+        }
+
+        Destroy(GameObject.Find("StartJounreyButton"));
+
+        GameObject tmp = GameObject.Find("prep1").transform.parent.gameObject;
+        Destroy(tmp);
+        tmp = GameObject.Find("prep2").transform.parent.gameObject;
+        Destroy(tmp);
+        tmp = GameObject.Find("prep3").transform.parent.gameObject;
+        Destroy(tmp);
+        tmp = GameObject.Find("prep4").transform.parent.gameObject;
+        Destroy(tmp);
+        tmp = GameObject.Find("prep5").transform.parent.gameObject;
+        Destroy(tmp);
+
+        activeMode = GameMode.EXPLORATION;
     }
 
     public static void consumeProviant(int _amount)
@@ -174,7 +226,14 @@ public class SceneHandler :MonoBehaviour{
                 comp.Strength -= rest;
 
                 //Rest penalty through not having enough food on packAnimal
-                rest = packAnimals[i].unload(comp.ProviantDemand);
+                if (packAnimals.Count <= 0)
+                {
+                    rest = comp.ProviantDemand;
+                }else
+                {
+                    rest = packAnimals[i].unload(comp.ProviantDemand);
+                }
+                
 
                 while (rest > 0 && i < packAnimals.Count - 1)
                 {
@@ -264,8 +323,39 @@ public class SceneHandler :MonoBehaviour{
                 sh.Play("rest");
                 consumeProviant(getFoodUptake());
             }
-        }
 
+            List<PackAnimal> packAnimals = getAllMeeplesFromType<PackAnimal>();
+            foreach (PackAnimal packAnimal in packAnimals)
+            {
+                if (!packAnimal.isGuided())
+                {
+                    meeples.Remove(packAnimal);
+                    GameObject tmp = packAnimal.gameObject.transform.parent.gameObject;
+                    Destroy(tmp);
+                    sh.Play("leftBehind");
+                }
+            }
+
+            List<Companion> comps = getAllMeeplesFromType<Companion>();
+            List<Prince> prince = getAllMeeplesFromType<Prince>();
+            if (comps.Count <= 0 || prince.Count <= 0)
+            {
+                foreach (Companion comp in comps)
+                {
+                    meeples.Remove(comp);
+                    GameObject tmp = comp.gameObject.transform.parent.gameObject;
+                    Destroy(tmp);
+                }
+
+                SceneManager.LoadScene("Prototype v0.6");
+            }
+            Map.highlightAllInnerTiles(false);
+
+            activeTacticalGame = new BattleGround(1);
+            activeTacticalGame.init();
+            activeTacticalGame.run();
+
+        }
         turn++;
     }
 
@@ -279,7 +369,6 @@ public class SceneHandler :MonoBehaviour{
         Map.discover(pos);
         caravanPosition = pos;
         endTurn(true);
-
     }
 
     public static void positionAndParent_Meeple(GameObject Meeple, HexaPos position)
@@ -345,6 +434,8 @@ public class SceneHandler :MonoBehaviour{
         {
             activeCompanion.HasActionOutstanding = false;
         }
+
+        highlightUnguidedPackAnimals();
     }
 
     public static void rotateCaravan(int rot) //Mins GUZS; plus UZS
@@ -436,6 +527,8 @@ public class SceneHandler :MonoBehaviour{
             scoutingActive = false;
         }
     }
+
+
 
     public static int[] rollDices(int _dice, int _diceValue)
     {

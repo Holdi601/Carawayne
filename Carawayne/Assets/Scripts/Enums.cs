@@ -4,5 +4,6 @@ using System.Collections;
 public enum GameMode
 {
     EXPLORATION,
-    TACTICAL
+    TACTICAL,
+    PREPARATION
 }

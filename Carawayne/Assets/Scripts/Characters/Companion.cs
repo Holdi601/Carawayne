@@ -260,6 +260,10 @@ public class Companion : Meeple
         {
             activateCompanion(false);
         }
+        else if (SceneHandler.activeMode == GameMode.PREPARATION)
+        {
+            activateCompanion(false);
+        }
         else if (SceneHandler.activeTacticalGame.GetType() == typeof(HuntingGround))
         {
             if (GetType() == typeof(Hunter))
@@ -297,10 +301,81 @@ public class Companion : Meeple
             else
             {
                 Map.highlightAllInnerTiles(true);
+                List<Companion> comps = SceneHandler.getAllMeeplesFromType<Companion>();
+
+                List<HexaPos> negatiabletiles = new List<HexaPos>();
+
+                foreach (Companion comp in comps)
+                {
+                    if (comp != SceneHandler.activeCompanion)
+                    {
+                        if (comp.GetType() == typeof(Prince))
+                        {
+                            if (SceneHandler.activeCompanion.GetType() == typeof(Hunter))
+                            {
+                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 3));
+                            } else if (SceneHandler.activeCompanion.GetType() == typeof (PackAnimal))
+                            {
+                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 3));
+                            } else if (SceneHandler.activeCompanion.GetType() == typeof(Healer))
+                            {
+                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 1));
+                            } else if (SceneHandler.activeCompanion.GetType() == typeof(Mercenary))
+                            {
+                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 1));
+                            } else if (SceneHandler.activeCompanion.GetType() == typeof(Scout))
+                            {
+                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 1));
+                            }
+                        } else if (comp.GetType() == typeof(Hunter))
+                        {
+                            if (SceneHandler.activeCompanion.GetType() == typeof(Prince))
+                            {
+                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 3));
+                            }
+                        } else if (comp.GetType() == typeof(PackAnimal))
+                        {
+                            if (SceneHandler.activeCompanion.GetType() == typeof(Prince))
+                            {
+                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 3));
+                            }
+                        } else if (comp.GetType() == typeof(Mercenary))
+                        {
+                            if (SceneHandler.activeCompanion.GetType() == typeof(Prince))
+                            {
+                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 1));
+                            }
+                        } else if (comp.GetType() == typeof(Healer))
+                        {
+                            if (SceneHandler.activeCompanion.GetType() == typeof(Prince))
+                            {
+                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 1));
+                            }
+                        } else if (comp.GetType() == typeof(Scout))
+                        {
+                            if (SceneHandler.activeCompanion.GetType() == typeof(Prince))
+                            {
+                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 1));
+                            }
+                        }
+
+                    }
+                }
+
+                foreach (HexaPos negPos in negatiabletiles)
+                {
+                    try
+                    {
+                        innerTile negTile = SceneHandler.smallMap[negPos.x, negPos.y].GetComponent<innerTile>();
+                        negTile.setHighlighted(false);
+                    }catch (Exception e){}
+                }
             }
 
             MeshRenderer innerTMesh = SceneHandler.smallMap[Pos.x, Pos.y].GetComponent<MeshRenderer>();
             innerTMesh.material = Initialisation.lookOutMate;
+
+            SceneHandler.highlightUnguidedPackAnimals();
 
             GameObject tileHolder = GameObject.Find("tileHolder");
             SoundHelper sh = tileHolder.GetComponent<SoundHelper>();

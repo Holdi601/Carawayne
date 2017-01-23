@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
 public class innerTile : MonoBehaviour {
@@ -14,13 +15,42 @@ public class innerTile : MonoBehaviour {
         if (isActive)
         {
             Map.highlightAllInnerTiles(false);
-            if (meep == null)
+
+            if (meep == null && SceneHandler.meeples.Contains(SceneHandler.activeCompanion))
             {
                 SceneHandler.setMeeplePos(SceneHandler.activeCompanion.gameObject, new HexaPos(posX, posY));
 
                 GameObject tileHolder = GameObject.Find("tileHolder");
                 SoundHelper sh = tileHolder.GetComponent<SoundHelper>();
                 sh.Play("run");
+            }
+            else if (meep == null && SceneHandler.activeMode == GameMode.PREPARATION)
+            {
+                Type compType = SceneHandler.activeCompanion.GetType();
+
+                switch (compType.ToString())
+                {
+                    case "Mercenary":
+                        SceneHandler.createMeeple<Mercenary>("Mercenary", new HexaPos(posX, posY));
+                        break;
+                    case "Hunter":
+                        SceneHandler.createMeeple<Hunter>("Mercenary", new HexaPos(posX, posY));
+                        break;
+                    case "HuntedAnimal":
+                        SceneHandler.createMeeple<HuntedAnimal>("Mercenary", new HexaPos(posX, posY));
+                        break;
+                    case "Healer":
+                        SceneHandler.createMeeple<Healer>("Mercenary", new HexaPos(posX, posY));
+                        break;
+                    case "Scout":
+                        SceneHandler.createMeeple<Scout>("Mercenary", new HexaPos(posX, posY));
+                        break;
+                    case "PackAnimal":
+                        SceneHandler.createMeeple<PackAnimal>("Mercenary", new HexaPos(posX, posY));
+                        break;
+                    default:
+                        break;
+                }
             }
             else if (meep.GetType() == typeof(Opponent) && SceneHandler.activeTacticalGame.GetType() == typeof (BattleGround))
             {
