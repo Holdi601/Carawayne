@@ -12,7 +12,11 @@ public class Scout : Companion {
         strength = 6;
         strengthMax = 10;
         walkRange = 4;
+
+        HasActionOutstanding = true;
+
         setFoodPackages_hpBar();
+
     }
 
  

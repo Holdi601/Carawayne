@@ -34,6 +34,7 @@ public class Initialisation : MonoBehaviour
     public Material innerTileMat;
     public Material lookOutMat;
     public Material transParent_Prefab;
+    public Material activeAgentTileMat;
     public Material texture_Material_prefab;
 
     public GameObject hpbar_prefab;
@@ -87,7 +88,7 @@ public class Initialisation : MonoBehaviour
     public static Material highlightMate;
     public static Material innerTileActiveMate;
     public static Material innerTileMate;
-
+    public static Material activeAgentTileMaterial;
     public static Material lookOutMate;
     public static Material transparentMat;
 
@@ -156,6 +157,7 @@ public class Initialisation : MonoBehaviour
 
         innerTileMate = innerTileMat;
         innerTileActiveMate = innerTileActiveMat;
+        activeAgentTileMaterial = activeAgentTileMat;
 
         soldier = prefab_soldier;
         healer = prefab_healer;

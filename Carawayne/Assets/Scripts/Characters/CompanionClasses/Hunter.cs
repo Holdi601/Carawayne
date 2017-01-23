@@ -7,12 +7,6 @@ public class Hunter: Companion
     public int dice;
     public int diceValue;
 
-    //public Hunter(HexaPos _pos, string _name, int _proviantDemand, int _strength) : base(_pos, _name, _proviantDemand, _strength)
-    //{
-    //    dice = 1;
-    //    diceValue = 6;
-    //}
-
     void Awake()
     {
         
@@ -23,7 +17,11 @@ public class Hunter: Companion
         dice = 1;
         diceValue = 6;
         walkRange = 3;
+
+        HasActionOutstanding = true;
+
         setFoodPackages_hpBar();
+
     }
 
     public int hunt(HuntedAnimal _target)
@@ -31,7 +29,9 @@ public class Hunter: Companion
         int dist = Map.distance(_target.Pos, Pos);
         int rolledValue = SceneHandler.rollDice(diceValue);
 
-        hasActionOutstanding = false;
+        HasActionOutstanding = false;
+
+        Debug.Log(rolledValue+"--"+dist);
 
         //Todo: MapTiles distance problem. get Distance
         if (rolledValue >= dist)

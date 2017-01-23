@@ -1,26 +1,70 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class BattleGround : TacticalGame
 {
 
-    private List<HexaPos> opponentsPos; 
+    private List<HexaPos> opponentsPos;
+    private int initialDirection;
 
-    public BattleGround(List<HexaPos> _posList)
+    public BattleGround(int _initialDirection)
     {
-        opponentsPos = _posList;
+        initialDirection = _initialDirection;
+        opponentsPos = new List<HexaPos>();
+        Debug.Log("OpponentsSpanwingFromDirection:" + initialDirection);
+        switch (initialDirection)
+        {
+            case 3:
+                opponentsPos.Add(new HexaPos(4, 4));
+                opponentsPos.Add(new HexaPos(4, 6));
+                opponentsPos.Add(new HexaPos(4, 8));
+                opponentsPos.Add(new HexaPos(4, 10));
+                break;
+            case 2:
+                opponentsPos.Add(new HexaPos(8, 13));
+                opponentsPos.Add(new HexaPos(7, 12));
+                opponentsPos.Add(new HexaPos(5, 11));
+                opponentsPos.Add(new HexaPos(4, 10));
+                break;
+            case 1:
+                opponentsPos.Add(new HexaPos(8, 13));
+                opponentsPos.Add(new HexaPos(10, 12));
+                opponentsPos.Add(new HexaPos(11, 11));
+                opponentsPos.Add(new HexaPos(13, 10));
+                break;
+            case 0:
+                opponentsPos.Add(new HexaPos(13, 10));
+                opponentsPos.Add(new HexaPos(13, 8));
+                opponentsPos.Add(new HexaPos(13, 6));
+                opponentsPos.Add(new HexaPos(13, 4));
+                break;
+            case 5:
+                opponentsPos.Add(new HexaPos(13, 4));
+                opponentsPos.Add(new HexaPos(11, 3));
+                opponentsPos.Add(new HexaPos(10, 2));
+                opponentsPos.Add(new HexaPos(8, 1));
+                break;
+            case 4:
+                opponentsPos.Add(new HexaPos(8, 1));
+                opponentsPos.Add(new HexaPos(7, 2));
+                opponentsPos.Add(new HexaPos(5, 3));
+                opponentsPos.Add(new HexaPos(4, 4));
+                break;
+        }
+
+        
     }
 
     override public void init()
     {
         base.init();
-        
-        //Todo: Disable all Copmanion Gameobjects which are note required
 
+        //Todo: Disable all Copmanion Gameobjects which are note required
         foreach (HexaPos pos in opponentsPos)
         {
-            SceneHandler.createMeeple<Opponent>("Opponent", pos);
+            SceneHandler.createMeeple<Opponent>("opponent", pos);
         }
     }
 
@@ -79,12 +123,12 @@ public class BattleGround : TacticalGame
 
     public override bool hasPlayerAvailableMoves()
     {
-        List<Mercenary> mercenaries = new List<Mercenary>();
+        List<Mercenary> mercenaries = SceneHandler.getAllMeeplesFromType<Mercenary>();
 
         //Player has available moves left if at least one of his mercenaries action outstanding
         foreach (Mercenary mercenary in mercenaries)
         {
-            if (mercenary.hasActionOutstanding)
+            if (mercenary.HasActionOutstanding)
             {
                 return true;
             }
@@ -93,4 +137,27 @@ public class BattleGround : TacticalGame
         return false;
     }
 
+    public override void clear()
+    {
+
+        List<Opponent> huntedAnimals = SceneHandler.getAllMeeplesFromType<Opponent>();
+        foreach (Opponent huntedAnimal in huntedAnimals)
+        {
+            SceneHandler.Destroy(huntedAnimal.gameObject);
+        }
+    }
+
+    public override void highlightPossibleAgents()
+    {
+        List<Mercenary> mercenaries = SceneHandler.getAllMeeplesFromType<Mercenary>();
+
+        foreach (Mercenary merc in mercenaries)
+        {
+            if (merc.HasActionOutstanding)
+            {
+                MeshRenderer meepTileMesh = SceneHandler.smallMap[merc.Pos.x, merc.Pos.y].GetComponent<MeshRenderer>();
+                meepTileMesh.material = Initialisation.activeAgentTileMaterial;
+            }
+        }
+    }
 }

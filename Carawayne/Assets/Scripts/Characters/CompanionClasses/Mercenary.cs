@@ -19,23 +19,22 @@ public class Mercenary : Companion
         dice = 1;
         diceValue = 6;
         walkRange = 1;
+
+        HasActionOutstanding = true;
+
         setFoodPackages_hpBar();
+
     }
 
     public int fight(Opponent _target)
     {
         
-            int rolledValue = SceneHandler.rollDice(diceValue);
+        int rolledValue = SceneHandler.rollDice(diceValue);
 
-            hasActionOutstanding = false;
+        Debug.Log(meepleName + " hits " + _target.meepleName + " with a " + rolledValue + ". Dist = ");
 
-            Debug.Log(meepleName + " hits " + _target.meepleName + " with a " + rolledValue + ". Dist = ");
-
-            _target.damaged(rolledValue);
-
-            //Debug.Log(meepleName + " misses " + _target.meepleName + " with a " + rolledValue + ". Dist = " + dist);
-            ////MissesAnimation...Event...
-            //return rolledValue;
+        _target.damaged(rolledValue);
+        HasActionOutstanding = false;
         //TODO:
         return rolledValue;
     }

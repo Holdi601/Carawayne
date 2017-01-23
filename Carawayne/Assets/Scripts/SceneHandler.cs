@@ -24,8 +24,10 @@ public class SceneHandler :MonoBehaviour{
     public static int tacticalDirection=4;
     public static bool scoutingActive;
     public static bool healingActive;
-    
-    
+
+    public static int foodStorage;
+    public static int foodUptakePerRound;
+
 
     public static TacticalGame activeTacticalGame;
     public static System.Random rand;
@@ -70,67 +72,36 @@ public class SceneHandler :MonoBehaviour{
         activeMode = GameMode.EXPLORATION;
         rand = new System.Random();
 
-        
-        //List<HexaPos> opponentsPos = new List<HexaPos>();
-        //opponentsPos.Add(new HexaPos(12,12));
-        //opponentsPos.Add(new HexaPos(12,13));
-        //opponentsPos.Add(new HexaPos(12,14));
-        //opponentsPos.Add(new HexaPos(12,15));
-        //TacticalGame game = new BattleGround(opponentsPos);
-        //game.init();
-        //game.run();
 
-        //while (activeMode == GameMode.TACTICAL)
-        //{
-        //    Mercenary activeMeeple = getAllMeeplesFromType<Mercenary>()[0];
-        //    Opponent targetMeeple = getAllMeeplesFromType<Opponent>()[0];
-        //    int dist = Map.distance(activeMeeple.Pos, targetMeeple.Pos);
+        activeTacticalGame = new HuntingGround(5, 2);
+        //activeTacticalGame = new BattleGround(5);
+        //activeTacticalGame.init();
+        //activeTacticalGame.run();
 
-        //    if (dist <= 1)
-        //    {
-        //        activeMeeple.fight(targetMeeple);
-        //    }
-        //    else
-        //    {
-        //        activeMeeple.moveTowardsTarget(targetMeeple.Pos);
-        //    }
-        //    game.onPlayerInteractionEnded();
-        //}
+    }
 
-        //HUNTINGGAME
+    //Update FoodUptake Variable
+    public static void updateActualFoodUptake()
+    {
+        foodUptakePerRound = getFoodUptake();
+    }
 
-        TacticalGame game = new HuntingGround(5,2);
-        game.init();
-        game.run();
-
-
-        
-        
-        while (activeMode == GameMode.TACTICAL)
+    //Get Actual Food Uptake
+    public static int getFoodUptake()
+    {
+        int amount = 0;
+        List<Companion> companions = getAllMeeplesFromType<Companion>();
+        foreach (Companion comp in companions)
         {
-            List<Hunter> hunters = getAllMeeplesFromType<Hunter>();
-            foreach (Hunter hunter in hunters)
-            {
-                HuntedAnimal targetMeeple = getAllMeeplesFromType<HuntedAnimal>()[0];
-                int dist = Map.distance(hunter.Pos, targetMeeple.Pos);
-
-                if (dist <= 6)
-                {
-                    hunter.hunt(targetMeeple);
-                }
-                else
-                {
-                    hunter.moveTowardsTarget(targetMeeple.Pos);
-                }
-            }
-            
-            game.onPlayerInteractionEnded();
-            
-            
+            amount += comp.proviantDemand;
         }
+        return amount;
+    }
 
-        
-
+    //Update actual food stock variable
+    public static void updateActualFoodStock()
+    {
+        foodStorage = storagedProviant();
     }
 
     public static T createMeeple<T>(string _name, HexaPos _hexPos) where T:Meeple
@@ -176,36 +147,60 @@ public class SceneHandler :MonoBehaviour{
         positionAndParent_Meeple(meepleObj, _hexPos);
         meeple.transform.localScale = scaleSave;
         meeple.transform.localPosition = posSave;
-        
+
+        GameObject tileHolder = GameObject.Find("tileHolder");
+        SoundHelper sh = tileHolder.GetComponent<SoundHelper>();
+        sh.Play("spawn");
 
         meeples.Add(meeple);
         return (T)meeple;
     }
 
-    public static void createCompanion(Companion _comp)
-    {
-        
-    }
-
-    public static void createOpponent()
-    {
-        
-    }
-
     public static void consumeProviant(int _amount)
     {
+
         List<PackAnimal> packAnimals = getAllMeeplesFromType<PackAnimal>();
+        List<Companion> companions = getAllMeeplesFromType<Companion>();
 
-        Debug.Log("Caravan consumes proviant " + _amount);
-
-        foreach (PackAnimal packAnimal in packAnimals)
+        int i = 0;
+        foreach (Companion comp in companions)
         {
-            _amount = packAnimal.unload(_amount);
-            if (_amount <= 0)
+            if (comp.GetType() != typeof(PackAnimal))
             {
-                break;
+                int rest = 0;
+
+                //Rest penalty through Starving or half rations
+                rest = (comp.ProviantDemandMax - comp.ProviantDemand);
+                comp.Strength -= rest;
+
+                //Rest penalty through not having enough food on packAnimal
+                rest = packAnimals[i].unload(comp.ProviantDemand);
+
+                while (rest > 0 && i < packAnimals.Count - 1)
+                {
+                    i++;
+                    rest = packAnimals[i].unload(comp.ProviantDemand);
+                }
+
+                if (rest > 0)
+                {
+                    comp.Strength -= rest;
+                }
             }
         }
+
+        //List<PackAnimal> packAnimals = getAllMeeplesFromType<PackAnimal>();
+
+        //Debug.Log("Caravan consumes proviant " + _amount);
+
+        //foreach (PackAnimal packAnimal in packAnimals)
+        //{
+        //    _amount = packAnimal.unload(_amount);
+        //    if (_amount <= 0)
+        //    {
+        //        break;
+        //    }
+        //}
 
     }
 
@@ -262,10 +257,12 @@ public class SceneHandler :MonoBehaviour{
             if (_moved)
             {
                 sh.Play("move");
+                consumeProviant(getFoodUptake());
             }
             else
             {
                 sh.Play("rest");
+                consumeProviant(getFoodUptake());
             }
         }
 
@@ -342,6 +339,11 @@ public class SceneHandler :MonoBehaviour{
         if (!(position.x<0||position.x>14||position.y<0||position.y>14))
         {
             smallMap[position.x, position.y].GetComponent<innerTile>().meep = meeple;
+        }
+
+        if (activeMode == GameMode.TACTICAL && meeple.GetType().IsSubclassOf(typeof(Companion)))
+        {
+            activeCompanion.HasActionOutstanding = false;
         }
     }
 

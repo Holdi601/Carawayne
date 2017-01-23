@@ -17,6 +17,7 @@ public abstract class TacticalGame
         Debug.Log("TACTICAL GAME:" + GetType() + " STARTS");
         //Todo: Do run Game stuff. Sound. Animation. etc...
         SceneHandler.activeMode = GameMode.TACTICAL;
+        highlightPossibleAgents();
         //Do initialization stuff from specific tactical game
     }
 
@@ -39,11 +40,13 @@ public abstract class TacticalGame
     public void onPlayerInteractionEnded()
     {
         Debug.Log("Player did action.");
+        highlightPossibleAgents();
 
         if (isGameContinuingByCheckingWinCondition() && !hasPlayerAvailableMoves())
         {
             endTurn();
         }
+        
     }
 
     private bool isGameContinuingByCheckingWinCondition()
@@ -70,6 +73,8 @@ public abstract class TacticalGame
     {
         turn++;
 
+        highlightPossibleAgents();
+
         //Reset all movement Points from all opponent agents
         List<Companion> companions = SceneHandler.getAllMeeplesFromType<Companion>();
 
@@ -77,17 +82,18 @@ public abstract class TacticalGame
 
         foreach (Companion companion in companions)
         {
-            companion.hasActionOutstanding = true;
+            companion.HasActionOutstanding = true;
         }
 
         //Todo: enable copmanion gameobjects if neccessary
     }
 
-    public void stop()
+    virtual public void stop()
     {
         Debug.Log("TACTICAL GAME: " + GetType() + " ENDED!");
 
         //Todo: trigger stop status. Sound Animation etc...
+        clear();
         SceneHandler.activeMode = GameMode.EXPLORATION;
     }
 
@@ -96,6 +102,8 @@ public abstract class TacticalGame
         Debug.Log("TACTICAL GAME: " + GetType() + " INITIALIZE");
     }
 
+    public abstract void clear();
+
     public abstract void opponentsTurn();
 
     public abstract bool isTacticalGameWon();
@@ -103,5 +111,7 @@ public abstract class TacticalGame
     public abstract bool isTacticalGameLost();
 
     public abstract bool hasPlayerAvailableMoves();
+
+    public abstract void highlightPossibleAgents();
 
 }

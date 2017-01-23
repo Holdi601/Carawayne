@@ -1352,6 +1352,7 @@ public class Map : MonoBehaviour {
 
     public static void highlightAllInnerTiles(bool _isHighlighted)
     {
+
         foreach (GameObject tile in SceneHandler.smallMap)
         {
             tile.GetComponent<innerTile>().setHighlighted(_isHighlighted);

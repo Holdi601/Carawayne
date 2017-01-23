@@ -18,6 +18,7 @@ public class Healer: Companion
         strength = 2;
         strengthMax = 10;
         healPower = 2;
+        HasActionOutstanding = true;
         setFoodPackages_hpBar();
     }
 
@@ -25,7 +26,7 @@ public class Healer: Companion
     {
         Debug.Log(meepleName + " healed " + _target.meepleName + " with 2");
         _target.Strength += 2;
-        hasActionOutstanding = false;
+        HasActionOutstanding = false;
     }
 
     //public override void init(HexaPos _pos, string _meepleName)

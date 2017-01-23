@@ -18,6 +18,7 @@ public class Meeple : MonoBehaviour
         pos = new HexaPos(0,0);
         walkRange = 1;
         meepleName = "StandardName";
+        Debug.Log("AWAKE MEEPOLE");
     }
 
     public void moveTo(HexaPos _pos)
@@ -39,6 +40,10 @@ public class Meeple : MonoBehaviour
             SceneHandler.setMeeplePos(this.gameObject, moveTarget);
             Debug.Log(meepleName + "moved!!!to" + moveTarget + "DIRECTION:");
         }
+
+        GameObject tileHolder = GameObject.Find("tileHolder");
+        SoundHelper sh = tileHolder.GetComponent<SoundHelper>();
+        sh.Play("run");
     }
 
     //GETTER & SETTER
@@ -69,20 +74,17 @@ public class Meeple : MonoBehaviour
         get { return alive; }
         set {
             alive = value;
-            Debug.Log(meepleName + " died!");
-            SceneHandler.meeples.Remove(this);
-            GameObject tmp = gameObject.transform.parent.gameObject;
-            Destroy(tmp);
-            //Todo: Do kill implementation stuff
+
+            if (!alive)
+            {
+                SceneHandler.meeples.Remove(this);
+                GameObject tmp = gameObject.transform.parent.gameObject;
+                Destroy(tmp);
+
+                GameObject tileHolder = GameObject.Find("tileHolder");
+                SoundHelper sh = tileHolder.GetComponent<SoundHelper>();
+                sh.Play("die");
+            }
         }
     }
-
-    //void OnMouseDown()
-    //{
-
-    //    if (GetType().IsSubclassOf(typeof(Companion)))
-    //    {
-    //        Debug.Log("CLICK.Companion");
-    //    }
-    //}
 }

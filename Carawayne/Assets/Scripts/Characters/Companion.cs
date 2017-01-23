@@ -3,33 +3,16 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Companion : Meeple {
+public class Companion : Meeple
+{
 
     public int proviantDemand;
     public int ProviantDemandMax;
-   
-    public int _Strength;
-    public int strength
-    {
-        get
-        {
-            return _Strength;
-        }
-        set
-        {
-            _Strength = value;
 
-            if (hpbar != null)
-            {
-                updateHPbar();
-            }
-            
-
-        }
-    }
+    public int strength;
     public int strengthMax;
     private float proviantRation;
-    public bool hasActionOutstanding;
+    private bool hasActionOutstanding;
 
     //Reinhold
     private GameObject[] foodObjects;
@@ -47,7 +30,7 @@ public class Companion : Meeple {
             ProviantDemandMax = value;
             if (foodObjects != null)
             {
-                for(int i=0; i<foodObjects.Length; i++)
+                for (int i = 0; i < foodObjects.Length; i++)
                 {
                     if (foodObjects[i] != null)
                     {
@@ -57,7 +40,7 @@ public class Companion : Meeple {
             }
             if (skullObjects != null)
             {
-                for(int i=0; i<skullObjects.Length; i++)
+                for (int i = 0; i < skullObjects.Length; i++)
                 {
                     if (skullObjects[i] != null)
                     {
@@ -68,7 +51,7 @@ public class Companion : Meeple {
 
             foodObjects = new GameObject[value];
             skullObjects = new GameObject[value];
-            for(int i=0; i<value; i++)
+            for (int i = 0; i < value; i++)
             {
                 foodObjects[i] = (GameObject)Instantiate(Initialisation.food);
                 foodObjects[i].transform.name = "FoodPack_" + i.ToString();
@@ -102,8 +85,8 @@ public class Companion : Meeple {
 
     void updateHPbar()
     {
-        int percentage = Convert.ToInt16(((float)_Strength / (float)strengthMax) * 100f);
-        
+        int percentage = Convert.ToInt16(((float)Strength / (float)strengthMax) * 100f);
+
         for (int i = 0; i < 100; i++)
         {
             if (i < percentage)
@@ -123,7 +106,8 @@ public class Companion : Meeple {
     }
 
 
-    public void setFoodPackages_hpBar (){
+    public void setFoodPackages_hpBar()
+    {
 
         if (meepleName != null)
         {
@@ -134,7 +118,7 @@ public class Companion : Meeple {
             mr.material = m;
             SceneHandler.positionAndParent_HP(gameObject, hpbar);
             hpbar.transform.localScale = hpbar.transform.localScale * 0.4f;
-            
+
 
             for (int i = 0; i < foodObjects.Length; i++)
             {
@@ -146,7 +130,7 @@ public class Companion : Meeple {
                 foodObjects[i].transform.RotateAround(foodObjects[i].transform.parent.transform.position, new Vector3(0, 1, 0), (i * 50));
                 skullObjects[i].transform.Translate(new Vector3(0.3f, 0, 0));
                 skullObjects[i].transform.RotateAround(skullObjects[i].transform.parent.transform.position, new Vector3(0, 1, 0), (i * 50));
-                skullObjects[i].transform.Translate(new Vector3(0,0,0.133f));
+                skullObjects[i].transform.Translate(new Vector3(0, 0, 0.133f));
                 Vector3 tmp = skullObjects[i].transform.localEulerAngles;
                 tmp.z = -90;
                 skullObjects[i].transform.localEulerAngles = tmp;
@@ -156,7 +140,7 @@ public class Companion : Meeple {
             updateHPbar();
         }
 
-        
+
     }
 
     public void openStatistics()
@@ -164,29 +148,26 @@ public class Companion : Meeple {
 
     }
 
-    //public Companion(HexaPos _pos, string _name, int _proviantDemand, int _strength): base(_pos, _name)
-    //{
-    //    proviantDemand = _proviantDemand;
-    //    strength = _strength;
-    //    strengthMax = _strength;
-    //    proviantDemandMax = _proviantDemand;
-    //    ProviantRation = 1.0f;
-    //    hasActionOutstanding = true;
-    //}
-
-   void Awake()
+    public void initFoo()
     {
         ProviantRation = 1.0f;
         hasActionOutstanding = true;
         walkRange = 1;
+        Debug.Log("AWAKE COMPANION");
+    }
 
-        
+    void Awake()
+    {
+        ProviantRation = 1.0f;
+        hasActionOutstanding = true;
+        walkRange = 1;
     }
 
     public void moveTo(HexaPos _pos)
     {
         //Todo: Missing implementation movement
         hasActionOutstanding = false;
+
     }
 
     public void doAction(/*Action _action*/)
@@ -194,6 +175,7 @@ public class Companion : Meeple {
         //Todo: Implement if decide to generic action instead of individual subClass actions (fight, heal, etc...)
         //Todo: OnPlayerInteractionEnded trigger for tactical game. Raise Event OnPlayerInteraction
         hasActionOutstanding = false;
+
     }
 
     //Consume a proviant ration
@@ -224,22 +206,37 @@ public class Companion : Meeple {
     public int Strength
     {
         get { return strength; }
-        set {
-            strength = Math.Max(value, 0);
-            strength = Math.Min(value, strengthMax);
+        set
+        {
+
+            if (Strength <= 0 && value <= 0)
+            {
+                Alive = false;
+            }
+            else
+            {
+                strength = Math.Max(value, 0);
+                strength = Math.Min(value, strengthMax);
+
+                if (hpbar != null)
+                {
+                    updateHPbar();
+                }
+            }
         }
     }
 
     public float ProviantRation
     {
         get { return proviantRation; }
-        set {
+        set
+        {
             proviantRation = Math.Max(value, 0);
             proviantRation = Math.Min(value, 2);
             //If ProviantRation changes --> change proviantDemand
             proviantDemand = (int)(proviantDemand * proviantRation);
 
-           
+
 
         }
     }
@@ -252,40 +249,107 @@ public class Companion : Meeple {
             proviantDemand = Math.Max(value, 0);
             proviantDemand = Math.Min(value, proviantDemandMax);
 
-
-
             updateFoodConsumption();
-            
-
-
         }
     }
 
     void OnMouseDown()
     {
-        if (!SceneHandler.healingActive)
+        
+        if (SceneHandler.activeMode == GameMode.EXPLORATION)
         {
-
-
-            SceneHandler.activeCompanion = this;
-            List<HexaPos> walkableTilesPos = new List<HexaPos>();
-            walkableTilesPos = Map.tilesInRange(SceneHandler.activeCompanion.Pos, SceneHandler.activeCompanion.walkRange);
-
-            Map.highlightAllInnerTiles(false);
-
-            foreach (HexaPos tilePos in walkableTilesPos)
+            activateCompanion(false);
+        }
+        else if (SceneHandler.activeTacticalGame.GetType() == typeof(HuntingGround))
+        {
+            if (GetType() == typeof(Hunter))
             {
-                if (tilePos.x < 15 && tilePos.x > -1 && tilePos.y < 15 && tilePos.y > -1)
+                activateCompanion();
+            }
+        }
+        else if (SceneHandler.activeTacticalGame.GetType() == typeof(BattleGround))
+        {
+            if (GetType() == typeof(Mercenary))
+            {
+                activateCompanion();
+            }
+        }
+
+    }
+
+    public void activateCompanion(bool _respectWalkRange = true)
+    {
+        SceneHandler.activeCompanion = this;
+
+        if (hasActionOutstanding)
+        {
+            if (_respectWalkRange)
+            {
+                List<HexaPos> walkableTilesPos = new List<HexaPos>();
+                walkableTilesPos = Map.tilesInRange(Pos, walkRange);
+
+                Map.highlightAllInnerTiles(false);
+                foreach (HexaPos tilePos in walkableTilesPos)
                 {
                     SceneHandler.smallMap[tilePos.x, tilePos.y].GetComponent<innerTile>().setHighlighted(true);
                 }
+            }
+            else
+            {
+                Map.highlightAllInnerTiles(true);
+            }
+
+            MeshRenderer innerTMesh = SceneHandler.smallMap[Pos.x, Pos.y].GetComponent<MeshRenderer>();
+            innerTMesh.material = Initialisation.lookOutMate;
+
+            GameObject tileHolder = GameObject.Find("tileHolder");
+            SoundHelper sh = tileHolder.GetComponent<SoundHelper>();
+            sh.Play("selected");
+        }
+    }
+
+    public bool HasActionOutstanding
+    {
+        get { return hasActionOutstanding; }
+        set
+        {
+            hasActionOutstanding = value;
+
+            GameObject tileHolder = GameObject.Find("tileHolder");
+            SoundHelper sh = tileHolder.GetComponent<SoundHelper>();
+            sh.Play("applyToCommand");
+
+            if (!hasActionOutstanding)
+            {
+                SceneHandler.activeTacticalGame.onPlayerInteractionEnded();
+            }
+
+            if (!SceneHandler.healingActive)
+            {
+
+
+                SceneHandler.activeCompanion = this;
+                List<HexaPos> walkableTilesPos = new List<HexaPos>();
+                walkableTilesPos = Map.tilesInRange(SceneHandler.activeCompanion.Pos, SceneHandler.activeCompanion.walkRange);
+
+                Map.highlightAllInnerTiles(false);
+
+                foreach (HexaPos tilePos in walkableTilesPos)
+                {
+                    if (tilePos.x < 15 && tilePos.x > -1 && tilePos.y < 15 && tilePos.y > -1)
+                    {
+                        SceneHandler.smallMap[tilePos.x, tilePos.y].GetComponent<innerTile>().setHighlighted(true);
+                    }
+
+                }
+            }
+            else
+            {
+                Strength += 1;
+                SceneHandler.healingActive = false;
 
             }
-        }else
-        {
-            Strength += 1;
-            SceneHandler.healingActive = false;
-        }
 
+        }
     }
 }

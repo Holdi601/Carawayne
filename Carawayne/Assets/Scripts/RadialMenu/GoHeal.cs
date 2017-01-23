@@ -6,10 +6,10 @@ public class GoHeal : MonoBehaviour {
 
     void OnMouseDown()
     {
-        if (SceneHandler.activeCompanion.hasActionOutstanding)
+        if (SceneHandler.activeCompanion.HasActionOutstanding)
         {
             SceneHandler.healingActive = true;
-            SceneHandler.activeCompanion.hasActionOutstanding = false;
+            SceneHandler.activeCompanion.HasActionOutstanding = false;
             SceneHandler.activeCompanion.Strength -= 1;
         }
         ClickWorker.destroyRadialMenu();
