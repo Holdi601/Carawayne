@@ -7,12 +7,6 @@ public class Hunter: Companion
     public int dice;
     public int diceValue;
 
-    //public Hunter(HexaPos _pos, string _name, int _proviantDemand, int _strength) : base(_pos, _name, _proviantDemand, _strength)
-    //{
-    //    dice = 1;
-    //    diceValue = 6;
-    //}
-
     void Awake()
     {
         

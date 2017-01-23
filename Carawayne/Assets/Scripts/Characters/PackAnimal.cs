@@ -14,7 +14,10 @@ public class PackAnimal : Companion
         actualLoad = 30;
         loadCapacity = 30;
         butcherAmount = 10;
+        proviantDemand = 0;
+        ProviantDemandMax = 0;
         walkRange = 2;
+        HasActionOutstanding = true;
     }
 
     public int butcher()

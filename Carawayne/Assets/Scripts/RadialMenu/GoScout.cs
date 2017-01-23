@@ -6,10 +6,10 @@ public class GoScout : MonoBehaviour {
 
     void OnMouseDown()
     {
-        if (SceneHandler.activeCompanion.hasActionOutstanding)
+        if (SceneHandler.activeCompanion.HasActionOutstanding)
         {
             SceneHandler.scoutingActive = true;
-            SceneHandler.activeCompanion.hasActionOutstanding = false;
+            SceneHandler.activeCompanion.HasActionOutstanding = false;
         }
         ClickWorker.destroyRadialMenu();
     }

@@ -24,8 +24,10 @@ public class SceneHandler :MonoBehaviour{
     public static int tacticalDirection=4;
     public static bool scoutingActive;
     public static bool healingActive;
-    
-    
+
+    public static int foodStorage;
+    public static int foodUptakePerRound;
+
 
     public static TacticalGame activeTacticalGame;
     public static System.Random rand;
@@ -78,6 +80,30 @@ public class SceneHandler :MonoBehaviour{
 
     }
 
+    //Update FoodUptake Variable
+    public static void updateActualFoodUptake()
+    {
+        foodUptakePerRound = getFoodUptake();
+    }
+
+    //Get Actual Food Uptake
+    public static int getFoodUptake()
+    {
+        int amount = 0;
+        List<Companion> companions = getAllMeeplesFromType<Companion>();
+        foreach (Companion comp in companions)
+        {
+            amount += comp.proviantDemand;
+        }
+        return amount;
+    }
+
+    //Update actual food stock variable
+    public static void updateActualFoodStock()
+    {
+        foodStorage = storagedProviant();
+    }
+
     public static T createMeeple<T>(string _name, HexaPos _hexPos) where T:Meeple
     {
         GameObject meepleObj = null;
@@ -122,24 +148,59 @@ public class SceneHandler :MonoBehaviour{
         meeple.transform.localScale = scaleSave;
         meeple.transform.localPosition = posSave;
 
+        GameObject tileHolder = GameObject.Find("tileHolder");
+        SoundHelper sh = tileHolder.GetComponent<SoundHelper>();
+        sh.Play("spawn");
+
         meeples.Add(meeple);
         return (T)meeple;
     }
 
     public static void consumeProviant(int _amount)
     {
+
         List<PackAnimal> packAnimals = getAllMeeplesFromType<PackAnimal>();
+        List<Companion> companions = getAllMeeplesFromType<Companion>();
 
-        Debug.Log("Caravan consumes proviant " + _amount);
-
-        foreach (PackAnimal packAnimal in packAnimals)
+        int i = 0;
+        foreach (Companion comp in companions)
         {
-            _amount = packAnimal.unload(_amount);
-            if (_amount <= 0)
+            if (comp.GetType() != typeof(PackAnimal))
             {
-                break;
+                int rest = 0;
+
+                //Rest penalty through Starving or half rations
+                rest = (comp.ProviantDemandMax - comp.ProviantDemand);
+                comp.Strength -= rest;
+
+                //Rest penalty through not having enough food on packAnimal
+                rest = packAnimals[i].unload(comp.ProviantDemand);
+
+                while (rest > 0 && i < packAnimals.Count - 1)
+                {
+                    i++;
+                    rest = packAnimals[i].unload(comp.ProviantDemand);
+                }
+
+                if (rest > 0)
+                {
+                    comp.Strength -= rest;
+                }
             }
         }
+
+        //List<PackAnimal> packAnimals = getAllMeeplesFromType<PackAnimal>();
+
+        //Debug.Log("Caravan consumes proviant " + _amount);
+
+        //foreach (PackAnimal packAnimal in packAnimals)
+        //{
+        //    _amount = packAnimal.unload(_amount);
+        //    if (_amount <= 0)
+        //    {
+        //        break;
+        //    }
+        //}
 
     }
 
@@ -196,10 +257,12 @@ public class SceneHandler :MonoBehaviour{
             if (_moved)
             {
                 sh.Play("move");
+                consumeProviant(getFoodUptake());
             }
             else
             {
                 sh.Play("rest");
+                consumeProviant(getFoodUptake());
             }
         }
 

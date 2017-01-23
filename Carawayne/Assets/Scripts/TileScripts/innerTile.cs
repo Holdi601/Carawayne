@@ -17,6 +17,10 @@ public class innerTile : MonoBehaviour {
             if (meep == null)
             {
                 SceneHandler.setMeeplePos(SceneHandler.activeCompanion.gameObject, new HexaPos(posX, posY));
+
+                GameObject tileHolder = GameObject.Find("tileHolder");
+                SoundHelper sh = tileHolder.GetComponent<SoundHelper>();
+                sh.Play("run");
             }
             else if (meep.GetType() == typeof(Opponent) && SceneHandler.activeTacticalGame.GetType() == typeof (BattleGround))
             {

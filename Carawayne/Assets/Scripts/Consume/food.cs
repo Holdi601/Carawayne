@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class food : MonoBehaviour {
 
+
 	void OnMouseDown()
     {
         Companion c = gameObject.transform.parent.GetComponentInChildren<Companion>();
         c.ProviantDemand -= 1;
-        
     }
 }
