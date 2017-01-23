@@ -20,7 +20,12 @@ public class SceneHandler :MonoBehaviour{
     private static HexaPos lastPosition;
     public static HexaPos selectedMapTile;
     public static Meeple selectedMeeple;
+    public static HexaPos finishTile;
     public static int tacticalDirection=4;
+    public static bool scoutingActive;
+    public static bool healingActive;
+    
+    
 
     public static TacticalGame activeTacticalGame;
     public static System.Random rand;
@@ -30,20 +35,22 @@ public class SceneHandler :MonoBehaviour{
         
         //Create large Landscape
         largeMap = Map.createLandscape(20, 20);
-        
+        scoutingActive = false;
+        healingActive = false;
         //Create tactical Map;
         smallMap = Map.createSmallHexa();
         Map.setLookout(5);
-
+        finishTile = EventFunctionCollection.GetRandomField();
+        Map.setFinish(finishTile);
+        
         //WICHTIG DRIN BEHALTEN!!!
         caravanPosition = new HexaPos(0, 0);
         
-        //Map.discoverAllTiles(true);
 
         //Map.discoverAllTiles(true);
         //Gesamt Skalierung des Brettspiels hilfreich für die Kameraführung. Momentan skalierung 10x
         Initialisation.mapGO.transform.localScale = new Vector3(10, 10, 10);
-
+        turn = 0;
         //Testing Area
         moveCaravan(new HexaPos(0, 0));
 
@@ -58,10 +65,11 @@ public class SceneHandler :MonoBehaviour{
         createMeeple<PackAnimal>("Camel1", new HexaPos(9, 10));
 
         sandstorms = new List<Sandstorm>();
-        turn = 0;
+        
         activeCompanion = null;
         activeMode = GameMode.EXPLORATION;
         rand = new System.Random();
+
 
         activeTacticalGame = new HuntingGround(5, 2);
         //activeTacticalGame = new BattleGround(5);
@@ -91,6 +99,9 @@ public class SceneHandler :MonoBehaviour{
             case "Opponent":
                 meepleObj = (GameObject)Instantiate(Initialisation.raider);
                 break;
+            case "Healer":
+                meepleObj = (GameObject)Instantiate(Initialisation.healer);
+                break;
             case "Scout":
                 meepleObj = (GameObject)Instantiate(Initialisation.scout);
                 break;
@@ -98,27 +109,21 @@ public class SceneHandler :MonoBehaviour{
                 meepleObj = (GameObject)Instantiate(Initialisation.camel);
                 break;
             default:
-                break;
+                return null;
         }
         
-        T meeple = meepleObj.AddComponent<T>();
+        Meeple meeple = meepleObj.AddComponent<T>();
+        Vector3 scaleSave = meeple.transform.localScale;
+        Vector3 posSave = meeple.transform.localPosition;
         meeple.Pos = _hexPos;
         meeple.meepleName = _name;
 
         positionAndParent_Meeple(meepleObj, _hexPos);
+        meeple.transform.localScale = scaleSave;
+        meeple.transform.localPosition = posSave;
 
         meeples.Add(meeple);
         return (T)meeple;
-    }
-
-    public static void createCompanion(Companion _comp)
-    {
-        
-    }
-
-    public static void createOpponent()
-    {
-        
     }
 
     public static void consumeProviant(int _amount)
@@ -181,9 +186,24 @@ public class SceneHandler :MonoBehaviour{
         return genericMeeples;
     }
 
-    public static void endTurn()
+    public static void endTurn(bool _moved)
     {
-        
+        if (turn > 0)
+        {
+            Debug.Log("The turn ended. Did the Caravan moved? " + _moved);
+            GameObject tileHolder = GameObject.Find("tileHolder");
+            SoundHelper sh = tileHolder.GetComponent<SoundHelper>();
+            if (_moved)
+            {
+                sh.Play("move");
+            }
+            else
+            {
+                sh.Play("rest");
+            }
+        }
+
+        turn++;
     }
 
 
@@ -195,26 +215,62 @@ public class SceneHandler :MonoBehaviour{
         Map.setActiveTile(pos, lastPosition);
         Map.discover(pos);
         caravanPosition = pos;
-        endTurn();
+        endTurn(true);
 
     }
 
     public static void positionAndParent_Meeple(GameObject Meeple, HexaPos position)
     {
         GameObject par = GameObject.Find("MeepleCollection");
+        GameObject fath = new GameObject(Meeple.GetComponent<Meeple>().meepleName);
+        
+        fath.transform.localScale = par.transform.lossyScale;
+        fath.transform.position = par.transform.position;
+
+        
         Meeple.transform.localScale = par.transform.lossyScale;
         Meeple.transform.position = par.transform.position;
-        Meeple.transform.parent = par.transform;
+        Meeple.transform.localEulerAngles = new Vector3(0, 180, 0);
+        
+        //Meeple.transform.Translate(new Vector3(0, 0.4f, 0), Space.Self);
+        fath.transform.parent = par.transform;
+        Meeple.transform.parent = fath.transform;
         setMeeplePos(Meeple, position);
+        
+        Meeple mip = Meeple.GetComponent<Meeple>();
+        if (mip.GetType().IsSubclassOf(typeof(Companion)))
+        {
+            Companion c = Meeple.GetComponent<Companion>();
+            if (c.GetType().Name != "PackAnimal")
+            {
+                c.setFoodPackages_hpBar();
+            }
+            
+        }
+        
+    }
 
+    public static void positionAndParent_HP(GameObject Meeple, GameObject hp)
+    {
+        hp.transform.localScale = Meeple.transform.lossyScale;
+        hp.transform.position = Meeple.transform.position;
+        hp.transform.parent = Meeple.transform.parent;
+    }
+
+    public static void positionAndParent_Food(GameObject Meeple, GameObject food)
+    {
+        
+        food.transform.localScale = Meeple.transform.lossyScale;
+        food.transform.position = Meeple.transform.position;
+        food.transform.parent = Meeple.transform.parent;
     }
 
     public static void setMeeplePos(GameObject meepleObj, HexaPos position)
     {
-        Meeple meeple = meepleObj.GetComponent<Meeple>();
+        Meeple meeple = meepleObj.GetComponentInChildren<Meeple>();
         smallMap[meeple.Pos.x, meeple.Pos.y].GetComponent<innerTile>().meep = null;
 
-        meepleObj.transform.localPosition = Map.MapTileToPosition(position);
+        meepleObj.transform.parent.transform.localPosition = Map.MapTileToPosition(position);
         meeple.Pos = position;
 
         if (!(position.x<0||position.x>14||position.y<0||position.y>14))
@@ -255,7 +311,7 @@ public class SceneHandler :MonoBehaviour{
     public static void clickMaptile(HexaPos pos)
     {
         
-        if (Map.distance(pos, caravanPosition)<2 && activeMode==GameMode.EXPLORATION)
+        if (Map.distance(pos, caravanPosition)<2 && activeMode==GameMode.EXPLORATION &&!scoutingActive)
         {
             if (selectedMapTile == pos)
             {
@@ -286,7 +342,7 @@ public class SceneHandler :MonoBehaviour{
                     Map.discover(pos);
                 }else if(largeMap[pos.x, pos.y].GetComponent<Tile>().special == specialTile.Finish)
                 {
-                    //Code to win the game here.
+                    Debug.Log("You won. You cunt.");
                 }
                 
             }
@@ -311,6 +367,10 @@ public class SceneHandler :MonoBehaviour{
                 }
                 selectedMapTile = pos;
             }
+        }else if (Map.distance(pos, caravanPosition) < 3 && activeMode == GameMode.EXPLORATION && scoutingActive)
+        {
+            Map.discover(pos);
+            scoutingActive = false;
         }
     }
 

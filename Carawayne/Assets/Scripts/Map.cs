@@ -142,6 +142,7 @@ public class Map : MonoBehaviour {
         father.transform.position = new Vector3(-0.976f, 0.014f, -0.697f);
         father.transform.localScale = new Vector3(0.0666f, 0.0666f, 0.0666f);
         father.transform.parent = godfather.transform;
+        
         return result;
     }
 
@@ -478,7 +479,7 @@ public class Map : MonoBehaviour {
         for (int i = 1; i <= range; i++)
         {
 
-
+            
             HexaPos ecke1 = new HexaPos();
             HexaPos ecke2 = new HexaPos();
             HexaPos ecke3 = new HexaPos();
@@ -491,6 +492,7 @@ public class Map : MonoBehaviour {
             ecke4.y = hP.y;
             if (hP.y % 2 == 0)
             {
+                
                 ecke2.x = hP.x - ((i + 1) / 2);
                 ecke2.y = hP.y - i;
                 ecke3.x = hP.x + (i / 2);
@@ -502,15 +504,30 @@ public class Map : MonoBehaviour {
             }
             else
             {
+                if (i % 2 == 0)
+                {
+                    ecke2.x = hP.x - (i / 2);
+                    ecke2.y = hP.y - i;
+                    ecke3.x = hP.x + (i / 2);
+                    ecke3.y = hP.y - i;
+                    ecke5.x = hP.x + (i / 2);
+                    ecke5.y = hP.y + i;
+                    ecke6.x = hP.x - (i / 2);
+                    ecke6.y = hP.y + i;
+                }
+                else
+                {
+                    ecke2.x = hP.x - (i / 2);
+                    ecke2.y = hP.y - i;
+                    ecke3.x = hP.x + (i / 2)+1;
+                    ecke3.y = hP.y - i;
+                    ecke5.x = hP.x + (i / 2) + 1;
+                    ecke5.y = hP.y + i;
+                    ecke6.x = hP.x - (i / 2);
+                    ecke6.y = hP.y + i;
+                }
                 
-                ecke2.x = hP.x - (i / 2);
-                ecke2.y = hP.y - i;
-                ecke3.x = hP.x + (i / 2) + 1;
-                ecke3.y = hP.y - i;
-                ecke5.x = hP.x + (i / 2) + 1;
-                ecke5.y = hP.y + i;
-                ecke6.x = hP.x + (i / 2);
-                ecke6.y = hP.y + i;
+     
             }
             results.Add(ecke1);
             results.Add(ecke2);
@@ -518,6 +535,8 @@ public class Map : MonoBehaviour {
             results.Add(ecke4);
             results.Add(ecke5);
             results.Add(ecke6);
+        
+            
 
             if (i > 1)
             {
@@ -903,7 +922,7 @@ public class Map : MonoBehaviour {
             GameObject actmap = landscape[newX,newY].transform.FindChild("actualTile").gameObject;
             GameObject seeingTower = (GameObject)Instantiate(Initialisation.lookOutTower);
             seeingTower.transform.position = actmap.transform.position;
-            seeingTower.transform.Translate(new Vector3(0, 0.5f, 0));
+            
             seeingTower.transform.parent = actmap.transform;
         }
         
@@ -924,7 +943,7 @@ public class Map : MonoBehaviour {
             GameObject actmap = landscape[positions[i].x, positions[i].y].transform.FindChild("actualTile").gameObject;
             GameObject seeingTower = (GameObject)Instantiate(Initialisation.lookOutTower);
             seeingTower.transform.position = actmap.transform.position;
-            seeingTower.transform.Translate(new Vector3(0, 0.5f, 0));
+            
             seeingTower.transform.parent = actmap.transform;
             landscape[positions[i].x, positions[i].y].GetComponent<Tile>().special = specialTile.Lookout;
 
@@ -939,6 +958,7 @@ public class Map : MonoBehaviour {
         finishTile.transform.localScale = actmap.transform.lossyScale;
         finishTile.transform.name = "actualTile";
         finishTile.transform.parent = actmap.transform.parent;
+        finishTile.transform.tag = "Finish";
         discoveredTile dt = finishTile.AddComponent<discoveredTile>();
         dt.position = position;
         Destroy(actmap);

@@ -5,7 +5,7 @@ public class PackAnimal : Companion
 {
 
     private int actualLoad;
-    private int loadCapacity;
+    public int loadCapacity;
     private int butcherAmount;
 
     //Todo: change Pos to struct

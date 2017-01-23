@@ -1,27 +1,36 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class CameraController : MonoBehaviour {
     GameObject cameraGimbalGO;
     GameObject cameraGo;
+    GameObject cameraTGTGO;
     float xMin, zMin, xMax, zMax, yMin, yMax;
     public static bool cameraControl = true;
     Vector3 backuppos;
     Quaternion backupRot;
-
+    int leftEdge, rightEdge, upperEdge, lowerEdge;
+    
 
 	// Use this for initialization
 	void Start () {
         cameraGimbalGO = GameObject.Find("CameraGimbal");
         cameraGo = GameObject.Find("Camera");
+        cameraTGTGO = GameObject.Find("CameraLookAtTGT");
         setCameraBoundries();
+        leftEdge = Convert.ToInt16(Screen.width*0.1f);
+        rightEdge = Screen.width - leftEdge;
+        lowerEdge = Convert.ToInt16(Screen.height * 0.1f);
+        upperEdge = Screen.height - lowerEdge;
+
         
     }
 	
 	// Update is called once per frame
 	void Update () {
         Vector3 mousePos = Input.mousePosition;
-        
+        //Debug.Log(mousePos);
         if (cameraControl)
         {
             if (Input.GetKeyDown(KeyCode.M))
@@ -35,7 +44,8 @@ public class CameraController : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.Mouse2))
             {
-                cameraGimbalGO.transform.localEulerAngles += new Vector3(0, Input.GetAxis("Mouse X") * Time.deltaTime*80, 0);
+                cameraTGTGO.transform.localEulerAngles += new Vector3(0, Input.GetAxis("Mouse X") * Time.deltaTime*80, 0);
+                
                 //cameraGimbalGO.transform.RotateAround(SceneHandler.largeMap[SceneHandler.caravanPosition.x, SceneHandler.caravanPosition.y].transform.position, new Vector3(0, 1, 0), Input.GetAxis("Mouse X"));
             }
 
@@ -48,49 +58,51 @@ public class CameraController : MonoBehaviour {
             {
                 if(Input.mouseScrollDelta.y >0 && cameraGimbalGO.transform.position.y > yMin)
                 {
-                    Vector3 translate = new Vector3(0, Mathf.Sin(cameraGo.transform.eulerAngles.x * ((2 * Mathf.PI) / 360) )*2*-1, (Mathf.Cos(cameraGo.transform.eulerAngles.x *((2*Mathf.PI)/360))*2));
+                    Vector3 translate = new Vector3(0, (Mathf.Sin(cameraGo.transform.eulerAngles.x * ((2 * Mathf.PI) / 360) )*2*-1)*(0.1f*cameraGo.transform.position.y), (Mathf.Cos(cameraGo.transform.eulerAngles.x *((2*Mathf.PI)/360))*2));
                     cameraGimbalGO.transform.Translate(translate);
                 }
                 if(Input.mouseScrollDelta.y<0 && cameraGimbalGO.transform.position.y < yMax)
                 {
-                    Vector3 translate = new Vector3(0, Mathf.Sin(cameraGo.transform.eulerAngles.x * ((2 * Mathf.PI) / 360)) * 2 , (Mathf.Cos(cameraGo.transform.eulerAngles.x * ((2 * Mathf.PI) / 360)) * 2*-1));
+                    Vector3 translate = new Vector3(0, Mathf.Sin(cameraGo.transform.eulerAngles.x * ((2 * Mathf.PI) / 360)) * 2 * (0.1f * cameraGo.transform.position.y), (Mathf.Cos(cameraGo.transform.eulerAngles.x * ((2 * Mathf.PI) / 360)) * 2*-1));
                     cameraGimbalGO.transform.Translate(translate);
                 }
             }
 
-            if (mousePos.x < 100)
+            if (mousePos.x < leftEdge)
             {
-                if (cameraGimbalGO.transform.position.x > xMin)
+                if (cameraTGTGO.transform.position.x > xMin)
                 {
-                    Vector3 transl = new Vector3(Time.deltaTime * -10, 0, 0);
-                    cameraGimbalGO.transform.Translate(transl);
+                    Vector3 transl = new Vector3(Time.deltaTime * ((mousePos.x-leftEdge)*(0.01f*cameraGo.transform.position.y)), 0, 0);
+                    cameraTGTGO.transform.Translate(transl);
                 }
 
             }
-            else if (mousePos.x > (Screen.width - 100))
+            else if (mousePos.x >rightEdge)
             {
-                if (cameraGimbalGO.transform.position.x < xMax)
+                if (cameraTGTGO.transform.position.x < xMax)
                 {
-                    Vector3 transl = new Vector3(Time.deltaTime * 10, 0, 0);
-                    cameraGimbalGO.transform.Translate(transl);
+                    Vector3 transl = new Vector3(Time.deltaTime * ((mousePos.x-rightEdge)*(0.01f*cameraGo.transform.position.y)), 0, 0);
+                    cameraTGTGO.transform.Translate(transl);
                 }
 
             }
-            if (mousePos.y < 100)
+            if (mousePos.y < lowerEdge)
             {
-                if (cameraGimbalGO.transform.position.z > zMin)
+                if (cameraTGTGO.transform.position.z > zMin)
                 {
-                    Vector3 transl = new Vector3(0, 0, Time.deltaTime * -10);
-                    cameraGimbalGO.transform.Translate(transl);
+                    Vector3 transl = new Vector3(0, 0, Time.deltaTime * ((mousePos.y-lowerEdge)*(0.01f * cameraGo.transform.position.y)));
+                   
+                    cameraTGTGO.transform.Translate(transl);
                 }
 
             }
-            else if (mousePos.y > (Screen.height - 100))
+            else if (mousePos.y > upperEdge)
             {
-                if (cameraGimbalGO.transform.position.z < zMax)
+                if (cameraTGTGO.transform.position.z < zMax)
                 {
-                    Vector3 transl = new Vector3(0, 0, Time.deltaTime * 10);
-                    cameraGimbalGO.transform.Translate(transl);
+                    Vector3 transl = new Vector3(0, 0, Time.deltaTime * ((mousePos.y-upperEdge)*(0.01f*cameraGo.transform.position.y)));
+
+                    cameraTGTGO.transform.Translate(transl);
                 }
 
             }
@@ -109,10 +121,10 @@ public class CameraController : MonoBehaviour {
 
     void resetCamera()
     {
-        cameraGimbalGO.transform.eulerAngles= new Vector3(0,0,0);
-        cameraGimbalGO.transform.position = new Vector3(0, 0, 0);
-        Vector3 newpos = SceneHandler.largeMap[SceneHandler.caravanPosition.x, SceneHandler.caravanPosition.y].transform.position + new Vector3(0, 10, -20);
-        cameraGimbalGO.transform.Translate(newpos);
+        cameraTGTGO.transform.eulerAngles= new Vector3(0,0,0);
+        cameraTGTGO.transform.position = new Vector3(0, 0, 0);
+        Vector3 newpos = SceneHandler.largeMap[SceneHandler.caravanPosition.x, SceneHandler.caravanPosition.y].transform.position;
+        cameraTGTGO.transform.Translate(newpos);
     }
 
     void testDistance(bool h)

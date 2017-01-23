@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Xml;
+using UnityEditor;
 
 public class EventSystemManager : MonoBehaviour
 {
@@ -35,7 +36,8 @@ public class EventSystemManager : MonoBehaviour
     private string _valueTitle;
     private string _valueConsequenceText;
     private string _valueEventText;
-    private Sprite _valueEventImage;
+    private string _valueEventImage;
+    private Sprite _spriteEventImage;
     private string _codeEvent;
     private string _codeEventConsequence;
 
@@ -111,8 +113,9 @@ public class EventSystemManager : MonoBehaviour
             _valueEventText = requiredTask.SelectSingleNode("eventText").InnerText;
             _valueConsequenceText = requiredTask.SelectSingleNode("consequenceText").InnerText;
 
-            // TODO: find image file from xml path to display in the "_eventImage" object
-            _valueEventImage = null;
+            // UNTESTED
+            _valueEventImage = "Assets/Resources/Sprites/" + requiredTask.SelectSingleNode("eventImage").InnerText;
+            Debug.Log("Image Path: " + _valueEventImage);
 
             _codeEvent = requiredTask.SelectSingleNode("code").InnerText;
             _codeEventConsequence = requiredTask.SelectSingleNode("consequenceCode").InnerText;
@@ -130,8 +133,9 @@ public class EventSystemManager : MonoBehaviour
         _eventText.text = _valueEventText;
         _eventConsequenceText.text = _valueConsequenceText;
 
-        // TODO: add Attribute "eventImage" (path to image file) to XML files for usage here 
-        _eventImage.sprite = _valueEventImage;
+        // UNTESTED
+        _eventImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(_valueEventImage);
+        Debug.Log("SPRITE: " + _eventImage.sprite);
     }
 
     public void OnCloseButtonClick()
@@ -151,8 +155,23 @@ public class EventSystemManager : MonoBehaviour
 
     private void CallEventFunctions(string codeEvent, string codeEventConsequence)
     {
-        Debug.Log("Event Code: " + codeEvent);
-        Debug.Log("Consequence Code: " + codeEventConsequence);
+        string codeEv = "GETFIELDSOFTYPE|desert~GETFIELDSINRADIUS|3|5";
+        string codeCons = "GETFIELDSOFTYPE|desert~GETFIELDSINRADIUS|3";
+        
+        string[] splitCodeEventPairs = codeEv.Split("~".ToCharArray());
+        string[] splitCodeConsequencePairs = codeCons.Split("~".ToCharArray());
+
+        for(int i = 0; i < splitCodeEventPairs.Length; i++)
+        {
+            Debug.Log("Event-Pair " + i + ": " + splitCodeEventPairs[i]);
+        }
+
+        for (int i = 0; i < splitCodeConsequencePairs.Length; i++)
+        {
+            Debug.Log("Consequence-Pair " + i + ": " + splitCodeConsequencePairs[i]);
+        }
+
+        EventFunctionCollection.CallEventFunctions(splitCodeEventPairs, splitCodeConsequencePairs);
 
         // Idee:
         

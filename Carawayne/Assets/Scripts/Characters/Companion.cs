@@ -6,11 +6,163 @@ using System.Collections.Generic;
 public class Companion : Meeple {
 
     public int proviantDemand;
-    public int proviantDemandMax;
-    public int strength;
+    public int ProviantDemandMax;
+   
+    public int _Strength;
+    public int strength
+    {
+        get
+        {
+            return _Strength;
+        }
+        set
+        {
+            _Strength = value;
+
+            if (hpbar != null)
+            {
+                updateHPbar();
+            }
+            
+
+        }
+    }
     public int strengthMax;
     private float proviantRation;
     private bool hasActionOutstanding;
+
+    //Reinhold
+    private GameObject[] foodObjects;
+    private GameObject[] skullObjects;
+    private GameObject hpbar;
+    private Texture2D hpbar_content;
+    public int proviantDemandMax
+    {
+        get
+        {
+            return ProviantDemandMax;
+        }
+        set
+        {
+            ProviantDemandMax = value;
+            if (foodObjects != null)
+            {
+                for(int i=0; i<foodObjects.Length; i++)
+                {
+                    if (foodObjects[i] != null)
+                    {
+                        Destroy(foodObjects[i]);
+                    }
+                }
+            }
+            if (skullObjects != null)
+            {
+                for(int i=0; i<skullObjects.Length; i++)
+                {
+                    if (skullObjects[i] != null)
+                    {
+                        Destroy(skullObjects[i]);
+                    }
+                }
+            }
+
+            foodObjects = new GameObject[value];
+            skullObjects = new GameObject[value];
+            for(int i=0; i<value; i++)
+            {
+                foodObjects[i] = (GameObject)Instantiate(Initialisation.food);
+                foodObjects[i].transform.name = "FoodPack_" + i.ToString();
+                foodObjects[i].AddComponent<food>();
+                skullObjects[i] = (GameObject)Instantiate(Initialisation.skull);
+                skullObjects[i].transform.name = "SkullPack_" + i.ToString();
+                skullObjects[i].AddComponent<skull>();
+            }
+
+            updateFoodConsumption();
+
+        }
+    }
+
+    void updateFoodConsumption()
+    {
+        for (int i = 0; i < foodObjects.Length; i++)
+        {
+            if (i < proviantDemand)
+            {
+                foodObjects[i].SetActive(true);
+                skullObjects[i].SetActive(false);
+            }
+            else
+            {
+                foodObjects[i].SetActive(false);
+                skullObjects[i].SetActive(true);
+            }
+        }
+    }
+
+    void updateHPbar()
+    {
+        int percentage = Convert.ToInt16(((float)_Strength / (float)strengthMax) * 100f);
+        
+        for (int i = 0; i < 100; i++)
+        {
+            if (i < percentage)
+            {
+                hpbar_content.SetPixel(i + 1, 1, new Color(0f, 1f, 0f));
+            }
+            else
+            {
+                hpbar_content.SetPixel(i + 1, 1, new Color(1f, 0f, 0f));
+            }
+        }
+        hpbar_content.Apply();
+        MeshRenderer mr = hpbar.GetComponent<MeshRenderer>();
+        Material m = mr.material;
+        m.SetTexture("_MainTex", hpbar_content);
+        mr.material = m;
+    }
+
+
+    public void setFoodPackages_hpBar (){
+
+        if (meepleName != null)
+        {
+            hpbar_content = new Texture2D(100, 1);
+            hpbar = (GameObject)Instantiate(Initialisation.hpbar);
+            Material m = (Material)Instantiate(Initialisation.texture_Material);
+            MeshRenderer mr = hpbar.GetComponent<MeshRenderer>();
+            mr.material = m;
+            SceneHandler.positionAndParent_HP(gameObject, hpbar);
+            hpbar.transform.localScale = hpbar.transform.localScale * 0.4f;
+            
+
+            for (int i = 0; i < foodObjects.Length; i++)
+            {
+
+
+                SceneHandler.positionAndParent_Food(gameObject, foodObjects[i]);
+                SceneHandler.positionAndParent_Food(gameObject, skullObjects[i]);
+                foodObjects[i].transform.Translate(new Vector3(0.3f, 0, 0));
+                foodObjects[i].transform.RotateAround(foodObjects[i].transform.parent.transform.position, new Vector3(0, 1, 0), (i * 50));
+                skullObjects[i].transform.Translate(new Vector3(0.3f, 0, 0));
+                skullObjects[i].transform.RotateAround(skullObjects[i].transform.parent.transform.position, new Vector3(0, 1, 0), (i * 50));
+                skullObjects[i].transform.Translate(new Vector3(0,0,0.133f));
+                Vector3 tmp = skullObjects[i].transform.localEulerAngles;
+                tmp.z = -90;
+                skullObjects[i].transform.localEulerAngles = tmp;
+
+
+            }
+            updateHPbar();
+        }
+
+        
+    }
+
+    public void openStatistics()
+    {
+
+    }
 
     //public Companion(HexaPos _pos, string _name, int _proviantDemand, int _strength): base(_pos, _name)
     //{
@@ -22,6 +174,7 @@ public class Companion : Meeple {
     //    hasActionOutstanding = true;
     //}
 
+
     public void initFoo()
     {
         ProviantRation = 1.0f;
@@ -30,12 +183,11 @@ public class Companion : Meeple {
         Debug.Log("AWAKE COMPANION");
     }
 
-    void Awake()
+	void Awake()
     {
         ProviantRation = 1.0f;
         hasActionOutstanding = true;
         walkRange = 1;
-        Debug.Log("AWAKE COMPANION");
     }
 
     public void moveTo(HexaPos _pos)
@@ -95,6 +247,9 @@ public class Companion : Meeple {
             proviantRation = Math.Min(value, 2);
             //If ProviantRation changes --> change proviantDemand
             proviantDemand = (int)(proviantDemand * proviantRation);
+
+           
+
         }
     }
 
@@ -105,11 +260,19 @@ public class Companion : Meeple {
         {
             proviantDemand = Math.Max(value, 0);
             proviantDemand = Math.Min(value, proviantDemandMax);
+
+
+
+            updateFoodConsumption();
+            
+
+
         }
     }
 
     void OnMouseDown()
     {
+
         
         if (SceneHandler.activeMode== GameMode.EXPLORATION)
         {
@@ -170,6 +333,31 @@ public class Companion : Meeple {
             {
                 SceneHandler.activeTacticalGame.onPlayerInteractionEnded();
             }
-        }
+
+			if (!SceneHandler.healingActive)
+			{
+
+
+				SceneHandler.activeCompanion = this;
+				List<HexaPos> walkableTilesPos = new List<HexaPos>();
+				walkableTilesPos = Map.tilesInRange(SceneHandler.activeCompanion.Pos, SceneHandler.activeCompanion.walkRange);
+
+				Map.highlightAllInnerTiles(false);
+
+				foreach (HexaPos tilePos in walkableTilesPos)
+				{
+					if (tilePos.x < 15 && tilePos.x > -1 && tilePos.y < 15 && tilePos.y > -1)
+					{
+						SceneHandler.smallMap[tilePos.x, tilePos.y].GetComponent<innerTile>().setHighlighted(true);
+					}
+
+				}
+			}else
+			{
+				Strength += 1;
+				SceneHandler.healingActive = false;
+
+			}
+
     }
 }

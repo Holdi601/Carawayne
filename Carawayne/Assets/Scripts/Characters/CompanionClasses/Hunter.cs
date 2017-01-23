@@ -15,6 +15,7 @@ public class Hunter: Companion
 
     void Awake()
     {
+        
         proviantDemand = 1;
         proviantDemandMax = 1;
         strength = 4;
@@ -22,7 +23,11 @@ public class Hunter: Companion
         dice = 1;
         diceValue = 6;
         walkRange = 3;
+
         HasActionOutstanding = true;
+
+        setFoodPackages_hpBar();
+
     }
 
     public int hunt(HuntedAnimal _target)

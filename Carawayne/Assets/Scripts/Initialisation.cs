@@ -35,7 +35,9 @@ public class Initialisation : MonoBehaviour
     public Material lookOutMat;
     public Material transParent_Prefab;
     public Material activeAgentTileMat;
+    public Material texture_Material_prefab;
 
+    public GameObject hpbar_prefab;
     public GameObject prefab_soldier;
     public GameObject prefab_healer;
     public GameObject prefab_king;
@@ -44,6 +46,7 @@ public class Initialisation : MonoBehaviour
     public GameObject prefab_raider;
     public GameObject prefab_camel;
     public GameObject prefab_food;
+    public GameObject prefab_skull;
     public GameObject prefab_lookOutTower;
     public GameObject prefab_staticHostile;
     public GameObject prefab_aligator;
@@ -52,6 +55,9 @@ public class Initialisation : MonoBehaviour
     public GameObject prefab_sandworm;
     public GameObject prefab_sandshark;
     public GameObject prefab_gollok;
+
+    public Sprite prefab_sprt;
+   
 
     //Shared prefabs for the map Creator e.g.
     public static GameObject sandTile_1;
@@ -94,6 +100,7 @@ public class Initialisation : MonoBehaviour
     public static GameObject raider;
     public static GameObject camel;
     public static GameObject food;
+    public static GameObject skull;
     public static GameObject lookOutTower;
     public static GameObject staticHostile;
     public static GameObject aligator;
@@ -104,12 +111,20 @@ public class Initialisation : MonoBehaviour
     public static GameObject gollok;
     public static GameObject planeSample;
 
+
+    public static GameObject hpbar;
+    public static Material texture_Material;
     public static GameObject mapGO, innerTileHolderGO, tileHolderGo;
+    public static Sprite sprt;
 
     // Use this for initialization
 
     void Awake()
     {
+        sprt = prefab_sprt;
+        skull = prefab_skull;
+        hpbar = hpbar_prefab;
+        texture_Material = texture_Material_prefab;
         sandTile_1 = sandTile_1_prefab;
         sandTile_2 = sandTile_2_prefab;
         sandTile_3 = sandTile_3_prefab;
@@ -156,5 +171,16 @@ public class Initialisation : MonoBehaviour
         lookOutTower = prefab_lookOutTower;
         staticHostile = prefab_staticHostile;
         antilope = prefab_antilope;
+
+
+
+      
+        
+    }
+
+
+    void Update()
+    {
+
     }
 }

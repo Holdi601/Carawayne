@@ -11,6 +11,7 @@ public class Mercenary : Companion
 
     void Awake()
     {
+        
         proviantDemand = 2;
         proviantDemandMax = 2;
         strength = 7;
@@ -18,7 +19,11 @@ public class Mercenary : Companion
         dice = 1;
         diceValue = 6;
         walkRange = 1;
+
         HasActionOutstanding = true;
+
+        setFoodPackages_hpBar();
+
     }
 
     public int fight(Opponent _target)

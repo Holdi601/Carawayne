@@ -1,0 +1,203 @@
+fileFormatVersion: 2
+guid: 5fb23b7119647bf4ebfca9a26b4e3d81
+timeCreated: 1484822550
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: group1
+    100002: moon_geo
+    100004: sunclockPointer_geo
+    100006: tower_geo
+    100008: tower_geo_001
+    100010: towerCylinder10_geo
+    100012: towerCylinder11_geo
+    100014: towerCylinder12_geo
+    100016: towerCylinder13_geo
+    100018: towerCylinder14_geo
+    100020: towerCylinder15_geo
+    100022: towerCylinder16_geo
+    100024: towerCylinder17_geo
+    100026: towerCylinder18_geo
+    100028: towerCylinder19_geo
+    100030: towerCylinder1_geo
+    100032: towerCylinder20_geo
+    100034: towerCylinder2_geo
+    100036: towerCylinder3_geo
+    100038: towerCylinder4_geo
+    100040: towerCylinder5_geo
+    100042: towerCylinder6_geo
+    100044: towerCylinder7_geo
+    100046: towerCylinder8_geo
+    100048: towerCylinder9_geo
+    100050: towerPlane_geo
+    100052: //RootNode
+    400000: group1
+    400002: moon_geo
+    400004: sunclockPointer_geo
+    400006: tower_geo
+    400008: tower_geo_001
+    400010: towerCylinder10_geo
+    400012: towerCylinder11_geo
+    400014: towerCylinder12_geo
+    400016: towerCylinder13_geo
+    400018: towerCylinder14_geo
+    400020: towerCylinder15_geo
+    400022: towerCylinder16_geo
+    400024: towerCylinder17_geo
+    400026: towerCylinder18_geo
+    400028: towerCylinder19_geo
+    400030: towerCylinder1_geo
+    400032: towerCylinder20_geo
+    400034: towerCylinder2_geo
+    400036: towerCylinder3_geo
+    400038: towerCylinder4_geo
+    400040: towerCylinder5_geo
+    400042: towerCylinder6_geo
+    400044: towerCylinder7_geo
+    400046: towerCylinder8_geo
+    400048: towerCylinder9_geo
+    400050: towerPlane_geo
+    400052: //RootNode
+    2300000: moon_geo
+    2300002: sunclockPointer_geo
+    2300004: tower_geo_001
+    2300006: towerCylinder10_geo
+    2300008: towerCylinder11_geo
+    2300010: towerCylinder12_geo
+    2300012: towerCylinder13_geo
+    2300014: towerCylinder14_geo
+    2300016: towerCylinder15_geo
+    2300018: towerCylinder16_geo
+    2300020: towerCylinder17_geo
+    2300022: towerCylinder18_geo
+    2300024: towerCylinder19_geo
+    2300026: towerCylinder1_geo
+    2300028: towerCylinder20_geo
+    2300030: towerCylinder2_geo
+    2300032: towerCylinder3_geo
+    2300034: towerCylinder4_geo
+    2300036: towerCylinder5_geo
+    2300038: towerCylinder6_geo
+    2300040: towerCylinder7_geo
+    2300042: towerCylinder8_geo
+    2300044: towerCylinder9_geo
+    2300046: towerPlane_geo
+    3300000: moon_geo
+    3300002: sunclockPointer_geo
+    3300004: tower_geo_001
+    3300006: towerCylinder10_geo
+    3300008: towerCylinder11_geo
+    3300010: towerCylinder12_geo
+    3300012: towerCylinder13_geo
+    3300014: towerCylinder14_geo
+    3300016: towerCylinder15_geo
+    3300018: towerCylinder16_geo
+    3300020: towerCylinder17_geo
+    3300022: towerCylinder18_geo
+    3300024: towerCylinder19_geo
+    3300026: towerCylinder1_geo
+    3300028: towerCylinder20_geo
+    3300030: towerCylinder2_geo
+    3300032: towerCylinder3_geo
+    3300034: towerCylinder4_geo
+    3300036: towerCylinder5_geo
+    3300038: towerCylinder6_geo
+    3300040: towerCylinder7_geo
+    3300042: towerCylinder8_geo
+    3300044: towerCylinder9_geo
+    3300046: towerPlane_geo
+    4300000: towerPlane_geo
+    4300002: towerCylinder20_geo
+    4300004: towerCylinder19_geo
+    4300006: towerCylinder18_geo
+    4300008: towerCylinder17_geo
+    4300010: towerCylinder16_geo
+    4300012: towerCylinder15_geo
+    4300014: towerCylinder14_geo
+    4300016: towerCylinder13_geo
+    4300018: towerCylinder12_geo
+    4300020: towerCylinder11_geo
+    4300022: towerCylinder10_geo
+    4300024: towerCylinder9_geo
+    4300026: towerCylinder8_geo
+    4300028: towerCylinder7_geo
+    4300030: towerCylinder6_geo
+    4300032: towerCylinder5_geo
+    4300034: towerCylinder4_geo
+    4300036: towerCylinder3_geo
+    4300038: towerCylinder2_geo
+    4300040: towerCylinder1_geo
+    4300042: sunclockPointer_geo
+    4300044: moon_geo
+    4300046: tower_geo_001
+    7400000: Default Take
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
