@@ -19,6 +19,9 @@ public class EventSystemManager : MonoBehaviour
     [SerializeField]
     private Image _eventImage;
 
+    //[SerializeField]
+    //private Text _eventTitle;
+
     // serialized just for testing
     [SerializeField]
     private int _eventNumber;
