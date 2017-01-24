@@ -18,7 +18,6 @@ public abstract class TacticalGame
         //Todo: Do run Game stuff. Sound. Animation. etc...
         SceneHandler.activeMode = GameMode.TACTICAL;
         highlightPossibleAgents();
-        checkStartUpCondition();
         //Do initialization stuff from specific tactical game
     }
 
@@ -114,6 +113,4 @@ public abstract class TacticalGame
     public abstract bool hasPlayerAvailableMoves();
 
     public abstract void highlightPossibleAgents();
-
-    public abstract void checkStartUpCondition();
 }

@@ -255,27 +255,39 @@ public class Companion : Meeple
 
     void OnMouseDown()
     {
-        
-        if (SceneHandler.activeMode == GameMode.EXPLORATION)
+        if (SceneHandler.healingActive)
         {
-            activateCompanion(false);
-        }
-        else if (SceneHandler.activeMode == GameMode.PREPARATION)
-        {
-            activateCompanion(false);
-        }
-        else if (SceneHandler.activeTacticalGame.GetType() == typeof(HuntingGround))
-        {
-            if (GetType() == typeof(Hunter))
+            if (SceneHandler.activeCompanion != this)
             {
-                activateCompanion();
+                Strength += 2;
+                SceneHandler.healingActive = false;
             }
         }
-        else if (SceneHandler.activeTacticalGame.GetType() == typeof(BattleGround))
+        else
         {
-            if (GetType() == typeof(Mercenary))
+            if (SceneHandler.activeMode == GameMode.EXPLORATION)
             {
-                activateCompanion();
+                activateCompanion(false);
+            }
+            else if (SceneHandler.activeMode == GameMode.PREPARATION)
+            {
+                activateCompanion(false);
+            }
+            else if (SceneHandler.activeTacticalGame.GetType() == typeof(HuntingGround))
+            {
+                if (GetType() == typeof(Hunter))
+                {
+                    activateCompanion();
+                }
+            }
+            else if (SceneHandler.activeTacticalGame.GetType() == typeof(BattleGround))
+            {
+                if (GetType() == typeof(Mercenary))
+                {
+                    activateCompanion();
+
+                    
+                }
             }
         }
 
@@ -285,6 +297,8 @@ public class Companion : Meeple
     {
         SceneHandler.activeCompanion = this;
 
+
+        Debug.Log("actION"+hasActionOutstanding);
         if (hasActionOutstanding)
         {
             if (_respectWalkRange)
@@ -295,7 +309,17 @@ public class Companion : Meeple
                 Map.highlightAllInnerTiles(false);
                 foreach (HexaPos tilePos in walkableTilesPos)
                 {
-                    SceneHandler.smallMap[tilePos.x, tilePos.y].GetComponent<innerTile>().setHighlighted(true);
+                    try
+                    {
+                        SceneHandler.smallMap[tilePos.x, tilePos.y].GetComponent<innerTile>().setHighlighted(true);
+                    }
+                    catch (Exception){}
+                }
+
+                List<Opponent> opps = SceneHandler.getAllMeeplesFromType<Opponent>();
+                foreach (Opponent opp in opps)
+                {
+                    SceneHandler.smallMap[opp.Pos.x, opp.Pos.y].GetComponent<innerTile>().setHighlighted(true);
                 }
             }
             else
@@ -313,10 +337,10 @@ public class Companion : Meeple
                         {
                             if (SceneHandler.activeCompanion.GetType() == typeof(Hunter))
                             {
-                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 3));
+                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 2));
                             } else if (SceneHandler.activeCompanion.GetType() == typeof (PackAnimal))
                             {
-                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 3));
+                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 2));
                             } else if (SceneHandler.activeCompanion.GetType() == typeof(Healer))
                             {
                                 negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 1));
@@ -331,13 +355,13 @@ public class Companion : Meeple
                         {
                             if (SceneHandler.activeCompanion.GetType() == typeof(Prince))
                             {
-                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 3));
+                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 2));
                             }
                         } else if (comp.GetType() == typeof(PackAnimal))
                         {
                             if (SceneHandler.activeCompanion.GetType() == typeof(Prince))
                             {
-                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 3));
+                                negatiabletiles.AddRange(Map.tilesInRange(new HexaPos(comp.Pos.x, comp.Pos.y), 2));
                             }
                         } else if (comp.GetType() == typeof(Mercenary))
                         {
@@ -394,37 +418,10 @@ public class Companion : Meeple
             SoundHelper sh = tileHolder.GetComponent<SoundHelper>();
             sh.Play("applyToCommand");
 
-            if (!hasActionOutstanding)
+            if (!hasActionOutstanding && SceneHandler.activeMode == GameMode.TACTICAL)
             {
                 SceneHandler.activeTacticalGame.onPlayerInteractionEnded();
             }
-
-            if (!SceneHandler.healingActive)
-            {
-
-
-                SceneHandler.activeCompanion = this;
-                List<HexaPos> walkableTilesPos = new List<HexaPos>();
-                walkableTilesPos = Map.tilesInRange(SceneHandler.activeCompanion.Pos, SceneHandler.activeCompanion.walkRange);
-
-                Map.highlightAllInnerTiles(false);
-
-                foreach (HexaPos tilePos in walkableTilesPos)
-                {
-                    if (tilePos.x < 15 && tilePos.x > -1 && tilePos.y < 15 && tilePos.y > -1)
-                    {
-                        SceneHandler.smallMap[tilePos.x, tilePos.y].GetComponent<innerTile>().setHighlighted(true);
-                    }
-
-                }
-            }
-            else
-            {
-                Strength += 1;
-                SceneHandler.healingActive = false;
-
-            }
-
         }
     }
 }

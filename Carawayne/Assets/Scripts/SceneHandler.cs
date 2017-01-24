@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Policy;
 using UnityEngine.SceneManagement;
+using System;
 
 public class SceneHandler :MonoBehaviour{
 
@@ -192,7 +193,7 @@ public class SceneHandler :MonoBehaviour{
             return;
         }
 
-        Destroy(GameObject.Find("StartJounreyButton"));
+        Destroy(GameObject.Find("PrepareStartJourneyButton"));
 
         GameObject tmp = GameObject.Find("prep1").transform.parent.gameObject;
         Destroy(tmp);
@@ -340,25 +341,66 @@ public class SceneHandler :MonoBehaviour{
             List<Prince> prince = getAllMeeplesFromType<Prince>();
             if (comps.Count <= 0 || prince.Count <= 0)
             {
-                foreach (Companion comp in comps)
-                {
-                    meeples.Remove(comp);
-                    GameObject tmp = comp.gameObject.transform.parent.gameObject;
-                    Destroy(tmp);
-                }
-
-                SceneManager.LoadScene("Prototype v0.6");
+                endGame(comps);
             }
             Map.highlightAllInnerTiles(false);
 
-            activeTacticalGame = new BattleGround(1);
-            activeTacticalGame.init();
-            activeTacticalGame.run();
+            foreach (Companion comp in comps)
+            {
+                comp.HasActionOutstanding = true;
+            }
 
+            tileType lTileType = largeMap[caravanPosition.x, caravanPosition.y].GetComponent<Tile>().tile_type;
+
+            if (lTileType == tileType.Forrest)
+            {
+                List<Hunter> hunter = getAllMeeplesFromType<Hunter>();
+                if (hunter.Count > 0)
+                {
+                    activeTacticalGame = new HuntingGround(rand.Next(0,6), 2);
+                    activeTacticalGame.init();
+                    activeTacticalGame.run();
+                }
+            } else if (lTileType == tileType.Oasis)
+            {
+                foreach (Companion comp in comps)
+                {
+                    comp.Strength += 5;
+                }
+            }
+            else
+            {
+                int rndEnemySpawn = rand.Next(0, 15);
+                if (rndEnemySpawn < 4)
+                {
+                    List<Mercenary> mercs = getAllMeeplesFromType<Mercenary>();
+                    if (mercs.Count > 0)
+                    {
+                        activeTacticalGame = new BattleGround(rand.Next(0, 6));
+                        activeTacticalGame.init();
+                        activeTacticalGame.run();
+                    }
+                    else
+                    {
+                        endGame(comps);
+                    }
+                }
+            }
         }
         turn++;
     }
 
+    public static void endGame(List<Companion> comps)
+    {
+        foreach (Companion comp in comps)
+        {
+            meeples.Remove(comp);
+            GameObject tmp = comp.gameObject.transform.parent.gameObject;
+            Destroy(tmp);
+        }
+
+        SceneManager.LoadScene("Prototype v0.6");
+    }
 
     public static void moveCaravan(HexaPos pos)
     {
@@ -399,7 +441,8 @@ public class SceneHandler :MonoBehaviour{
             }
             
         }
-        
+
+
     }
 
     public static void positionAndParent_HP(GameObject Meeple, GameObject hp)

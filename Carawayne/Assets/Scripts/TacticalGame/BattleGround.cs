@@ -81,7 +81,7 @@ public class BattleGround : TacticalGame
             //Todo: Check if target is in fighting Range
             //Todo: If not in fighting range. Walk towards target
 
-            opponent.targetMeeple = SceneHandler.getAllMeeplesFromType<Companion>()[0];
+            opponent.targetMeeple = getClosestMeeple(opponent);
 
             //Placeholder
             if (Map.distance(opponent.Pos, opponent.targetMeeple.Pos) <= 1)
@@ -93,6 +93,23 @@ public class BattleGround : TacticalGame
                 opponent.moveTowardsTarget(opponent.targetMeeple.Pos);
             }
         }
+    }
+
+    public Companion getClosestMeeple(Opponent _opp)
+    {
+        
+        List<Companion> comps = SceneHandler.getAllMeeplesFromType<Companion>();
+        Companion closestMeeple = comps[0];
+
+        foreach (Companion comp in comps)
+        {
+            if (Map.distance(_opp.Pos, comp.Pos) < Map.distance(_opp.Pos, closestMeeple.Pos))
+            {
+                closestMeeple = comp;
+            }
+        }
+
+        return closestMeeple;
     }
 
     public override bool isTacticalGameWon()
@@ -111,8 +128,14 @@ public class BattleGround : TacticalGame
     public override bool isTacticalGameLost()
     {
         List<Mercenary> mercenaries = SceneHandler.getAllMeeplesFromType<Mercenary>();
-
+        List<Prince> prince = SceneHandler.getAllMeeplesFromType<Prince>();
         //Player loses this tactical game if he has no more mercenaries on the tactical grid.
+
+        if (prince.Count <= 0)
+        {
+            SceneHandler.endGame(SceneHandler.getAllMeeplesFromType<Companion>());
+        }
+
         if (mercenaries == null || mercenaries.Count == 0)
         {
             return true;
@@ -142,10 +165,11 @@ public class BattleGround : TacticalGame
     public override void clear()
     {
 
-        List<Opponent> huntedAnimals = SceneHandler.getAllMeeplesFromType<Opponent>();
-        foreach (Opponent huntedAnimal in huntedAnimals)
+        List<Opponent> opps = SceneHandler.getAllMeeplesFromType<Opponent>();
+        foreach (Opponent opponent in opps)
         {
-            SceneHandler.Destroy(huntedAnimal.gameObject);
+            SceneHandler.meeples.Remove(opponent);
+            SceneHandler.Destroy(opponent.gameObject);
         }
     }
 
@@ -163,12 +187,4 @@ public class BattleGround : TacticalGame
         }
     }
 
-    public override void checkStartUpCondition()
-    {
-        List<Mercenary> mercs = SceneHandler.getAllMeeplesFromType<Mercenary>();
-        if (mercs.Count<=0)
-        {
-            onPlayerInteractionEnded();
-        }
-    }
 }

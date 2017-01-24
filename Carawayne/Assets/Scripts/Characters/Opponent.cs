@@ -14,7 +14,7 @@ public class Opponent : Meeple
     {
         dice = 1;
         diceValue = 6;
-        strength = 1;
+        strength = 0;
         strengthMax = strength;
         walkRange = 1;
     }

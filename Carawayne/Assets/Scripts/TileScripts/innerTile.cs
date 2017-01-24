@@ -55,13 +55,21 @@ public class innerTile : MonoBehaviour {
             else if (meep.GetType() == typeof(Opponent) && SceneHandler.activeTacticalGame.GetType() == typeof (BattleGround))
             {
                 Mercenary merc = (Mercenary)SceneHandler.activeCompanion;
-                merc.fight(meep.GetComponent<Opponent>());
+                
+                int dist = Map.distance(meep.Pos, merc.Pos);
+                int rnd = SceneHandler.rollDice(10);
+                Debug.Log(rnd+" "+dist);
+                if (rnd >= dist)
+                {
+                    merc.fight(meep.GetComponent<Opponent>());
+                }
+                merc.HasActionOutstanding = false;
             }
             else if (meep.GetType() == typeof(HuntedAnimal) && SceneHandler.activeTacticalGame.GetType()==typeof (HuntingGround))
             {
                 Debug.Log("HUNT");
                 Hunter hunter = (Hunter)SceneHandler.activeCompanion;
-                hunter.hunt(meep.GetComponent<HuntedAnimal>());
+                SceneHandler.gainProviant(hunter.hunt(meep.GetComponent<HuntedAnimal>()));
             }
 
         SceneHandler.activeCompanion = null;

@@ -62,6 +62,7 @@ public class HuntingGround : TacticalGame
         List<HuntedAnimal> huntedAnimals = SceneHandler.getAllMeeplesFromType<HuntedAnimal>();
         foreach (HuntedAnimal huntedAnimal in huntedAnimals)
         {
+            SceneHandler.meeples.Remove(huntedAnimal);
             SceneHandler.Destroy(huntedAnimal.gameObject);
         }
     }
@@ -88,10 +89,10 @@ public class HuntingGround : TacticalGame
             //huntedAnimal.moveTo();
 
             //placeholder
-            int chasingDir = (initialDirection+3)%6;
-            HexaPos escapingPos = Map.tilesInRange(huntedAnimal.Pos, 1)[chasingDir];
+            //int chasingDir = (initialDirection+3)%6;
+            //HexaPos escapingPos = Map.tilesInRange(huntedAnimal.Pos, 1)[chasingDir];
 
-            huntedAnimal.moveTowardsTarget(escapingPos);
+            //huntedAnimal.moveTowardsTarget(escapingPos);
         }
         chasingRounds--;
     }
@@ -159,12 +160,4 @@ public class HuntingGround : TacticalGame
         }
     }
 
-    public override void checkStartUpCondition()
-    {
-        List<Hunter> hunter = SceneHandler.getAllMeeplesFromType<Hunter>();
-        if (hunter.Count <= 0)
-        {
-            onPlayerInteractionEnded();
-        }
-    }
 }
